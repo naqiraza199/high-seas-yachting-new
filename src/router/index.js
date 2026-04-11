@@ -6,6 +6,12 @@ import TermCharterPage from '../pages/TermCharterPage.vue'
 import DockagePage from '../pages/DockagePage.vue'
 import BlogPage from '../pages/BlogPage.vue'
 import BlogDetailPage from '../pages/BlogDetailPage.vue'
+import AboutUsPage from '../pages/AboutUsPage.vue'
+import OurTeamPage from '../pages/OurTeamPage.vue'
+import EventsPage from '../pages/EventsPage.vue'
+import ContactUsPage from '../pages/ContactUsPage.vue'
+import BrokerDetailPage from '../pages/BrokerDetailPage.vue'
+import EventDetailPage from '../pages/EventDetailPage.vue'
 
 const routes = [
   {
@@ -49,6 +55,42 @@ const routes = [
     name: 'BlogDetail',
     component: BlogDetailPage,
     meta: { title: 'Blog Detail - Luxury Yacht Brokers Fort Lauderdale & Miami' }
+  },
+  {
+    path: '/about-us',
+    name: 'AboutUs',
+    component: AboutUsPage,
+    meta: { title: 'About Us - Luxury Yacht Brokers Fort Lauderdale & Miami' }
+  },
+  {
+    path: '/our-team',
+    name: 'OurTeam',
+    component: OurTeamPage,
+    meta: { title: 'Our Team - Luxury Yacht Brokers Fort Lauderdale & Miami' }
+  },
+  {
+    path: '/events',
+    name: 'Events',
+    component: EventsPage,
+    meta: { title: 'Events - Luxury Yacht Brokers Fort Lauderdale & Miami' }
+  },
+  {
+    path: '/contact-us',
+    name: 'ContactUs',
+    component: ContactUsPage,
+    meta: { title: 'Contact Us - Luxury Yacht Brokers Fort Lauderdale & Miami' }
+  },
+  {
+    path: '/broker-detail',
+    name: 'BrokerDetail',
+    component: BrokerDetailPage,
+    meta: { title: 'Broker Detail - Luxury Yacht Brokers Fort Lauderdale & Miami' }
+  },
+  {
+    path: '/event-detail',
+    name: 'EventDetail',
+    component: EventDetailPage,
+    meta: { title: 'Event Detail - Luxury Yacht Brokers Fort Lauderdale & Miami' }
   }
 ]
 

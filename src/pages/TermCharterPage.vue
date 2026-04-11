@@ -267,11 +267,11 @@
             <div class="contact-info">
               <div class="contact-item">
                 <i class="fas fa-phone-alt"></i>
-                <span>+1 (954) 555-0123</span>
+                <span>+1 (954) 686-1671</span>
               </div>
               <div class="contact-item">
                 <i class="fas fa-envelope"></i>
-                <span>charters@highseasyachting.com</span>
+                <span>Sales@highseasyachting.com</span>
               </div>
               <div class="contact-item">
                 <i class="fas fa-map-marker-alt"></i>

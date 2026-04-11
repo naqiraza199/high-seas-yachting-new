@@ -1,0 +1,623 @@
+<template>
+    <NavbarSection />
+<!-- Hero Section -->
+  <section class="page-hero">
+    <div class="hero-content">
+      <h1 class="hero-title">Our Team</h1>
+      <p class="hero-copy">Meet the visionary leaders and dedicated professionals who drive High Seas Yachting's commitment to excellence.</p>
+    </div>
+  </section>
+
+  <main>
+    <!-- Featured Founder Section -->
+    <section class="featured-founder">
+      <div class="featured-founder-wrapper">
+        <div class="founder-card">
+          <div class="founder-image">
+            <img src="/brett.png" alt="Featured Founder">
+          </div>
+          <div class="founder-content">
+            <div class="founder-badge">
+              <i class="fas fa-crown"></i>
+              CEO & Founder
+            </div>
+            <h2 class="founder-name">Brett Horowitz</h2>
+            <p class="founder-role">Co-Founder | Sales & Charter</p>
+            <p class="founder-bio">Brett Horowitz is a distinguished yacht broker specializing in high-end yacht sales and bespoke charter experiences, trusted by elite clients worldwide for his precision and discretion.</p>
+            <div class="founder-actions">
+              <a href="#" class="founder-btn primary">
+                <i class="fas fa-heart"></i>
+                List a Boat
+              </a>
+              <a href="#" class="founder-btn">
+                <i class="fas fa-user"></i>
+                View Profile
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Team Grid Section -->
+    <section class="team-section">
+      <div class="team-wrapper">
+        <div class="team-header">
+          <h2>Meet Our Team</h2>
+          <p>Our dedicated professionals are committed to delivering exceptional yacht experiences</p>
+        </div>
+
+        <div class="team-grid">
+          <!-- Team Member 1 -->
+          <div class="team-card">
+            <div class="team-image">
+              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=500&q=60" alt="David Pemberty">
+            </div>
+            <div class="team-content">
+              <h3 class="team-name">David Pemberty</h3>
+              <p class="team-role">Sales • High Seas Yachting</p>
+              <div class="team-buttons">
+                <a href="#" class="team-btn primary">List a Boat</a>
+                <a href="#" class="team-btn secondary">View Profile</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Team Member 2 -->
+          <div class="team-card">
+            <div class="team-image">
+              <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=500&q=60" alt="Lola Gilder">
+            </div>
+            <div class="team-content">
+              <h3 class="team-name">Lola Gilder</h3>
+              <p class="team-role">Admin • High Seas Yachting</p>
+              <div class="team-buttons">
+                <a href="#" class="team-btn primary">List a Boat</a>
+                <a href="#" class="team-btn secondary">View Profile</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Team Member 3 -->
+          <div class="team-card">
+            <div class="team-image">
+              <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=500&q=60" alt="Yali Goldenberg">
+            </div>
+            <div class="team-content">
+              <h3 class="team-name">Yali Goldenberg</h3>
+              <p class="team-role">Sales/Charter • High Seas Yachting</p>
+              <div class="team-buttons">
+                <a href="#" class="team-btn primary">List a Boat</a>
+                <a href="#" class="team-btn secondary">View Profile</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Team Member 4 -->
+          <div class="team-card">
+            <div class="team-image">
+              <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=500&q=60" alt="Sebastian Escobar">
+            </div>
+            <div class="team-content">
+              <h3 class="team-name">Sebastian Escobar</h3>
+              <p class="team-role">Sales/Management • High Seas Yachting</p>
+              <div class="team-buttons">
+                <a href="#" class="team-btn primary">List a Boat</a>
+                <a href="#" class="team-btn secondary">View Profile</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Team Member 5 -->
+          <div class="team-card">
+            <div class="team-image">
+              <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=500&q=60" alt="Bryan Kattenburg">
+            </div>
+            <div class="team-content">
+              <h3 class="team-name">Bryan Kattenburg</h3>
+              <p class="team-role">Sales/Management • High Seas Yachting</p>
+              <div class="team-buttons">
+                <a href="#" class="team-btn primary">List a Boat</a>
+                <a href="#" class="team-btn secondary">View Profile</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Team Member 6 -->
+          <div class="team-card">
+            <div class="team-image">
+              <img src="https://images.unsplash.com/photo-1522075469751-3a6694fb2e61?auto=format&fit=crop&w=500&q=60" alt="Zac Glover">
+            </div>
+            <div class="team-content">
+              <h3 class="team-name">Zac Glover</h3>
+              <p class="team-role">Sales • High Seas Yachting</p>
+              <div class="team-buttons">
+                <a href="#" class="team-btn primary">List a Boat</a>
+                <a href="#" class="team-btn secondary">View Profile</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+    <FooterSection />
+</template>
+
+<script>
+import FooterSection from '../components/FooterSection.vue';
+import NavbarSection from '../components/NavbarSection.vue';
+
+    export default {
+        name: 'OurTeamPage',
+        components: {
+            NavbarSection,
+            FooterSection
+        }
+    }
+</script>
+
+<style scoped>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #fdfdfd;
+      color: #102012;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .page-hero {
+      position: relative;
+      background: linear-gradient(180deg, rgba(15, 40, 24, 0.8) 0%, rgba(15, 40, 24, 0.2) 55%),
+        url('https://www.yyachts.de/wp-content/uploads/2024/08/YYachts-Y9-Sideview-Header-min.jpg') center/cover no-repeat;
+      min-height: 420px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 80px 24px;
+      color: white;
+      margin-top: 100px;
+    }
+
+    .hero-content {
+      max-width: 900px;
+    }
+
+    .hero-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 24px;
+      border-radius: 50px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      margin-bottom: 24px;
+    }
+
+    .hero-title {
+      font-size: clamp(3rem, 5vw, 4.6rem);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin-bottom: 18px;
+      text-transform: uppercase;
+      word-spacing: 0.1em;
+    }
+
+    .hero-copy {
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: 1.1rem;
+      color: rgba(255, 255, 255, 0.85);
+      line-height: 1.8;
+    }
+
+    .content-shell {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 80px 24px 120px;
+    }
+
+    main {
+      position: relative;
+    }
+
+    /* FEATURED FOUNDER SECTION */
+    .featured-founder {
+      margin-top: -60px;
+      position: relative;
+      z-index: 10;
+      margin-bottom: 100px;
+    }
+
+    .featured-founder-wrapper {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .founder-card {
+      background: linear-gradient(135deg, #2d5a45 0%, #1a3a2a 100%);
+      border-radius: 32px;
+      overflow: hidden;
+      box-shadow: 0 18px 45px rgba(15, 40, 24, 0.14);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      align-items: center;
+    }
+
+    .founder-image {
+      width: 100%;
+      height: 100%;
+      min-height: 420px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .founder-image::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(15, 40, 24, 0.4) 0%, transparent 100%);
+      pointer-events: none;
+    }
+
+    .founder-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .founder-card:hover .founder-image img {
+      transform: scale(1.05);
+    }
+
+    .founder-content {
+      padding: 48px 52px;
+      color: white;
+      position: relative;
+      z-index: 2;
+    }
+
+    .founder-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .founder-name {
+      font-size: 2.2rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+    }
+
+    .founder-role {
+      font-size: 1.1rem;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 24px;
+      font-weight: 500;
+    }
+
+    .founder-bio {
+      color: rgba(255, 255, 255, 0.75);
+      font-size: 1.02rem;
+      line-height: 1.8;
+      margin-bottom: 32px;
+    }
+
+    .founder-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .founder-btn {
+      padding: 14px 28px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      background: transparent;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .founder-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.5);
+      transform: translateY(-2px);
+    }
+
+    .founder-btn.primary {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+
+    .founder-btn.primary:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .founder-card {
+        grid-template-columns: 1fr;
+      }
+
+      .founder-image {
+        min-height: 300px;
+        order: -1;
+      }
+
+      .founder-content {
+        padding: 36px 28px;
+      }
+
+      .founder-name {
+        font-size: 1.8rem;
+      }
+
+      .founder-actions {
+        flex-direction: column;
+      }
+
+      .founder-btn {
+        justify-content: center;
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .page-hero {
+        min-height: 300px;
+        padding: 40px 20px;
+      }
+
+      .hero-title {
+        font-size: 2.2rem;
+      }
+
+      .hero-copy {
+        font-size: 1rem;
+      }
+
+      .founder-content {
+        padding: 28px 20px;
+      }
+
+      .founder-name {
+        font-size: 1.5rem;
+      }
+
+      .founder-role {
+        font-size: 1rem;
+      }
+    }
+
+    /* TEAM SECTION */
+    .team-section {
+      padding: 100px 24px;
+    }
+
+    .team-wrapper {
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+
+    .team-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .team-header h2 {
+      font-size: 2.6rem;
+      font-weight: 800;
+      color: #1a3a2a;
+      margin-bottom: 18px;
+      line-height: 1.1;
+    }
+
+    .team-header h2::after {
+      content: '';
+      display: block;
+      width: 60px;
+      height: 4px;
+      background: linear-gradient(90deg, #1a3a2a, #355a32);
+      border-radius: 2px;
+      margin: 16px auto 0;
+    }
+
+    .team-header p {
+      max-width: 700px;
+      margin: 0 auto;
+      color: #5f6d60;
+      font-size: 1.08rem;
+      line-height: 1.85;
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+    }
+
+    .team-card {
+      background: #ffffff;
+      border-radius: 26px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(15, 40, 24, 0.08);
+      border: 1px solid rgba(15, 40, 24, 0.08);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .team-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 18px 45px rgba(15, 40, 24, 0.14);
+    }
+
+    .team-image {
+      width: 100%;
+      height: 280px;
+      overflow: hidden;
+      position: relative;
+      background: #f0f4ef;
+    }
+
+    .team-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .team-card:hover .team-image img {
+      transform: scale(1.08);
+    }
+
+    .team-content {
+      padding: 28px 24px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .team-name {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: #1a3a2a;
+      margin-bottom: 6px;
+    }
+
+    .team-role {
+      color: #5f6d60;
+      font-size: 0.95rem;
+      margin-bottom: 18px;
+      font-weight: 500;
+    }
+
+    .team-buttons {
+      display: flex;
+      gap: 12px;
+      margin-top: auto;
+    }
+
+    .team-btn {
+      flex: 1;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      text-decoration: none;
+      text-align: center;
+    }
+
+    .team-btn.primary {
+      background: #1a3a2a;
+      color: white;
+    }
+
+    .team-btn.primary:hover {
+      background: #2d5a45;
+      transform: translateY(-2px);
+    }
+
+    .team-btn.secondary {
+      background: transparent;
+      color: #1a3a2a;
+      border: 1.5px solid #1a3a2a;
+    }
+
+    .team-btn.secondary:hover {
+      background: #1a3a2a;
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    /* RESPONSIVE GRID */
+    @media (max-width: 1024px) {
+      .team-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+      }
+
+      .team-header h2 {
+        font-size: 2.2rem;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .team-section {
+        padding: 60px 20px;
+      }
+
+      .team-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .team-header h2 {
+        font-size: 1.8rem;
+      }
+
+      .team-header p {
+        font-size: 1rem;
+      }
+
+      .team-image {
+        height: 240px;
+      }
+
+      .team-buttons {
+        gap: 10px;
+      }
+
+      .team-btn {
+        padding: 10px 14px;
+        font-size: 0.85rem;
+      }
+    }
+</style>
