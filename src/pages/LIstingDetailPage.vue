@@ -1,0 +1,2643 @@
+<template>
+    <NavbarSection />
+<header class="page-hero">
+    <div class="hero-content">
+      <div class="hero-info">
+        <span class="hero-label"><i class="fas fa-ship"></i> Motor Yacht</span>
+        <h1 class="hero-title">2024 Princess Y85</h1>
+        <p class="hero-subtitle"><i class="fas fa-map-marker-alt"></i> Fort Lauderdale, Florida</p>
+      </div>
+      <div class="hero-price">
+        <div class="price-label">Asking Price</div>
+        <div class="price-value">$5,850,000</div>
+      </div>
+    </div>
+  </header>
+
+  <section class="ls-main-section">
+    <div class="hs-container">
+      <div class="ls-content-grid">
+        <div class="ls-main-column">
+          
+          <!-- Gallery -->
+          <div class="ls-cards">
+            <div class="ls-gallery-wrapper">
+              <div class="ls-main-slider">
+                <div class="ls-slider-track" id="sliderTrack">
+                  <div class="ls-slider-slide">
+                    <img src="https://images7.alphacoders.com/669/thumb-1920-669500.jpg" alt="Yacht Main View">
+                  </div>
+                  <div class="ls-slider-slide">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYU3KN6bPgbnc9EYxSF2yerVeQGdupFTDutg&s" alt="Yacht Side View">
+                  </div>
+                  <div class="ls-slider-slide">
+                    <img src="https://static.vecteezy.com/system/resources/thumbnails/016/037/046/small/yacht-with-lots-of-deck-photo.jpg" alt="Yacht Deck">
+                  </div>
+                  <div class="ls-slider-slide">
+                    <img src="https://worldyachtgroup.com/wp-content/uploads/2025/10/10.png" alt="Yacht Profile">
+                  </div>
+                  <div class="ls-slider-slide">
+                    <img src="https://static.vecteezy.com/system/resources/thumbnails/049/002/165/small/a-breathtaking-luxury-yacht-elegantly-sailing-at-sunset-creating-a-serene-and-picturesque-ambiance-all-around-photo.jpg" alt="Yacht Interior">
+                  </div>
+                  <div class="ls-slider-slide">
+                    <img src="https://navalyachts.com/uploads/1200px/naval-yachts-home.jpg" alt="Yacht Cockpit">
+                  </div>
+                </div>
+                <button class="ls-slider-nav prev" @click="changeSlide(-1)"><i class="fas fa-chevron-left"></i></button>
+                <button class="ls-slider-nav next" @click="changeSlide(1)"><i class="fas fa-chevron-right"></i></button>
+                <div class="ls-slider-dots" id="sliderDots"></div>
+                <div class="ls-slider-counter"><span id="currentSlide">1</span> / <span id="totalSlides">6</span></div>
+              </div>
+              <div class="ls-thumbnails">
+                <div class="ls-thumbnail active" @click="goToSlide(0)">
+                  <img src="https://images7.alphacoders.com/669/thumb-1920-669500.jpg" alt="Thumb 1">
+                </div>
+                <div class="ls-thumbnail" @click="goToSlide(1)">
+                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYU3KN6bPgbnc9EYxSF2yerVeQGdupFTDutg&s" alt="Thumb 2">
+                </div>
+                <div class="ls-thumbnail" @click="goToSlide(2)">
+                  <img src="https://static.vecteezy.com/system/resources/thumbnails/016/037/046/small/yacht-with-lots-of-deck-photo.jpg" alt="Thumb 3">
+                </div>
+                <div class="ls-thumbnail" @click="goToSlide(3)">
+                  <img src="https://worldyachtgroup.com/wp-content/uploads/2025/10/10.png" alt="Thumb 4">
+                </div>
+                <div class="ls-thumbnail" @click="goToSlide(4)">
+                  <img src="https://static.vecteezy.com/system/resources/thumbnails/049/002/165/small/a-breathtaking-luxury-yacht-elegantly-sailing-at-sunset-creating-a-serene-and-picturesque-ambiance-all-around-photo.jpg" alt="Thumb 5">
+                </div>
+                <div class="ls-thumbnail" @click="goToSlide(5)">
+                  <img src="https://navalyachts.com/uploads/1200px/naval-yachts-home.jpg" alt="Thumb 6">
+                </div>
+              </div>
+            </div>
+          </div>
+
+        
+
+          <!-- Tabbed Details Section -->
+          <div class="ls-details-card">
+            <div class="ls-details-header">
+              <div class="ls-details-info">
+                <h2 class="ls-details-title">2024 Princess Y85</h2>
+                <div class="ls-details-meta">
+                  <span><i class="fas fa-tag"></i> Motor Yacht</span>
+                  <span><i class="fas fa-map-marker-alt"></i> Fort Lauderdale, FL</span>
+                  <span><i class="fas fa-tag"></i> $5,850,000</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="ls-tabs">
+              <button class="ls-tab active" data-tab="description">
+                <i class="fas fa-align-left"></i> <span>Description</span>
+              </button>
+              <button class="ls-tab" data-tab="features">
+                <i class="fas fa-list-ul"></i> <span>Features</span>
+              </button>
+              <button class="ls-tab" data-tab="specs">
+                <i class="fas fa-cogs"></i> <span>Specs</span>
+              </button>
+              <button class="ls-tab" data-tab="video">
+                <i class="fas fa-video"></i> <span>Video</span>
+              </button>
+              <button class="ls-tab" data-tab="gallery">
+                <i class="fas fa-images"></i> <span>Gallery</span>
+              </button>
+              <button class="ls-tab" data-tab="location">
+                <i class="fas fa-map-marker-alt"></i> <span>Location</span>
+              </button>
+              <button class="ls-tab" data-tab="broker">
+                <i class="fas fa-user"></i> <span>Broker</span>
+              </button>
+            </div>
+
+            <div class="ls-tab-content">
+              <!-- Description Tab -->
+              <div class="ls-tab-pane active" id="description">
+                <p class="ls-description-text">
+                  Experience the pinnacle of luxury motor yachts with this pristine 2024 Princess Y85. 
+                  Featuring a sleek contemporary design, this yacht offers the perfect blend of performance 
+                  and elegance. The spacious flybridge provides panoramic views and ample entertainment space, 
+                  while the interior showcases the finest craftsmanship with premium materials throughout. 
+                  Equipped with twin CAT C32 engines, she delivers impressive speed and handling. This vessel 
+                  has been meticulously maintained and is turn-key ready for your next adventure on the water.
+                </p>
+              </div>
+
+              <!-- Features Tab -->
+              <div class="ls-tab-pane" id="features">
+                <div class="ls-features-grid">
+                  <div class="ls-feature-item">
+                    <i class="fas fa-check-circle"></i>
+                    Tropical Air Conditioning
+                  </div>
+                  <div class="ls-feature-item">
+                    <i class="fas fa-check-circle"></i>
+                    Hydraulic Swim Platform
+                  </div>
+                  <div class="ls-feature-item">
+                    <i class="fas fa-check-circle"></i>
+                    Williams 445 Jet Tender
+                  </div>
+                  <div class="ls-feature-item">
+                    <i class="fas fa-check-circle"></i>
+                    Full Beam Master Suite
+                  </div>
+                  <div class="ls-feature-item">
+                    <i class="fas fa-check-circle"></i>
+                    Flybridge Bar & Grill
+                  </div>
+                  <div class="ls-feature-item">
+                    <i class="fas fa-check-circle"></i>
+                    Starlink Internet
+                  </div>
+                  <div class="ls-feature-item">
+                    <i class="fas fa-check-circle"></i>
+                    Joystick Control
+                  </div>
+                  <div class="ls-feature-item">
+                    <i class="fas fa-check-circle"></i>
+                    Underwater Lighting
+                  </div>
+                  <div class="ls-feature-item">
+                    <i class="fas fa-check-circle"></i>
+                    Water Maker
+                  </div>
+                  <div class="ls-feature-item">
+                    <i class="fas fa-check-circle"></i>
+                    Northern Lights Generator
+                  </div>
+                  <div class="ls-feature-item">
+                    <i class="fas fa-check-circle"></i>
+                    Electric Shakespeare
+                  </div>
+                  <div class="ls-feature-item">
+                    <i class="fas fa-check-circle"></i>
+                    Wine Cooler
+                  </div>
+                </div>
+              </div>
+
+              <!-- Specifications Tab -->
+              <div class="ls-tab-pane" id="specs">
+                <div class="ls-specs-table">
+                  <div class="ls-spec-row">
+                    <span class="ls-spec-name">Length</span>
+                    <span class="ls-spec-val">85'</span>
+                  </div>
+                  <div class="ls-spec-row">
+                    <span class="ls-spec-name">Beam</span>
+                    <span class="ls-spec-val">21' 6"</span>
+                  </div>
+                  <div class="ls-spec-row">
+                    <span class="ls-spec-name">Draft</span>
+                    <span class="ls-spec-val">5' 6"</span>
+                  </div>
+                  <div class="ls-spec-row">
+                    <span class="ls-spec-name">Year</span>
+                    <span class="ls-spec-val">2024</span>
+                  </div>
+                  <div class="ls-spec-row">
+                    <span class="ls-spec-name">Speed</span>
+                    <span class="ls-spec-val">28 knots</span>
+                  </div>
+                  <div class="ls-spec-row">
+                    <span class="ls-spec-name">Guests</span>
+                    <span class="ls-spec-val">8</span>
+                  </div>
+                  <div class="ls-spec-row">
+                    <span class="ls-spec-name">Cabins</span>
+                    <span class="ls-spec-val">4</span>
+                  </div>
+                  <div class="ls-spec-row">
+                    <span class="ls-spec-name">Crew</span>
+                    <span class="ls-spec-val">2</span>
+                  </div>
+                  <div class="ls-spec-row">
+                    <span class="ls-spec-name">Fuel Capacity</span>
+                    <span class="ls-spec-val">1,350 gal</span>
+                  </div>
+                  <div class="ls-spec-row">
+                    <span class="ls-spec-name">Water Capacity</span>
+                    <span class="ls-spec-val">300 gal</span>
+                  </div>
+                  <div class="ls-spec-row">
+                    <span class="ls-spec-name">Engines</span>
+                    <span class="ls-spec-val">Twin CAT C32</span>
+                  </div>
+                  <div class="ls-spec-row">
+                    <span class="ls-spec-name">Flag</span>
+                    <span class="ls-spec-val">USA</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Video Tab -->
+              <div class="ls-tab-pane" id="video">
+                <div class="ls-video-container">
+                  <div class="ls-video-wrapper">
+                    <img src="https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?auto=format&fit=crop&w=1200&q=80" alt="Yacht Video Thumbnail">
+                    <div class="ls-video-play">
+                      <i class="fas fa-play"></i>
+                    </div>
+                  </div>
+                  <p class="ls-video-note">Take a virtual tour of this magnificent yacht</p>
+                </div>
+              </div>
+
+              <!-- Gallery Tab -->
+              <div class="ls-tab-pane" id="gallery">
+                <div class="ls-gallery-grid">
+                  <div class="ls-gallery-item" @click="openGallery(0)">
+                    <img src="https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?auto=format&fit=crop&w=600&q=80" alt="Gallery 1">
+                    <div class="ls-gallery-overlay"><i class="fas fa-expand"></i></div>
+                  </div>
+                  <div class="ls-gallery-item" @click="openGallery(1)">
+                    <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=600&q=80" alt="Gallery 2">
+                    <div class="ls-gallery-overlay"><i class="fas fa-expand"></i></div>
+                  </div>
+                  <div class="ls-gallery-item" @click="openGallery(2)">
+                    <img src="https://images.unsplash.com/photo-1502672023488-70e25813eb80?auto=format&fit=crop&w=600&q=80" alt="Gallery 3">
+                    <div class="ls-gallery-overlay"><i class="fas fa-expand"></i></div>
+                  </div>
+                  <div class="ls-gallery-item" @click="openGallery(3)">
+                    <img src="https://images.unsplash.com/photo-1500564507877-0c3d7d4f66ca?auto=format&fit=crop&w=600&q=80" alt="Gallery 4">
+                    <div class="ls-gallery-overlay"><i class="fas fa-expand"></i></div>
+                  </div>
+                  <div class="ls-gallery-item" @click="openGallery(4)">
+                    <img src="https://images.unsplash.com/photo-1572013349620-e82ef6f48f39?auto=format&fit=crop&w=600&q=80" alt="Gallery 5">
+                    <div class="ls-gallery-overlay"><i class="fas fa-expand"></i></div>
+                  </div>
+                  <div class="ls-gallery-item" @click="openGallery(5)">
+                    <img src="https://images.unsplash.com/photo-1602343165848-460f4b71e0f1?auto=format&fit=crop&w=600&q=80" alt="Gallery 6">
+                    <div class="ls-gallery-overlay"><i class="fas fa-expand"></i></div>
+                  </div>
+                  <div class="ls-gallery-item" @click="openGallery(6)">
+                    <img src="https://images.unsplash.com/photo-1582731689369-4f89bf7939e3?auto=format&fit=crop&w=600&q=80" alt="Gallery 7">
+                    <div class="ls-gallery-overlay"><i class="fas fa-expand"></i></div>
+                  </div>
+                  <div class="ls-gallery-item" @click="openGallery(7)">
+                    <img src="https://images.unsplash.com/photo-1569255004150-604c4b4bb656?auto=format&fit=crop&w=600&q=80" alt="Gallery 8">
+                    <div class="ls-gallery-overlay"><i class="fas fa-expand"></i></div>
+                  </div>
+                  <div class="ls-gallery-item" @click="openGallery(8)">
+                    <img src="https://images.unsplash.com/photo-1601584115197-04f0dbc7ef90?auto=format&fit=crop&w=600&q=80" alt="Gallery 9">
+                    <div class="ls-gallery-overlay"><i class="fas fa-expand"></i></div>
+                  </div>
+                  <div class="ls-gallery-item" @click="openGallery(9)">
+                    <img src="https://images.unsplash.com/photo-1608582744082-7b585ed8e9eb?auto=format&fit=crop&w=600&q=80" alt="Gallery 10">
+                    <div class="ls-gallery-overlay"><i class="fas fa-expand"></i></div>
+                  </div>
+                  <div class="ls-gallery-item" @click="openGallery(10)">
+                    <img src="https://images.unsplash.com/photo-1564415311488-936d3f7d508?auto=format&fit=crop&w=600&q=80" alt="Gallery 11">
+                    <div class="ls-gallery-overlay"><i class="fas fa-expand"></i></div>
+                  </div>
+                  <div class="ls-gallery-item" @click="openGallery(11)">
+                    <img src="https://images.unsplash.com/photo-1511707171634-8fce00936614?auto=format&fit=crop&w=600&q=80" alt="Gallery 12">
+                    <div class="ls-gallery-overlay"><i class="fas fa-expand"></i></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Location Tab -->
+              <div class="ls-tab-pane" id="location">
+                <div class="ls-location-container">
+                  <div class="ls-location-map">
+                    <img src="https://images.unsplash.com/photo-1534430481799-5cada36f502d?auto=format&fit=crop&w=1200&q=80" alt="Location Map">
+                  </div>
+                  <div class="ls-location-details">
+                    <h4><i class="fas fa-anchor"></i> Marina Location</h4>
+                    <p>Located at <strong>Bahia Mar Marina</strong></p>
+                    <p>801 Seabreeze Way</p>
+                    <p>Fort Lauderdale, FL 33316</p>
+                    <p class="ls-location-note"><i class="fas fa-info-circle"></i> This yacht is available for immediate viewing</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Broker Tab -->
+              <div class="ls-tab-pane" id="broker">
+                <div class="ls-broker-detail">
+                  <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=200&q=80" alt="Broker" class="ls-broker-detail-avatar">
+                  <div class="ls-broker-detail-info">
+                    <h3>James Mitchell</h3>
+                    <span>Senior Yacht Broker</span>
+                    <p>With over 15 years of experience in the luxury yacht industry, James has helped countless clients find their dream vessels.</p>
+                  </div>
+                </div>
+                <div class="ls-broker-detail-contact">
+                  <a href="tel:+1234567890" class="ls-contact-item">
+                    <i class="fas fa-phone"></i>
+                    +1 (555) 123-4567
+                  </a>
+                  <a href="mailto:james@highseasyachting.com" class="ls-contact-item">
+                    <i class="fas fa-envelope"></i>
+                    james@highseasyachting.com
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+       
+
+        </div>
+
+        <!-- Sidebar -->
+        <div class="ls-sidebar">
+          <div class="ls-broker-card">
+            <div class="ls-broker-header">
+              <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=200&q=80" alt="Broker" class="ls-broker-avatar">
+              <div class="ls-broker-info">
+                <h4>James Mitchell</h4>
+                <span>Senior Yacht Broker</span>
+              </div>
+            </div>
+
+            <div class="ls-broker-contact">
+              <a href="tel:+1234567890" class="ls-contact-item">
+                <i class="fas fa-phone"></i>
+                +1 (555) 123-4567
+              </a>
+              <a href="mailto:james@highseasyachting.com" class="ls-contact-item">
+                <i class="fas fa-envelope"></i>
+                james@highseasyachting.com
+              </a>
+            </div>
+
+
+            <div class="ls-action-buttons">
+              <button class="ls-btn-primary">
+                <i class="fas fa-phone"></i> Contact Us
+              </button>
+            </div>
+          </div>
+
+          <!-- Price Card -->
+          <div class="ls-price-card">
+            <div class="ls-price-header">
+              <span class="ls-price-label">Asking Price</span>
+              <div class="ls-price-value">$5,850,000</div>
+            </div>
+            <div class="ls-price-details">
+              <div class="ls-price-item">
+                <span class="ls-price-item-label">Year</span>
+                <span class="ls-price-item-value">2024</span>
+              </div>
+              <div class="ls-price-item">
+                <span class="ls-price-item-label">Length</span>
+                <span class="ls-price-item-value">85'</span>
+              </div>
+              <div class="ls-price-item">
+                <span class="ls-price-item-label">Location</span>
+                <span class="ls-price-item-value">Fort Lauderdale, FL</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Payment Calculator Card -->
+          <div class="ls-calc-card">
+            <div class="ls-calc-header">
+              <h4><i class="fas fa-calculator"></i> Payment Calculator</h4>
+            </div>
+            <div class="ls-calc-body">
+              <div class="ls-calc-group">
+                <label>Purchase Price</label>
+                <div class="ls-calc-input-wrap">
+                  <span class="ls-calc-currency">$</span>
+                  <input type="number" id="calcPrice" class="ls-calc-input" value="5850000" @input="calculatePayment()">
+                </div>
+              </div>
+              <div class="ls-calc-group">
+                <label>Down Payment Amount</label>
+                <div class="ls-calc-input-wrap">
+                  <span class="ls-calc-currency">$</span>
+                  <input type="number" id="calcDown" class="ls-calc-input" value="1170000" @input="calculatePayment()">
+                </div>
+              </div>
+              <div class="ls-calc-group">
+                <label>Down Payment %</label>
+                <div class="ls-calc-input-wrap">
+                  <input type="range" id="calcDownPercent" class="ls-calc-range" min="5" max="80" value="20" @input="updateDownPercent()">
+                  <span class="ls-calc-percent-value" id="downPercentDisplay">20%</span>
+                </div>
+              </div>
+              <div class="ls-calc-group">
+                <label>Interest Rate (APR) %</label>
+                <div class="ls-calc-input-wrap">
+                  <input type="number" id="calcRate" class="ls-calc-input" value="6.74" step="0.01" @input="calculatePayment()">
+                </div>
+              </div>
+              <div class="ls-calc-group">
+                <label>Loan Term (Years)</label>
+                <div class="ls-calc-select-wrap">
+                  <select id="calcTerm" class="ls-calc-select" @change="calculatePayment()">
+                    <option value="5">5 Years</option>
+                    <option value="10">10 Years</option>
+                    <option value="15">15 Years</option>
+                    <option value="20" selected>20 Years</option>
+                  </select>
+                </div>
+              </div>
+              <div class="ls-calc-result">
+                <span class="ls-calc-result-label">Estimated Monthly Payment</span>
+                <div class="ls-calc-result-value" id="monthlyPayment">$0.00</div>
+              </div>
+            </div>
+            <div class="ls-calc-footer">
+              <p><i class="fas fa-check-circle"></i> Personalized yacht financing</p>
+              <p><i class="fas fa-check-circle"></i> Seasoned financing experts</p>
+              <p><i class="fas fa-check-circle"></i> Pre-qualify in minutes</p>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ls-similar-section">
+    <div class="hs-container">
+      <div class="ls-section-header">
+        <span class="hs-small-tag">Broker Yachts</span>
+        <h2 class="ls-section-title">More From This Broker</h2>
+      </div>
+
+      <div class="ls-similar-grid">
+        <!-- Similar Yacht 1 -->
+        <div class="ls-similar-card">
+          <div class="ls-similar-image">
+            <img src="https://navalyachts.com/uploads/1200px/naval-yachts-home.jpg" alt="2023 Sunseeker">
+            <span class="ls-similar-badge"><i class="fas fa-map-marker-alt"></i> Miami, FL</span>
+          </div>
+          <div class="ls-similar-info">
+            <h3>2023 Sunseeker 76 Sport</h3>
+            <div class="ls-yacht-specs">
+              <div><strong>Year</strong>2023</div>
+              <div><strong>Length</strong>76 ft</div>
+              <div><strong>Speed</strong>32 kn</div>
+            </div>
+            <div class="ls-similar-footer">
+              <span class="ls-similar-price">$5,250,000</span>
+              <a href="#" class="ls-similar-link">View Details <i class="fas fa-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Similar Yacht 2 -->
+        <div class="ls-similar-card">
+          <div class="ls-similar-image">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUekS9ukJLdUK1h4aRtHeV_I9qwL9OjJsYRg&s" alt="2022 Azimut">
+            <span class="ls-similar-badge"><i class="fas fa-map-marker-alt"></i> Palm Beach, FL</span>
+          </div>
+          <div class="ls-similar-info">
+            <h3>2022 Azimut Grande 35</h3>
+            <div class="ls-yacht-specs">
+              <div><strong>Year</strong>2022</div>
+              <div><strong>Length</strong>108 ft</div>
+              <div><strong>Speed</strong>26 kn</div>
+            </div>
+            <div class="ls-similar-footer">
+              <span class="ls-similar-price">$8,900,000</span>
+              <a href="#" class="ls-similar-link">View Details <i class="fas fa-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Similar Yacht 3 -->
+        <div class="ls-similar-card">
+          <div class="ls-similar-image">
+            <img src="https://images.pexels.com/photos/42091/pexels-photo-42091.jpeg?cs=srgb&dl=pexels-mali-42091.jpg&fm=jpg" alt="2024 Pershing">
+            <span class="ls-similar-badge"><i class="fas fa-map-marker-alt"></i> Fort Lauderdale, FL</span>
+          </div>
+          <div class="ls-similar-info">
+            <h3>2024 Pershing 140</h3>
+            <div class="ls-yacht-specs">
+              <div><strong>Year</strong>2024</div>
+              <div><strong>Length</strong>140 ft</div>
+              <div><strong>Speed</strong>38 kn</div>
+            </div>
+            <div class="ls-similar-footer">
+              <span class="ls-similar-price">$12,500,000</span>
+              <a href="#" class="ls-similar-link">View Details <i class="fas fa-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+    <FooterSection />
+</template>
+
+<script>
+import FooterSection from '../components/FooterSection.vue';
+import NavbarSection from '../components/NavbarSection.vue';
+
+export default {
+    name: 'ListingDetailPage',
+    components: {
+        NavbarSection,
+        FooterSection
+    },
+    data() {
+        return {
+            currentSlideIndex: 0,
+            totalSlides: 6
+        };
+    },
+    methods: {
+        calculatePayment() {
+            const price = parseFloat(document.getElementById('calcPrice').value) || 0;
+            const downAmount = parseFloat(document.getElementById('calcDown').value) || 0;
+            const rate = parseFloat(document.getElementById('calcRate').value) || 0;
+            const termYears = parseInt(document.getElementById('calcTerm').value) || 20;
+            
+            const loanAmount = price - downAmount;
+            const monthlyRate = rate / 100 / 12;
+            const totalPayments = termYears * 12;
+            
+            let monthlyPayment = 0;
+            
+            if (loanAmount > 0 && monthlyRate > 0 && totalPayments > 0) {
+                monthlyPayment = loanAmount * (monthlyRate * Math.pow(1 + monthlyRate, totalPayments)) / (Math.pow(1 + monthlyRate, totalPayments) - 1);
+            } else if (loanAmount > 0 && monthlyRate === 0) {
+                monthlyPayment = loanAmount / totalPayments;
+            }
+            
+            document.getElementById('monthlyPayment').textContent = '$' + monthlyPayment.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        },
+        updateDownPercent() {
+            const percent = document.getElementById('calcDownPercent').value;
+            const price = parseFloat(document.getElementById('calcPrice').value) || 0;
+            const downAmount = Math.round(price * percent / 100);
+            document.getElementById('calcDown').value = downAmount;
+            document.getElementById('downPercentDisplay').textContent = percent + '%';
+            this.calculatePayment();
+        },
+        initSlider() {
+            const dotsContainer = document.getElementById('sliderDots');
+            dotsContainer.innerHTML = '';
+            for (let i = 0; i < this.totalSlides; i++) {
+                const dot = document.createElement('button');
+                dot.className = i === 0 ? 'ls-slider-dot active' : 'ls-slider-dot';
+                dot.onclick = () => this.goToSlide(i);
+                dotsContainer.appendChild(dot);
+            }
+            this.updateSlider();
+        },
+        updateSlider() {
+            const track = document.getElementById('sliderTrack');
+            track.style.transform = `translateX(-${this.currentSlideIndex * 100}%)`;
+            
+            document.getElementById('currentSlide').textContent = this.currentSlideIndex + 1;
+            
+            document.querySelectorAll('.ls-slider-dot').forEach((dot, i) => {
+                dot.classList.toggle('active', i === this.currentSlideIndex);
+            });
+            
+            document.querySelectorAll('.ls-thumbnail').forEach((thumb, i) => {
+                thumb.classList.toggle('active', i === this.currentSlideIndex);
+            });
+        },
+        changeSlide(direction) {
+            this.currentSlideIndex += direction;
+            if (this.currentSlideIndex < 0) this.currentSlideIndex = this.totalSlides - 1;
+            if (this.currentSlideIndex >= this.totalSlides) this.currentSlideIndex = 0;
+            this.updateSlider();
+        },
+        goToSlide(index) {
+            this.currentSlideIndex = index;
+            this.updateSlider();
+        },
+        handleTabClick(event) {
+            const tab = event.currentTarget;
+            document.querySelectorAll('.ls-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.ls-tab-pane').forEach(p => p.classList.remove('active'));
+            
+            tab.classList.add('active');
+            document.getElementById(tab.dataset.tab).classList.add('active');
+        },
+        openGallery(index) {
+            this.goToSlide(index);
+            document.getElementById('gallery').classList.add('active');
+            document.querySelectorAll('.ls-tab').forEach(t => t.classList.remove('active'));
+            document.querySelector('[data-tab="gallery"]').classList.add('active');
+        }
+    },
+    mounted() {
+        this.calculatePayment();
+        this.initSlider();
+        
+        document.querySelectorAll('.ls-tab').forEach(tab => {
+            tab.addEventListener('click', this.handleTabClick);
+        });
+    }
+};
+</script>
+
+<style scoped>
+ * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #ffffff;
+      color: #102012;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .page-hero {
+      position: relative;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0.82) 0%, rgba(0, 0, 0, 0.2) 60%),
+        url('https://images7.alphacoders.com/669/thumb-1920-669500.jpg') center/cover no-repeat;
+      min-height: 480px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 80px 24px;
+      color: white;
+      margin-top: 100px;
+    }
+
+    .hero-content {
+      max-width: 900px;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+
+    .hero-info {
+      flex: 1;
+    }
+
+    .hero-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 24px;
+      border-radius: 50px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      margin-bottom: 24px;
+    }
+
+    .hero-title {
+      font-size: clamp(2.2rem, 4vw, 3.5rem);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+
+    .hero-subtitle {
+      font-size: 1.2rem;
+      color: rgba(255, 255, 255, 0.85);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hero-price {
+      background: #ffffff;
+      color: #1a3a2a;
+      padding: 20px 32px;
+      border-radius: 26px;
+      text-align: center;
+      box-shadow: 0 18px 45px rgba(15, 40, 24, 0.14);
+    }
+
+    .price-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #5f6d60;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    .price-value {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #1a3a2a;
+    }
+
+    @media (max-width: 768px) {
+      .page-hero {
+        min-height: 320px;
+        padding: 24px 16px;
+        align-items: flex-end;
+      }
+
+      .hero-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+      }
+
+      .hero-label {
+        padding: 8px 16px;
+        font-size: 0.65rem;
+        letter-spacing: 1.5px;
+        margin-bottom: 12px;
+      }
+
+      .hero-title {
+        font-size: 1.6rem;
+        line-height: 1.2;
+      }
+
+      .hero-subtitle {
+        font-size: 0.95rem;
+      }
+
+      .hero-price {
+        width: 100%;
+        padding: 16px 20px;
+        border-radius: 18px;
+      }
+
+      .price-label {
+        font-size: 0.65rem;
+        margin-bottom: 4px;
+      }
+
+      .price-value {
+        font-size: 1.4rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .page-hero {
+        min-height: 280px;
+        padding: 20px 12px;
+      }
+
+      .hero-title {
+        font-size: 1.3rem;
+      }
+
+      .hero-subtitle {
+        font-size: 0.85rem;
+      }
+    }
+
+    .hs-container {
+      max-width: 1350px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .ls-main-section {
+      padding: 80px 0;
+      background: #f9f9f9;
+    }
+
+    .ls-content-grid {
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 50px;
+    }
+
+    .ls-main-column {
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+
+    .ls-card {
+      background: #ffffff;
+      border-radius: 26px;
+      box-shadow: 0 10px 30px rgba(15, 40, 24, 0.08);
+      border: 1px solid rgba(26, 58, 42, 0.06);
+      overflow: hidden;
+    }
+
+       .ls-cards {
+      overflow: hidden;
+    }
+
+    .ls-card-header {
+      padding: 28px 32px;
+      border-bottom: 1px solid rgba(26, 58, 42, 0.08);
+    }
+
+    .ls-card-header h3 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #1a3a2a;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .ls-card-header h3 i {
+      color: #355a32;
+    }
+
+    .ls-card-body {
+      padding: 32px;
+    }
+
+    .ls-description-text {
+      color: #5f6d60;
+      line-height: 1.9;
+      font-size: 1.05rem;
+    }
+
+    .ls-specs-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+
+    .ls-spec-item {
+      text-align: center;
+      padding: 24px 16px;
+      background: #f8faf6;
+      border-radius: 18px;
+      transition: all 0.3s ease;
+    }
+
+    .ls-spec-item:hover {
+      transform: translateY(-4px);
+      background: #ffffff;
+      box-shadow: 0 10px 30px rgba(15, 40, 24, 0.08);
+    }
+
+    .ls-spec-icon {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, #355a32 0%, #2d5a45 100%);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+    }
+
+    .ls-spec-icon i {
+      color: white;
+      font-size: 1.2rem;
+    }
+
+    .ls-spec-value {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #1a3a2a;
+      margin-bottom: 6px;
+    }
+
+    .ls-spec-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #5f6d60;
+      font-weight: 600;
+    }
+
+    .ls-features-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .ls-feature-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 18px;
+      background: #f8faf6;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      color: #102012;
+      transition: all 0.3s ease;
+    }
+
+    .ls-feature-item:hover {
+      background: rgba(65, 107, 60, 0.1);
+    }
+
+    .ls-feature-item i {
+      color: #355a32;
+      font-size: 0.9rem;
+    }
+
+    .ls-gallery-wrapper {
+      position: relative;
+    }
+
+    .ls-main-slider {
+      position: relative;
+      overflow: hidden;
+      border-radius: 26px;
+      height: 500px;
+      background: #102012;
+    }
+
+    .ls-slider-track {
+      display: flex;
+      height: 100%;
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .ls-slider-slide {
+      min-width: 100%;
+      height: 100%;
+      position: relative;
+    }
+
+    .ls-slider-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .ls-slider-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 50px;
+      height: 50px;
+      background: rgba(255, 255, 255, 0.95);
+      border: none;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 10;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .ls-slider-nav:hover {
+      background: #1a3a2a;
+      color: white;
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .ls-slider-nav.prev {
+      left: 20px;
+    }
+
+    .ls-slider-nav.next {
+      right: 20px;
+    }
+
+    .ls-slider-nav i {
+      font-size: 1.2rem;
+      color: #1a3a2a;
+      transition: color 0.3s ease;
+    }
+
+    .ls-slider-nav:hover i {
+      color: white;
+    }
+
+    .ls-slider-dots {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      z-index: 10;
+    }
+
+    .ls-slider-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.5);
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .ls-slider-dot.active {
+      background: white;
+      transform: scale(1.2);
+    }
+
+    .ls-slider-dot:hover {
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    .ls-slider-counter {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: rgba(26, 58, 42, 0.85);
+      color: white;
+      padding: 10px 18px;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      z-index: 10;
+      backdrop-filter: blur(10px);
+    }
+
+    .ls-thumbnails {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+    }
+
+    .ls-thumbnails::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    .ls-thumbnails::-webkit-scrollbar-track {
+      background: #f8faf6;
+      border-radius: 3px;
+    }
+
+    .ls-thumbnails::-webkit-scrollbar-thumb {
+      background: #355a32;
+      border-radius: 3px;
+    }
+
+    .ls-thumbnail {
+      flex-shrink: 0;
+      width: 100px;
+      height: 70px;
+      border-radius: 18px;
+      overflow: hidden;
+      cursor: pointer;
+      opacity: 0.6;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+    }
+
+    .ls-thumbnail:hover {
+      opacity: 0.9;
+    }
+
+    .ls-thumbnail.active {
+      opacity: 1;
+      border-color: #355a32;
+    }
+
+    .ls-thumbnail img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    @media (max-width: 768px) {
+      .ls-gallery-wrapper {
+        margin: -8px;
+      }
+
+      .ls-main-slider {
+        height: 280px;
+        border-radius: 0;
+      }
+
+      .ls-slider-nav {
+        width: 36px;
+        height: 36px;
+        opacity: 0.9;
+      }
+
+      .ls-slider-nav.prev {
+        left: 10px;
+      }
+
+      .ls-slider-nav.next {
+        right: 10px;
+      }
+
+      .ls-slider-nav i {
+        font-size: 0.9rem;
+      }
+
+      .ls-slider-dots {
+        bottom: 12px;
+      }
+
+      .ls-slider-dot {
+        width: 8px;
+        height: 8px;
+      }
+
+      .ls-slider-counter {
+        top: 12px;
+        right: 12px;
+        padding: 6px 12px;
+        font-size: 0.75rem;
+      }
+
+      .ls-thumbnails {
+        gap: 8px;
+        padding: 12px 8px;
+        margin-top: 0;
+        justify-content: center;
+      }
+
+      .ls-thumbnail {
+        width: 60px;
+        height: 50px;
+        border-radius: 8px;
+        opacity: 0.7;
+      }
+
+      .ls-thumbnail.active {
+        opacity: 1;
+      }
+
+      .ls-thumbnail img {
+        border-radius: 6px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .ls-main-slider {
+        height: 220px;
+      }
+
+      .ls-slider-nav {
+        width: 32px;
+        height: 32px;
+      }
+
+      .ls-slider-nav.prev {
+        left: 8px;
+      }
+
+      .ls-slider-nav.next {
+        right: 8px;
+      }
+
+      .ls-thumbnail {
+        width: 50px;
+        height: 42px;
+      }
+
+      .ls-slider-counter {
+        padding: 5px 10px;
+        font-size: 0.7rem;
+      }
+    }
+
+    .ls-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .ls-broker-card {
+      background: #ffffff;
+      border-radius: 26px;
+      box-shadow: 0 18px 45px rgba(15, 40, 24, 0.14);
+      padding: 32px;
+      top: 24px;
+    }
+
+    .ls-broker-header {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 28px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(26, 58, 42, 0.08);
+    }
+
+    .ls-broker-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #355a32;
+    }
+
+    .ls-broker-info h4 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #1a3a2a;
+      margin-bottom: 4px;
+    }
+
+    .ls-broker-info span {
+      font-size: 0.85rem;
+      color: #5f6d60;
+    }
+
+    .ls-broker-contact {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .ls-contact-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 18px;
+      background: #f8faf6;
+      border-radius: 12px;
+      color: #102012;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .ls-contact-item:hover {
+      background: #355a32;
+      color: white;
+      transform: translateX(6px);
+    }
+
+    .ls-contact-item i {
+      width: 20px;
+      text-align: center;
+      color: #355a32;
+    }
+
+    .ls-contact-item:hover i {
+      color: white;
+    }
+
+    .ls-action-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .ls-btn-primary {
+      background: linear-gradient(135deg, #355a32 0%, #2d5a45 100%);
+      color: white;
+      border: none;
+      padding: 18px 24px;
+      border-radius: 14px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .ls-btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px rgba(65, 107, 60, 0.35);
+    }
+
+    .ls-btn-secondary {
+      background: #f8faf6;
+      color: #1a3a2a;
+      border: 2px solid rgba(26, 58, 42, 0.15);
+      padding: 16px 24px;
+      border-radius: 14px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .ls-btn-secondary:hover {
+      background: #1a3a2a;
+      color: white;
+      border-color: #1a3a2a;
+    }
+
+    .ls-quick-specs {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .ls-quick-spec {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px;
+      background: #f8faf6;
+      border-radius: 12px;
+    }
+
+    .ls-quick-spec i {
+      color: #355a32;
+      font-size: 1.1rem;
+    }
+
+    .ls-quick-spec-text {
+      font-size: 0.9rem;
+      color: #5f6d60;
+    }
+
+    /* Price Card */
+    .ls-price-card {
+      background: #ffffff;
+      border-radius: 26px;
+      box-shadow: 0 10px 30px rgba(15, 40, 24, 0.08);
+      border: 1px solid rgba(26, 58, 42, 0.06);
+      overflow: hidden;
+    }
+
+    .ls-price-header {
+      background: linear-gradient(135deg, #355a32 0%, #2d5a45 100%);
+      padding: 28px;
+      text-align: center;
+    }
+
+    .ls-price-label {
+      display: block;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: rgba(255, 255, 255, 0.85);
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .ls-price-value {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: white;
+      letter-spacing: -0.02em;
+    }
+
+    .ls-price-details {
+      padding: 24px;
+    }
+
+    .ls-price-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(26, 58, 42, 0.08);
+    }
+
+    .ls-price-item:last-child {
+      border-bottom: none;
+    }
+
+    .ls-price-item-label {
+      color: #5f6d60;
+      font-size: 0.9rem;
+    }
+
+    .ls-price-item-value {
+      font-weight: 600;
+      color: #1a3a2a;
+      font-size: 0.9rem;
+    }
+
+    /* Payment Calculator Card */
+    .ls-calc-card {
+      background: #ffffff;
+      border-radius: 26px;
+      box-shadow: 0 10px 30px rgba(15, 40, 24, 0.08);
+      border: 1px solid rgba(26, 58, 42, 0.06);
+      overflow: hidden;
+    }
+
+    .ls-calc-header {
+      padding: 24px;
+      border-bottom: 1px solid rgba(26, 58, 42, 0.08);
+    }
+
+    .ls-calc-header h4 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #1a3a2a;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .ls-calc-header h4 i {
+      color: #355a32;
+    }
+
+    .ls-calc-body {
+      padding: 24px;
+    }
+
+    .ls-calc-group {
+      margin-bottom: 18px;
+    }
+
+    .ls-calc-group:last-of-type {
+      margin-bottom: 0;
+    }
+
+    .ls-calc-group label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #5f6d60;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .ls-calc-input-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .ls-calc-currency {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #1a3a2a;
+    }
+
+    .ls-calc-input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid rgba(26, 58, 42, 0.12);
+      border-radius: 10px;
+      font-size: 1rem;
+      font-family: 'Poppins', sans-serif;
+      color: #1a3a2a;
+      transition: all 0.3s ease;
+    }
+
+    .ls-calc-input:focus {
+      outline: none;
+      border-color: #355a32;
+    }
+
+    .ls-calc-range {
+      flex: 1;
+      -webkit-appearance: none;
+      appearance: none;
+      height: 8px;
+      border-radius: 4px;
+      background: #f8faf6;
+      cursor: pointer;
+    }
+
+    .ls-calc-range::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #355a32;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(53, 90, 50, 0.3);
+    }
+
+    .ls-calc-percent-value {
+      min-width: 45px;
+      text-align: right;
+      font-weight: 700;
+      color: #1a3a2a;
+      font-size: 0.95rem;
+    }
+
+    .ls-calc-select-wrap {
+      position: relative;
+    }
+
+    .ls-calc-select {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid rgba(26, 58, 42, 0.12);
+      border-radius: 10px;
+      font-size: 1rem;
+      font-family: 'Poppins', sans-serif;
+      color: #1a3a2a;
+      background: #ffffff;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      -webkit-appearance: none;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%231a3a2a' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+    }
+
+    .ls-calc-select:focus {
+      outline: none;
+      border-color: #355a32;
+    }
+
+    .ls-calc-result {
+      background: #f8faf6;
+      padding: 20px;
+      border-radius: 12px;
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .ls-calc-result-label {
+      display: block;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #5f6d60;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .ls-calc-result-value {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #1a3a2a;
+    }
+
+    .ls-calc-footer {
+      padding: 20px 24px;
+      background: #f8faf6;
+      border-top: 1px solid rgba(26, 58, 42, 0.08);
+    }
+
+    .ls-calc-footer p {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.85rem;
+      color: #5f6d60;
+      margin-bottom: 10px;
+    }
+
+    .ls-calc-footer p:last-child {
+      margin-bottom: 0;
+    }
+
+    .ls-calc-footer i {
+      color: #355a32;
+      font-size: 0.8rem;
+    }
+
+    @media (max-width: 768px) {
+      .ls-price-card,
+      .ls-calc-card {
+        border-radius: 18px;
+        margin-bottom: 16px;
+      }
+
+      .ls-price-header {
+        padding: 20px;
+      }
+
+      .ls-price-value {
+        font-size: 1.75rem;
+      }
+
+      .ls-price-details {
+        padding: 16px;
+      }
+
+      .ls-price-item {
+        padding: 12px 0;
+      }
+
+      .ls-calc-header {
+        padding: 18px;
+      }
+
+      .ls-calc-header h4 {
+        font-size: 1.1rem;
+      }
+
+      .ls-calc-body {
+        padding: 18px;
+      }
+
+      .ls-calc-input {
+        padding: 12px 14px;
+        font-size: 0.95rem;
+      }
+
+      .ls-calc-group label {
+        font-size: 0.75rem;
+      }
+
+      .ls-calc-result {
+        padding: 16px;
+      }
+
+      .ls-calc-result-value {
+        font-size: 1.5rem;
+      }
+
+      .ls-calc-footer {
+        padding: 16px 18px;
+      }
+
+      .ls-calc-footer p {
+        font-size: 0.8rem;
+      }
+    }
+
+    .ls-quick-spec-text strong {
+      display: block;
+      color: #1a3a2a;
+      font-weight: 600;
+    }
+
+    /* Tabbed Details */
+    .ls-details-card {
+      background: #ffffff;
+      border-radius: 26px;
+      box-shadow: 0 10px 30px rgba(15, 40, 24, 0.08);
+      border: 1px solid rgba(26, 58, 42, 0.06);
+      overflow: hidden;
+    }
+
+    .ls-details-header {
+      background: linear-gradient(135deg, #1a3a2a 0%, #2d5a45 100%);
+      padding: 32px;
+    }
+
+    .ls-details-title {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: white;
+      margin-bottom: 12px;
+      letter-spacing: -0.02em;
+    }
+
+    .ls-details-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .ls-details-meta span {
+      color: rgba(255, 255, 255, 0.85);
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .ls-details-meta i {
+      font-size: 0.8rem;
+      opacity: 0.8;
+    }
+
+    .ls-tabs {
+      display: flex;
+      border-bottom: 1px solid rgba(26, 58, 42, 0.1);
+      background: #f8faf6;
+      overflow-x: auto;
+    }
+
+    .ls-tab {
+      flex: 1;
+      min-width: max-content;
+      padding: 18px 24px;
+      background: none;
+      border: none;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #5f6d60;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      white-space: nowrap;
+    }
+
+    .ls-tab:hover {
+      color: #1a3a2a;
+      background: rgba(26, 58, 42, 0.05);
+    }
+
+    .ls-tab.active {
+      color: #1a3a2a;
+      background: #ffffff;
+      border-bottom: 3px solid #355a32;
+    }
+
+    .ls-tab i {
+      font-size: 0.85rem;
+    }
+
+    .ls-tab-content {
+      padding: 28px;
+    }
+
+    .ls-tab-pane {
+      display: none;
+    }
+
+    .ls-tab-pane.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .ls-description-text {
+      color: #5f6d60;
+      line-height: 1.9;
+      font-size: 1.05rem;
+    }
+
+    .ls-features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 14px;
+    }
+
+    .ls-features-grid .ls-feature-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 18px;
+      background: #f8faf6;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+    }
+
+    .ls-features-grid .ls-feature-item:hover {
+      background: #ffffff;
+      box-shadow: 0 10px 30px rgba(15, 40, 24, 0.08);
+      transform: translateX(4px);
+    }
+
+    .ls-features-grid .ls-feature-item i {
+      color: #355a32;
+      font-size: 0.85rem;
+    }
+
+    .ls-specs-table {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .ls-spec-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 18px;
+      background: #f8faf6;
+      border-radius: 10px;
+    }
+
+    .ls-spec-name {
+      color: #5f6d60;
+      font-size: 0.9rem;
+    }
+
+    .ls-spec-val {
+      font-weight: 600;
+      color: #1a3a2a;
+      font-size: 0.95rem;
+    }
+
+    .ls-broker-detail {
+      display: flex;
+      gap: 24px;
+      padding: 24px;
+      background: #f8faf6;
+      border-radius: 26px;
+      margin-bottom: 20px;
+    }
+
+    .ls-broker-detail-avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #355a32;
+    }
+
+    .ls-broker-detail-info h3 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #1a3a2a;
+      margin-bottom: 4px;
+    }
+
+    .ls-broker-detail-info span {
+      color: #355a32;
+      font-weight: 600;
+      font-size: 0.85rem;
+      display: block;
+      margin-bottom: 12px;
+    }
+
+    .ls-broker-detail-info p {
+      color: #5f6d60;
+      font-size: 0.9rem;
+      line-height: 1.7;
+    }
+
+    .ls-broker-detail-contact {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    @media (max-width: 768px) {
+      .ls-details-header {
+        padding: 24px 20px;
+      }
+
+      .ls-details-title {
+        font-size: 1.4rem;
+      }
+
+      .ls-details-meta {
+        gap: 12px;
+      }
+
+      .ls-details-meta span {
+        font-size: 0.8rem;
+      }
+
+      .ls-tabs {
+        padding: 0;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+      }
+
+      .ls-tabs::-webkit-scrollbar {
+        display: none;
+      }
+
+      .ls-tab {
+        padding: 14px 12px;
+        font-size: 0.75rem;
+        gap: 6px;
+        flex-shrink: 0;
+      }
+
+      .ls-tab span {
+        display: none;
+      }
+
+      .ls-tab i {
+        font-size: 0.9rem;
+      }
+
+      .ls-tab-content {
+        padding: 20px;
+      }
+
+      .ls-features-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .ls-specs-table {
+        grid-template-columns: 1fr;
+      }
+
+      .ls-broker-detail {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 20px;
+      }
+
+      .ls-broker-detail-avatar {
+        width: 80px;
+        height: 80px;
+      }
+
+      .ls-broker-detail-contact {
+        width: 100%;
+      }
+
+      .ls-broker-detail-contact .ls-contact-item {
+        justify-content: center;
+      }
+
+      .ls-video-wrapper img {
+        height: 220px;
+      }
+
+      .ls-video-play {
+        width: 60px;
+        height: 60px;
+      }
+
+      .ls-video-play i {
+        font-size: 1.3rem;
+      }
+
+      .ls-location-container {
+        grid-template-columns: 1fr;
+      }
+
+      .ls-location-map img {
+        min-height: 200px;
+      }
+    }
+
+    /* Video Tab */
+    .ls-video-container {
+      text-align: center;
+    }
+
+    .ls-video-wrapper {
+      position: relative;
+      border-radius: 26px;
+      overflow: hidden;
+      cursor: pointer;
+      margin-bottom: 16px;
+    }
+
+    .ls-video-wrapper img {
+      width: 100%;
+      height: 350px;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .ls-video-wrapper:hover img {
+      transform: scale(1.05);
+    }
+
+    .ls-video-play {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80px;
+      height: 80px;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .ls-video-play i {
+      color: #1a3a2a;
+      font-size: 1.8rem;
+      margin-left: 4px;
+    }
+
+    .ls-video-wrapper:hover .ls-video-play {
+      background: #355a32;
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    .ls-video-wrapper:hover .ls-video-play i {
+      color: white;
+    }
+
+    .ls-video-note {
+      color: #5f6d60;
+      font-size: 0.9rem;
+    }
+
+    /* Gallery Tab */
+    .ls-gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .ls-gallery-item {
+      position: relative;
+      aspect-ratio: 4/3;
+      border-radius: 18px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .ls-gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .ls-gallery-item:hover {
+      transform: scale(1.03);
+      box-shadow: 0 18px 45px rgba(15, 40, 24, 0.14);
+    }
+
+    .ls-gallery-item:hover img {
+      transform: scale(1.1);
+    }
+
+    .ls-gallery-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(26, 58, 42, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .ls-gallery-item:hover .ls-gallery-overlay {
+      opacity: 1;
+    }
+
+    .ls-gallery-overlay i {
+      color: white;
+      font-size: 1.4rem;
+    }
+
+    @media (max-width: 768px) {
+      .ls-gallery-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+      }
+    }
+
+    @media (max-width: 540px) {
+      .ls-gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+      }
+    }
+
+    /* Location Tab */
+    .ls-location-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .ls-location-map {
+      border-radius: 26px;
+      overflow: hidden;
+    }
+
+    .ls-location-map img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      min-height: 300px;
+    }
+
+    .ls-location-details {
+      padding: 20px;
+    }
+
+    .ls-location-details h4 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #1a3a2a;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .ls-location-details h4 i {
+      color: #355a32;
+    }
+
+    .ls-location-details p {
+      color: #5f6d60;
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+    }
+
+    .ls-location-details p strong {
+      color: #1a3a2a;
+    }
+
+    .ls-location-note {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 16px;
+      padding: 12px 16px;
+      background: rgba(65, 107, 60, 0.1);
+      border-radius: 10px;
+      color: #355a32 !important;
+      font-weight: 600;
+    }
+
+    .ls-location-note i {
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 480px) {
+      .ls-details-title {
+        font-size: 1.2rem;
+      }
+
+      .ls-details-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+
+      .ls-tab {
+        padding: 12px 10px;
+        font-size: 0.7rem;
+      }
+
+      .ls-tab i {
+        font-size: 0.85rem;
+      }
+
+      .ls-tab-content {
+        padding: 16px;
+      }
+
+      .ls-video-wrapper img {
+        height: 180px;
+      }
+
+      .ls-video-play {
+        width: 50px;
+        height: 50px;
+      }
+
+      .ls-video-play i {
+        font-size: 1.1rem;
+      }
+
+      .ls-location-details {
+        padding: 12px;
+      }
+
+      .ls-location-details h4 {
+        font-size: 1.1rem;
+      }
+    }
+
+    @media (max-width: 1100px) {
+      .ls-content-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+
+      .ls-sidebar {
+        order: -1;
+      }
+
+      .ls-broker-card {
+        position: static;
+      }
+
+      .ls-specs-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .ls-main-section {
+        padding: 12px 0;
+      }
+
+      .ls-content-grid {
+        gap: 24px;
+      }
+
+      .ls-features-list {
+        grid-template-columns: 1fr;
+      }
+
+      .ls-card {
+        border-radius: 18px;
+        margin-left: -4px;
+        margin-right: -4px;
+      }
+
+      .ls-card-header {
+        padding: 20px 16px;
+      }
+
+      .ls-card-header h3 {
+        font-size: 1.15rem;
+      }
+
+      .ls-card-body {
+        padding: 16px;
+      }
+
+      .ls-specs-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+
+      .ls-spec-item {
+        padding: 16px 10px;
+      }
+
+      .ls-spec-value {
+        font-size: 1.15rem;
+      }
+
+      .ls-spec-label {
+        font-size: 0.65rem;
+      }
+
+      .ls-spec-icon {
+        width: 40px;
+        height: 40px;
+      }
+
+      .ls-spec-icon i {
+        font-size: 1rem;
+      }
+
+      .ls-features-list {
+        gap: 10px;
+      }
+
+      .ls-feature-item {
+        padding: 12px 14px;
+        font-size: 0.85rem;
+      }
+
+      .ls-sidebar {
+        padding: 0 4px;
+      }
+
+      .ls-broker-card {
+        padding: 20px;
+      }
+
+      .ls-broker-header {
+        gap: 14px;
+        margin-bottom: 20px;
+        padding-bottom: 16px;
+      }
+
+      .ls-broker-avatar {
+        width: 60px;
+        height: 60px;
+      }
+
+      .ls-broker-info h4 {
+        font-size: 1.1rem;
+      }
+
+      .ls-broker-contact {
+        gap: 10px;
+        margin-bottom: 18px;
+      }
+
+      .ls-contact-item {
+        padding: 12px 14px;
+        font-size: 0.85rem;
+      }
+
+      .ls-quick-specs {
+        gap: 10px;
+      }
+
+      .ls-quick-spec {
+        padding: 12px;
+      }
+
+      .ls-action-buttons {
+        gap: 10px;
+      }
+
+      .ls-btn-primary, .ls-btn-secondary {
+        padding: 14px 18px;
+        font-size: 0.9rem;
+      }
+    }
+      
+
+    .ls-similar-section {
+      padding: 100px 0;
+      background: #ffffff;
+      font-family: 'Poppins', sans-serif;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ls-similar-section::before {
+      content: '';
+      position: absolute;
+      top: -200px;
+      right: -200px;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(26, 58, 42, 0.05) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .ls-similar-section::after {
+      content: '';
+      position: absolute;
+      bottom: -200px;
+      left: -200px;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(53, 90, 50, 0.04) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .ls-section-header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .hs-small-tag {
+      display: inline-block;
+      text-align: center;
+      color: #355a32;
+      font-weight: 700;
+      letter-spacing: 3px;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      padding: 8px 20px;
+      background: rgba(65, 107, 60, 0.1);
+      border-radius: 50px;
+    }
+
+    .ls-section-title {
+      font-size: 2.8rem;
+      font-weight: 800;
+      color: #1a3a2a;
+      text-align: center;
+      margin-bottom: 0;
+      letter-spacing: -0.02em;
+    }
+
+    .ls-similar-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+
+    .ls-similar-card {
+      background: #ffffff;
+      border-radius: 26px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(15, 40, 24, 0.08);
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 1px solid rgba(26, 58, 42, 0.05);
+    }
+
+    .ls-similar-card:hover {
+      transform: translateY(-12px);
+      box-shadow: 0 18px 45px rgba(15, 40, 24, 0.14);
+    }
+
+    .ls-similar-card:hover .ls-similar-image img {
+      transform: scale(1.08);
+    }
+
+    .ls-similar-image {
+      position: relative;
+      height: 240px;
+      overflow: hidden;
+    }
+
+    .ls-similar-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .ls-similar-badge {
+      position: absolute;
+      bottom: 16px;
+      left: 16px;
+      background: #ffffff;
+      color: #1a3a2a;
+      padding: 8px 18px;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .ls-similar-info {
+      padding: 28px;
+    }
+
+    .ls-similar-info h3 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #1a3a2a;
+      margin-bottom: 16px;
+    }
+
+    .ls-yacht-specs {
+      display: flex;
+      gap: 24px;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(26, 58, 42, 0.08);
+    }
+
+    .ls-yacht-specs div {
+      font-size: 0.9rem;
+    }
+
+    .ls-yacht-specs strong {
+      display: block;
+      font-size: 0.7rem;
+      color: #5f6d60;
+      margin-bottom: 4px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    .ls-similar-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .ls-similar-price {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #355a32;
+    }
+
+    .ls-similar-link {
+      color: #355a32;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .ls-similar-link:hover {
+      gap: 12px;
+      color: #1a3a2a;
+    }
+
+    .ls-similar-link i {
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 1100px) {
+      .ls-similar-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .ls-similar-section {
+        padding: 50px 0;
+      }
+
+      .ls-section-title {
+        font-size: 1.75rem;
+      }
+
+      .hs-small-tag {
+        font-size: 0.65rem;
+        padding: 6px 14px;
+      }
+
+      .ls-similar-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .ls-similar-image {
+        height: 180px;
+      }
+
+      .ls-similar-info {
+        padding: 20px;
+      }
+
+      .ls-similar-info h3 {
+        font-size: 1.15rem;
+      }
+
+      .ls-yacht-specs {
+        gap: 12px;
+        margin-bottom: 14px;
+      }
+
+      .ls-yacht-specs div {
+        font-size: 0.8rem;
+      }
+
+      .ls-yacht-specs strong {
+        font-size: 0.6rem;
+      }
+
+      .ls-similar-price {
+        font-size: 1.1rem;
+      }
+    }
+
+   
+    @media (max-width: 992px) {
+      .ls-cta-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        padding: 40px;
+      }
+
+      .ls-cta-image {
+        height: 350px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .ls-cta-section {
+        padding: 40px 0;
+      }
+
+      .ls-cta-grid {
+        padding: 24px;
+        border-radius: 18px;
+        gap: 24px;
+      }
+
+      .ls-cta-content h2 {
+        font-size: 1.5rem;
+        margin-bottom: 14px;
+      }
+
+      .ls-cta-content p {
+        font-size: 0.95rem;
+        margin-bottom: 20px;
+      }
+
+      .ls-cta-form {
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .ls-cta-input {
+        padding: 14px 16px;
+        font-size: 0.9rem;
+      }
+
+      .ls-cta-submit {
+        padding: 14px 24px;
+        font-size: 0.9rem;
+      }
+
+      .ls-cta-image {
+        height: 220px;
+        border-radius: 18px;
+      }
+
+      .ls-cta-overlay {
+        padding: 30px 20px 20px;
+      }
+
+      .ls-cta-overlay h3 {
+        font-size: 1.3rem;
+      }
+
+      .ls-cta-overlay p {
+        font-size: 0.85rem;
+      }
+
+      .ls-consult-btn {
+        padding: 10px 20px;
+        font-size: 0.8rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .ls-cta-grid {
+        padding: 20px 16px;
+      }
+
+      .ls-cta-content h2 {
+        font-size: 1.25rem;
+      }
+    }
+</style>

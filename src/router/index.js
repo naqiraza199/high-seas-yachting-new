@@ -12,6 +12,7 @@ import EventsPage from '../pages/EventsPage.vue'
 import ContactUsPage from '../pages/ContactUsPage.vue'
 import BrokerDetailPage from '../pages/BrokerDetailPage.vue'
 import EventDetailPage from '../pages/EventDetailPage.vue'
+import ListingDetailPage from '../pages/LIstingDetailPage.vue'
 
 const routes = [
   {
@@ -91,6 +92,12 @@ const routes = [
     name: 'EventDetail',
     component: EventDetailPage,
     meta: { title: 'Event Detail - Luxury Yacht Brokers Fort Lauderdale & Miami' }
+  },
+  {
+    path: '/listing-detail',
+    name: 'ListingDetail',
+    component: ListingDetailPage,
+    meta: { title: 'Listing Detail - Luxury Yacht Brokers Fort Lauderdale & Miami' }
   }
 ]
 
