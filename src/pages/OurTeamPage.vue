@@ -12,27 +12,27 @@
     <!-- Featured Founder Section -->
     <section class="featured-founder">
       <div class="featured-founder-wrapper">
-        <div class="founder-card">
+        <div class="founder-card" v-if="founder">
           <div class="founder-image">
-            <img src="/brett.png" alt="Featured Founder">
+            <img :src="getFounderImage()" alt="Featured Founder">
           </div>
           <div class="founder-content">
             <div class="founder-badge">
               <i class="fas fa-crown"></i>
               CEO & Founder
             </div>
-            <h2 class="founder-name">Brett Horowitz</h2>
+            <h2 class="founder-name">{{ founder.name }}</h2>
             <p class="founder-role">Co-Founder | Sales & Charter</p>
-            <p class="founder-bio">Brett Horowitz is a distinguished yacht broker specializing in high-end yacht sales and bespoke charter experiences, trusted by elite clients worldwide for his precision and discretion.</p>
+            <p class="founder-bio">{{ founder.short_description || founder.long_description }}</p>
             <div class="founder-actions">
               <a href="#" class="founder-btn primary">
-                <i class="fas fa-heart"></i>
+                <i class="fas fa-plus"></i>
                 List a Boat
               </a>
-              <a href="#" class="founder-btn">
+              <router-link :to="'/broker/' + founder.id" class="founder-btn">
                 <i class="fas fa-user"></i>
                 View Profile
-              </a>
+              </router-link>
             </div>
           </div>
         </div>
@@ -48,92 +48,16 @@
         </div>
 
         <div class="team-grid">
-          <!-- Team Member 1 -->
-          <div class="team-card">
+          <div v-for="member in teamMembers" :key="member.id" class="team-card">
             <div class="team-image">
-              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=500&q=60" alt="David Pemberty">
+              <img :src="getProfileImage(member)" :alt="member.name">
             </div>
             <div class="team-content">
-              <h3 class="team-name">David Pemberty</h3>
-              <p class="team-role">Sales • High Seas Yachting</p>
+              <h3 class="team-name">{{ member.name }}</h3>
+              <p class="team-role">{{ getRole(member) }}</p>
               <div class="team-buttons">
                 <a href="#" class="team-btn primary">List a Boat</a>
-                <a href="#" class="team-btn secondary">View Profile</a>
-              </div>
-            </div>
-          </div>
-
-          <!-- Team Member 2 -->
-          <div class="team-card">
-            <div class="team-image">
-              <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=500&q=60" alt="Lola Gilder">
-            </div>
-            <div class="team-content">
-              <h3 class="team-name">Lola Gilder</h3>
-              <p class="team-role">Admin • High Seas Yachting</p>
-              <div class="team-buttons">
-                <a href="#" class="team-btn primary">List a Boat</a>
-                <a href="#" class="team-btn secondary">View Profile</a>
-              </div>
-            </div>
-          </div>
-
-          <!-- Team Member 3 -->
-          <div class="team-card">
-            <div class="team-image">
-              <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=500&q=60" alt="Yali Goldenberg">
-            </div>
-            <div class="team-content">
-              <h3 class="team-name">Yali Goldenberg</h3>
-              <p class="team-role">Sales/Charter • High Seas Yachting</p>
-              <div class="team-buttons">
-                <a href="#" class="team-btn primary">List a Boat</a>
-                <a href="#" class="team-btn secondary">View Profile</a>
-              </div>
-            </div>
-          </div>
-
-          <!-- Team Member 4 -->
-          <div class="team-card">
-            <div class="team-image">
-              <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=500&q=60" alt="Sebastian Escobar">
-            </div>
-            <div class="team-content">
-              <h3 class="team-name">Sebastian Escobar</h3>
-              <p class="team-role">Sales/Management • High Seas Yachting</p>
-              <div class="team-buttons">
-                <a href="#" class="team-btn primary">List a Boat</a>
-                <a href="#" class="team-btn secondary">View Profile</a>
-              </div>
-            </div>
-          </div>
-
-          <!-- Team Member 5 -->
-          <div class="team-card">
-            <div class="team-image">
-              <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=500&q=60" alt="Bryan Kattenburg">
-            </div>
-            <div class="team-content">
-              <h3 class="team-name">Bryan Kattenburg</h3>
-              <p class="team-role">Sales/Management • High Seas Yachting</p>
-              <div class="team-buttons">
-                <a href="#" class="team-btn primary">List a Boat</a>
-                <a href="#" class="team-btn secondary">View Profile</a>
-              </div>
-            </div>
-          </div>
-
-          <!-- Team Member 6 -->
-          <div class="team-card">
-            <div class="team-image">
-              <img src="https://images.unsplash.com/photo-1522075469751-3a6694fb2e61?auto=format&fit=crop&w=500&q=60" alt="Zac Glover">
-            </div>
-            <div class="team-content">
-              <h3 class="team-name">Zac Glover</h3>
-              <p class="team-role">Sales • High Seas Yachting</p>
-              <div class="team-buttons">
-                <a href="#" class="team-btn primary">List a Boat</a>
-                <a href="#" class="team-btn secondary">View Profile</a>
+                <router-link :to="'/broker/' + member.id" class="team-btn secondary">View Profile</router-link>
               </div>
             </div>
           </div>
@@ -148,14 +72,65 @@
 <script>
 import FooterSection from '../components/FooterSection.vue';
 import NavbarSection from '../components/NavbarSection.vue';
+import brokers from '../../broker.json';
 
-    export default {
-        name: 'OurTeamPage',
-        components: {
-            NavbarSection,
-            FooterSection
+export default {
+    name: 'OurTeamPage',
+    components: {
+        NavbarSection,
+        FooterSection
+    },
+    data() {
+        return {
+            teamMembers: [],
+            founder: null
+        };
+    },
+    mounted() {
+        this.loadBrokers();
+    },
+    methods: {
+        loadBrokers() {
+            let allBrokers = [];
+            
+            if (Array.isArray(brokers) && brokers.length > 0) {
+                const brokerData = brokers.find(b => b.data_type === 'brokers' || b.records);
+                if (brokerData && brokerData.records) {
+                    allBrokers = brokerData.records;
+                } else {
+                    allBrokers = brokers;
+                }
+            }
+            
+            const founderBroker = allBrokers.find(b => b.name === 'Brett Horowitz' && b.is_active === true);
+            this.founder = founderBroker || null;
+            
+            const activeBrokers = allBrokers
+                .filter(broker => broker.is_active === true && broker.name !== 'Brett Horowitz')
+                .sort((a, b) => (a.order_index || 999) - (b.order_index || 999));
+            
+            this.teamMembers = activeBrokers;
+        },
+        getProfileImage(broker) {
+            if (broker.profile_image) {
+                return broker.profile_image;
+            }
+            return '/green.jpg';
+        },
+        getFounderImage() {
+            if (this.founder && this.founder.profile_image) {
+                return this.founder.profile_image;
+            }
+            return '/brett.png';
+        },
+        getRole(broker) {
+            if (broker.specialization) {
+                return `${broker.specialization} • High Seas Yachting`;
+            }
+            return 'High Seas Yachting';
         }
     }
+}
 </script>
 
 <style scoped>

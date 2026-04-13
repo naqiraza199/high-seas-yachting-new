@@ -7,13 +7,21 @@
 <header class="page-hero" :style="{ backgroundImage: headerBackground }">
     <div class="hero-content">
       <div class="hero-info">
-        <span class="hero-label"><i class="fas fa-ship"></i> For Sale</span>
+        <span class="hero-label"><i class="fas fa-ship"></i> {{ listingLabel }}</span>
         <h1 class="hero-title">{{ listing.year }} {{ listing.manufacturer }} {{ listing.yacht_name }}</h1>
-        <p class="hero-subtitle"><i class="fas fa-map-marker-alt"></i> {{ listing.metadata?.city ? listing.metadata.city.charAt(0).toUpperCase() + listing.metadata.city.slice(1) : 'N/A' }}, Florida</p>
+        <p class="hero-subtitle"><i class="fas fa-map-marker-alt"></i> {{ displayLocation }}</p>
       </div>
-      <div class="hero-price">
+      <div class="hero-price" v-if="listing.type === 'forsale'">
         <div class="price-label">Asking Price</div>
         <div class="price-value">{{ formattedPrice }}</div>
+      </div>
+      <div class="hero-price" v-else-if="listing.type === 'daycharter'">
+        <div class="price-label">Hourly Rate</div>
+        <div class="price-value">{{ formattedHourlyPrice }}</div>
+      </div>
+      <div class="hero-price" v-else-if="listing.type === 'termcharter'">
+        <div class="price-label">Starting at</div>
+        <div class="price-value">{{ termCharterMinPrice }}</div>
       </div>
     </div>
   </header>
@@ -53,9 +61,11 @@
               <div class="ls-details-info">
                 <h2 class="ls-details-title">{{ listing.year }} {{ listing.manufacturer }} {{ listing.yacht_name }}</h2>
                 <div class="ls-details-meta">
-                  <span><i class="fas fa-tag"></i> For Sale</span>
-                  <span><i class="fas fa-map-marker-alt"></i> {{ listing.metadata?.city ? listing.metadata.city.charAt(0).toUpperCase() + listing.metadata.city.slice(1) : 'N/A' }}, FL</span>
-                  <span><i class="fas fa-tag"></i> {{ formattedPrice }}</span>
+                  <span><i class="fas fa-tag"></i> {{ listingLabel }}</span>
+                  <span><i class="fas fa-map-marker-alt"></i> {{ displayLocation }}</span>
+                  <span v-if="listing.type === 'forsale'"><i class="fas fa-tag"></i> {{ formattedPrice }}</span>
+                  <span v-else-if="listing.type === 'daycharter'"><i class="fas fa-clock"></i> {{ formattedHourlyPrice }}</span>
+                  <span v-else-if="listing.type === 'termcharter'"><i class="fas fa-calendar"></i> Starting {{ termCharterMinPrice }}</span>
                 </div>
               </div>
             </div>
@@ -70,14 +80,14 @@
               <button class="ls-tab" data-tab="specs">
                 <i class="fas fa-cogs"></i> <span>Specs</span>
               </button>
-              <button class="ls-tab" data-tab="equipment">
+              <button class="ls-tab" data-tab="equipment" v-if="hasEquipment">
                 <i class="fas fa-tools"></i> <span>Equipment</span>
               </button>
               <button class="ls-tab" data-tab="gallery">
                 <i class="fas fa-images"></i> <span>Gallery</span>
               </button>
-              <button class="ls-tab" data-tab="location">
-                <i class="fas fa-map-marker-alt"></i> <span>Location</span>
+              <button class="ls-tab" data-tab="crew" v-if="hasCrewIncluded">
+                <i class="fas fa-users"></i> <span>Crew Included</span>
               </button>
               <button class="ls-tab" data-tab="broker">
                 <i class="fas fa-user"></i> <span>Broker</span>
@@ -160,7 +170,7 @@
               </div>
 
               <!-- Equipment Tab -->
-              <div class="ls-tab-pane" id="equipment">
+              <div class="ls-tab-pane" id="equipment" v-if="hasEquipment">
                 <div class="ls-equipment-sections">
                   <!-- Electronics -->
                   <div v-if="listing.metadata?.electronics && Object.keys(listing.metadata.electronics).length > 0" class="ls-equipment-category">
@@ -262,23 +272,35 @@
                 </div>
               </div>
 
-              <!-- Location Tab -->
-              <div class="ls-tab-pane" id="location">
-                <div class="ls-location-container">
-                  <div class="ls-location-map">
-                    <img src="https://images.unsplash.com/photo-1534430481799-5cada36f502d?auto=format&fit=crop&w=1200&q=80" alt="Location Map">
-                  </div>
-                  <div class="ls-location-details">
-                    <h4><i class="fas fa-anchor"></i> Marina Location</h4>
-                    <p>Located in <strong>{{ listing.metadata?.city ? listing.metadata.city.charAt(0).toUpperCase() + listing.metadata.city.slice(1) : 'Florida' }}</strong></p>
-                    <p class="ls-location-note"><i class="fas fa-info-circle"></i> This yacht is available for immediate viewing</p>
+              <!-- Crew Tab -->
+              <div class="ls-tab-pane" id="crew" v-if="hasCrewIncluded">
+                <div class="ls-crew-section">
+                  <h3 class="ls-section-subtitle">Crew Included</h3>
+                  <div class="ls-crew-grid">
+                    <div v-for="crewItem in crewListItems" :key="crewItem.role" class="ls-crew-item">
+                      <div class="ls-crew-icon">
+                        <i class="fas fa-user"></i>
+                      </div>
+                      <div class="ls-crew-info">
+                        <span class="ls-crew-role">{{ crewItem.label }}</span>
+                        <span class="ls-crew-count">{{ crewItem.count }} {{ crewItem.count === 1 ? 'person' : 'people' }}</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
 
               <!-- Broker Tab -->
               <div class="ls-tab-pane" id="broker">
-                <div class="ls-broker-detail">
+                <div class="ls-broker-detail" v-if="listingBroker">
+                  <img :src="getBrokerImage()" alt="Broker" class="ls-broker-detail-avatar">
+                  <div class="ls-broker-detail-info">
+                    <h3>{{ listingBroker.name }}</h3>
+                    <span>{{ listingBroker.specialization || 'Professional Yacht Broker' }}</span>
+                    <p>Contact us for more information about this yacht or to schedule a viewing.</p>
+                  </div>
+                </div>
+                <div class="ls-broker-detail" v-else>
                   <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=200&q=80" alt="Broker" class="ls-broker-detail-avatar">
                   <div class="ls-broker-detail-info">
                     <h3>High Seas Yachting</h3>
@@ -287,11 +309,19 @@
                   </div>
                 </div>
                 <div class="ls-broker-detail-contact">
-                  <a href="tel:+19545551234" class="ls-contact-item">
+                  <a v-if="listingBroker" :href="'tel:+1' + getBrokerPhone()" class="ls-contact-item">
+                    <i class="fas fa-phone"></i>
+                    {{ listingBroker.phone || '+1 (954) 555-1234' }}
+                  </a>
+                  <a v-if="listingBroker" :href="'mailto:' + listingBroker.email" class="ls-contact-item">
+                    <i class="fas fa-envelope"></i>
+                    {{ listingBroker.email }}
+                  </a>
+                  <a v-if="!listingBroker" href="tel:+19545551234" class="ls-contact-item">
                     <i class="fas fa-phone"></i>
                     +1 (954) 555-1234
                   </a>
-                  <a href="mailto:info@highseasyachting.com" class="ls-contact-item">
+                  <a v-if="!listingBroker" href="mailto:info@highseasyachting.com" class="ls-contact-item">
                     <i class="fas fa-envelope"></i>
                     info@highseasyachting.com
                   </a>
@@ -326,7 +356,35 @@
 
         <!-- Sidebar -->
         <div class="ls-sidebar">
-          <div class="ls-broker-card">
+          <div class="ls-broker-card" v-if="listingBroker">
+            <div class="ls-broker-header">
+              <img :src="getBrokerImage()" alt="Broker" class="ls-broker-avatar">
+              <div class="ls-broker-info">
+                <h4>{{ listingBroker.name }}</h4>
+                <span>{{ listingBroker.specialization || 'Professional Yacht Broker' }}</span>
+              </div>
+            </div>
+
+            <div class="ls-broker-contact">
+              <a :href="'tel:+1' + getBrokerPhone()" class="ls-contact-item">
+                <i class="fas fa-phone"></i>
+                {{ listingBroker.phone || '+1 (954) 555-1234' }}
+              </a>
+              <a :href="'mailto:' + listingBroker.email" class="ls-contact-item">
+                <i class="fas fa-envelope"></i>
+                {{ listingBroker.email }}
+              </a>
+            </div>
+
+
+            <div class="ls-action-buttons">
+              <button class="ls-btn-primary">
+                <i class="fas fa-phone"></i> Contact Us
+              </button>
+            </div>
+          </div>
+
+          <div class="ls-broker-card" v-else>
             <div class="ls-broker-header">
               <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=200&q=80" alt="Broker" class="ls-broker-avatar">
               <div class="ls-broker-info">
@@ -355,29 +413,57 @@
           </div>
 
           <!-- Price Card -->
-          <div class="ls-price-card">
+          <div class="ls-price-card" v-if="listing.type === 'forsale'">
             <div class="ls-price-header">
               <span class="ls-price-label">Asking Price</span>
               <div class="ls-price-value">{{ formattedPrice }}</div>
             </div>
-            <div class="ls-price-details">
-              <div class="ls-price-item">
-                <span class="ls-price-item-label">Year</span>
-                <span class="ls-price-item-value">{{ listing.year || 'N/A' }}</span>
-              </div>
-              <div class="ls-price-item">
-                <span class="ls-price-item-label">Length</span>
-                <span class="ls-price-item-value">{{ listing.length || 'N/A' }} ft</span>
-              </div>
-              <div class="ls-price-item">
-                <span class="ls-price-item-label">Location</span>
-                <span class="ls-price-item-value">{{ listing.metadata?.city ? listing.metadata.city.charAt(0).toUpperCase() + listing.metadata.city.slice(1) : 'N/A' }}, FL</span>
-              </div>
+          </div>
+
+          <!-- Term Charter Pricing Table -->
+          <div class="ls-price-card" v-if="listing.type === 'termcharter'">
+            <div class="ls-price-header">
+              <span class="ls-price-label">Charter Rates</span>
+            </div>
+            <div class="ls-daycharter-table">
+              <table>
+                <tbody>
+                  <tr v-for="(value, key) in listing.metadata?.pricing?.retail" :key="key">
+                    <td>{{ formatPricingKey(key) }}</td>
+                    <td class="ls-daycharter-amount">{{ formatCurrency(value) }}</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
 
-          <!-- Payment Calculator Card -->
-          <div class="ls-calc-card">
+          <!-- Day Charter Pricing Table -->
+          <div class="ls-price-card" v-if="listing.type === 'daycharter'">
+            <div class="ls-price-header">
+              <span class="ls-price-label">Charter Rates</span>
+            </div>
+            <div class="ls-daycharter-table">
+              <table>
+                <tbody>
+                  <tr v-if="listing.metadata?.pricing?.retail?.four_hour">
+                    <td>4 Hours</td>
+                    <td class="ls-daycharter-amount">{{ formatCurrency(listing.metadata.pricing.retail.four_hour) }}</td>
+                  </tr>
+                  <tr v-if="listing.metadata?.pricing?.retail?.six_hour">
+                    <td>6 Hours</td>
+                    <td class="ls-daycharter-amount">{{ formatCurrency(listing.metadata.pricing.retail.six_hour) }}</td>
+                  </tr>
+                  <tr v-if="listing.metadata?.pricing?.retail?.eight_hour">
+                    <td>8 Hours</td>
+                    <td class="ls-daycharter-amount">{{ formatCurrency(listing.metadata.pricing.retail.eight_hour) }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Payment Calculator Card (only for forsale) -->
+          <div class="ls-calc-card" v-if="listing.type === 'forsale'">
             <div class="ls-calc-header">
               <h4><i class="fas fa-calculator"></i> Payment Calculator</h4>
             </div>
@@ -448,9 +534,9 @@
       <div class="ls-similar-grid">
         <div v-if="brokerListings.length > 0" v-for="item in brokerListings" :key="item.id" class="ls-similar-card">
           <div class="ls-similar-image">
-            <router-link :to="'/listing-detail/' + item.slug">
+            <a  :href="'/listing-detail/' + item.slug">
               <img :src="item.imageUrl" :alt="item.yacht_name" @error="($event.target.src = 'https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=600&q=80')">
-            </router-link>
+            </a>
             <span class="ls-similar-badge"><i class="fas fa-map-marker-alt"></i> {{ item.metadata?.city ? item.metadata.city.charAt(0).toUpperCase() + item.metadata.city.slice(1) : 'N/A' }}, FL</span>
           </div>
           <div class="ls-similar-info">
@@ -481,8 +567,10 @@
 import FooterSection from '../components/FooterSection.vue';
 import NavbarSection from '../components/NavbarSection.vue';
 import listingsDataRaw from '../../listings.json';
+import brokersDataRaw from '../../broker.json';
 
 const listingsData = Array.isArray(listingsDataRaw) ? listingsDataRaw : [listingsDataRaw];
+const brokersData = Array.isArray(brokersDataRaw) ? brokersDataRaw : [brokersDataRaw];
 const SUPABASE_URL = 'https://qumgjqbfreeskjgltfvu.supabase.co/storage/v1/object/public/listings/';
 
 export default {
@@ -499,6 +587,12 @@ export default {
         };
     },
     computed: {
+        listingBroker() {
+            if (!this.listing?.broker_id) return null;
+            let records = [];
+            if (brokersData.length > 0 && brokersData[0].records) records = brokersData[0].records;
+            return records.find(b => b.id === this.listing.broker_id) || null;
+        },
         listingPhotos() {
             if (!this.listing?.metadata?.photos || this.listing.metadata.photos.length === 0) {
                 return ['https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=1200&q=80'];
@@ -512,8 +606,64 @@ export default {
             if (!this.listing?.metadata?.price) return 'Price on request';
             return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0 }).format(this.listing.metadata.price);
         },
+        formattedHourlyPrice() {
+            const pricing = this.listing?.metadata?.pricing?.retail;
+            if (!pricing) return 'Call for pricing';
+            const prices = [];
+            if (pricing.four_hour) prices.push(pricing.four_hour);
+            if (pricing.six_hour) prices.push(pricing.six_hour);
+            if (pricing.eight_hour) prices.push(pricing.eight_hour);
+            if (prices.length === 0) return 'Call for pricing';
+            const minPrice = Math.min(...prices);
+            return `Starting from ${new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0 }).format(minPrice)}`;
+        },
+        formattedTermCharterPrice() {
+            const pricing = this.listing?.metadata?.pricing?.retail;
+            if (!pricing || !pricing.weekly) return 'Call for pricing';
+            return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0 }).format(pricing.weekly);
+        },
+        termCharterMinPrice() {
+            const pricing = this.listing?.metadata?.pricing?.retail;
+            if (!pricing) return 'Call for pricing';
+            const prices = Object.values(pricing).filter(p => typeof p === 'number');
+            if (prices.length === 0) return 'Call for pricing';
+            return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0 }).format(Math.min(...prices));
+        },
+        displayLocation() {
+            if (!this.listing) return 'N/A';
+            const city = this.listing.metadata?.city || this.listing.city || '';
+            return city ? city.charAt(0).toUpperCase() + city.slice(1) : 'N/A';
+        },
+        listingLabel() {
+            if (this.listing?.type === 'daycharter') return 'Day Charter';
+            if (this.listing?.type === 'termcharter') return 'Term Charter';
+            return 'For Sale';
+        },
+        crewIncluded() {
+            return this.listing?.metadata?.crew_included || {};
+        },
+        hasCrewIncluded() {
+            const crew = this.listing?.metadata?.crew_included;
+            if (!crew || typeof crew !== 'object') return false;
+            return Object.values(crew).some(count => count > 0);
+        },
+        crewListItems() {
+            const crew = this.listing?.metadata?.crew_included || {};
+            return Object.entries(crew)
+                .filter(([role, count]) => count > 0)
+                .map(([role, count]) => ({
+                    role,
+                    count,
+                    label: role.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())
+                }));
+        },
 engines() { return this.listing?.metadata?.engines || null; },
         equipment() { return this.listing?.metadata?.equipment || {}; },
+        hasEquipment() {
+            const equipment = this.listing?.metadata?.equipment;
+            if (!equipment || typeof equipment !== 'object') return false;
+            return Object.keys(equipment).some(key => equipment[key] && equipment[key].included);
+        },
         headerBackground() {
             const fallback = 'https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=1920&q=80';
             if (!this.listingPhotos || this.listingPhotos.length === 0) return fallback;
@@ -534,6 +684,29 @@ engines() { return this.listing?.metadata?.engines || null; },
         }
     },
     methods: {
+        getBrokerImage() {
+            if (this.listingBroker && this.listingBroker.profile_image) {
+                return this.listingBroker.profile_image;
+            }
+            return 'https://highseasyachting.com/wp-content/uploads/2023/01/HSY-Icon-Large-e1672947511783-290x300-1.png';
+        },
+        getBrokerPhone() {
+            if (this.listingBroker && this.listingBroker.phone) {
+                return this.listingBroker.phone.replace(/[^0-9]/g, '');
+            }
+            return '9545551234';
+        },
+        formatCurrency(value) {
+            if (!value) return '-';
+            return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0 }).format(value);
+        },
+        formatPricingKey(key) {
+            if (!key) return key;
+            return key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+        },
+        formatCrewRole(role) {
+            return role.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+        },
         calculatePayment() {
             if (!this.listing) return;
             const price = this.listing.metadata?.price || 0;
@@ -623,7 +796,10 @@ engines() { return this.listing?.metadata?.engines || null; },
             const slug = this.$route.params.slug;
             let records = [];
             if (listingsData.length > 0 && listingsData[0].records) records = listingsData[0].records;
-            this.listing = records.find(item => this.generateSlug(item) === slug);
+            this.listing = records.find(item => item.slug === slug);
+            if (!this.listing && slug) {
+                this.listing = records.find(item => this.generateSlug(item) === slug);
+            }
             if (this.listing) {
                 this.$nextTick(() => {
                     this.calculatePayment();
@@ -1415,6 +1591,36 @@ engines() { return this.listing?.metadata?.engines || null; },
       font-size: 0.9rem;
     }
 
+    .ls-daycharter-table {
+      padding: 20px;
+    }
+
+    .ls-daycharter-table table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .ls-daycharter-table tr {
+      display: flex;
+      justify-content: space-between;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(26, 58, 42, 0.1);
+    }
+
+    .ls-daycharter-table tr:last-child {
+      border-bottom: none;
+    }
+
+    .ls-daycharter-table td {
+      font-size: 1rem;
+      color: #1a3a2a;
+    }
+
+    .ls-daycharter-amount {
+      font-weight: 700;
+      color: #355a32;
+    }
+
     /* Payment Calculator Card */
     .ls-calc-card {
       background: #ffffff;
@@ -2134,6 +2340,62 @@ engines() { return this.listing?.metadata?.engines || null; },
 
     .ls-location-details p strong {
       color: #1a3a2a;
+    }
+
+    .ls-crew-section {
+      padding: 24px;
+    }
+
+    .ls-crew-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .ls-crew-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 18px;
+      background: #f8faf6;
+      border-radius: 14px;
+      border: 1px solid rgba(53, 90, 50, 0.1);
+    }
+
+    .ls-crew-icon {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, #355a32, #2d5a45);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.2rem;
+    }
+
+    .ls-crew-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .ls-crew-role {
+      font-weight: 700;
+      color: #1a3a2a;
+      font-size: 1rem;
+    }
+
+    .ls-crew-count {
+      color: #5f6d60;
+      font-size: 0.85rem;
+    }
+
+    .ls-no-crew {
+      color: #5f6d60;
+      font-size: 1rem;
+      padding: 20px;
+      text-align: center;
     }
 
     .ls-location-note {

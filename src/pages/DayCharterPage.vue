@@ -4,7 +4,7 @@
 <header class="page-hero">
   <div class="page-hero-content">
     <h1 class="hero-title">Day Charter</h1>
-    <p class="hero-copy">Experience the thrill of sailing in Fort Lauderdale's crystal-clear waters. Create unforgettable memories aboard our premium fleet.</p>
+    <p class="hero-copy">Experience the thrill of sailing in crystal-clear waters. Create unforgettable memories aboard our premium fleet.</p>
   </div>
 </header>
 
@@ -12,118 +12,61 @@
 <section class="hs-charter-section">
   <div class="hs-container">
     
-    <!-- Header -->
-    <div class="hs-charter-header">
-      <div class="hs-location-header">
-        <i class="fas fa-anchor"></i>
-        <div>
-          <h1>Fort Lauderdale</h1>
-          <p class="hs-available-count">11 Yachts Available</p>
+    <!-- City Sections -->
+    <div v-for="cityData in daycharterByCity" :key="cityData.cityName" class="hs-city-section">
+      <!-- City Header -->
+      <div class="hs-charter-header">
+        <div class="hs-location-header">
+          <i class="fas fa-anchor"></i>
+          <div>
+            <h1>{{ cityData.cityName }}</h1>
+            <p class="hs-available-count">{{ cityData.listings.length }} Yachts Available</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="hs-charter-grid">
+        <div 
+          v-for="listing in cityData.listings" 
+          :key="listing.id" 
+          class="hs-charter-card"
+        >
+          <div class="hs-charter-image">
+            <img 
+              :src="getImageUrl(listing.photos[0])" 
+              :alt="listing.yachtName"
+              @error="($event.target.src = 'https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=600&q=80')"
+            >
+            <div class="hs-daycharter-badge">DAYCHARTER</div>
+            <router-link :to="'/listing-detail/' + getListingSlug(listing)" type="button" class="hs-view-details-overlay">
+              <i class="fas fa-eye"></i>
+              View Details
+            </router-link>
+          </div>
+          <div class="hs-charter-info">
+            <h3 class="hs-charter-name">{{ listing.year }} {{ listing.manufacturer }} {{ listing.yachtName }}</h3>
+            <p class="hs-charter-location"><i class="fas fa-map-marker-alt"></i> {{ formatCity(listing.city) }}</p>
+            <div class="hs-charter-specs">
+              <div><i class="fas fa-calendar-alt"></i> {{ listing.year }}</div>
+              <div><i class="fas fa-ruler-horizontal"></i> {{ listing.length }} ft</div>
+              <div> 4, 6, 8 hrs</div>
+            </div>
+            <div class="hs-pricing">
+              <div class="hs-pricing-row"><span>4 Hours</span><strong>{{ formatPrice(listing.pricing?.four_hour) }}</strong></div>
+              <div class="hs-pricing-row"><span>6 Hours</span><strong>{{ formatPrice(listing.pricing?.six_hour) }}</strong></div>
+              <div class="hs-pricing-row"><span>8 Hours</span><strong>{{ formatPrice(listing.pricing?.eight_hour) }}</strong></div>
+            </div>
+            <router-link :to="'/listing-detail/' + getListingSlug(listing)">
+            <button type="button" class="hs-book-btn"><i class="fas fa-paper-plane"></i> Book This Yacht</button>
+            </router-link>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="hs-charter-grid">
-      <div class="hs-charter-card">
-        <div class="hs-charter-image">
-          <img src="https://qumgjqbfreeskjgltfvu.supabase.co/storage/v1/object/public/listings/1773329075447-lyed78ep.JPG" alt="2013 Fairline My Girl">
-          <div class="hs-daycharter-badge">DAYCHARTER</div>
-          <button type="button" class="hs-view-details-overlay">
-            <i class="fas fa-eye"></i>
-            View Details
-          </button>
-        </div>
-        <div class="hs-charter-info">
-          <h3 class="hs-charter-name">2013 Fairline My Girl</h3>
-          <p class="hs-charter-location"><i class="fas fa-map-marker-alt"></i> Fort Lauderdale</p>
-          <div class="hs-charter-specs">
-            <div><i class="fas fa-calendar-alt"></i> 2013</div>
-            <div><i class="fas fa-ruler-horizontal"></i> 62 ft</div>
-            <div> 4, 6, 8 hrs</div>
-          </div>
-          <div class="hs-pricing">
-            <div class="hs-pricing-row"><span>4 Hours</span><strong>$3,000</strong></div>
-            <div class="hs-pricing-row"><span>6 Hours</span><strong>$4,000</strong></div>
-            <div class="hs-pricing-row"><span>8 Hours</span><strong>$5,000</strong></div>
-          </div>
-          <button type="button" class="hs-book-btn"><i class="fas fa-paper-plane"></i> Book This Yacht</button>
-        </div>
-      </div>
-      <div class="hs-charter-card">
-        <div class="hs-charter-image">
-          <img src="https://qumgjqbfreeskjgltfvu.supabase.co/storage/v1/object/public/listings/1769443457397-mii4i3ad.jpg" alt="2014 Marquis Moor Then Knot 2">
-          <div class="hs-daycharter-badge">DAYCHARTER</div>
-          <button type="button" class="hs-view-details-overlay">
-            <i class="fas fa-eye"></i>
-            View Details
-          </button>
-        </div>
-        <div class="hs-charter-info">
-          <h3 class="hs-charter-name">2014 Marquis Moor Then Knot 2</h3>
-          <p class="hs-charter-location"><i class="fas fa-map-marker-alt"></i> Fort Lauderdale</p>
-          <div class="hs-charter-specs">
-            <div><i class="fas fa-calendar-alt"></i> 2014</div>
-            <div><i class="fas fa-ruler-horizontal"></i> 63 ft</div>
-            <div> 4, 6, 8 hrs</div>
-          </div>
-          <div class="hs-pricing">
-            <div class="hs-pricing-row"><span>4 Hours</span><strong>$4,000</strong></div>
-            <div class="hs-pricing-row"><span>6 Hours</span><strong>$6,000</strong></div>
-            <div class="hs-pricing-row"><span>8 Hours</span><strong>$8,000</strong></div>
-          </div>
-          <button type="button" class="hs-book-btn"><i class="fas fa-paper-plane"></i> Book This Yacht</button>
-        </div>
-      </div>
-      <div class="hs-charter-card">
-        <div class="hs-charter-image">
-          <img src="https://qumgjqbfreeskjgltfvu.supabase.co/storage/v1/object/public/listings/2019%20Azimut%2060%20It%20Ain't%20Easy%20For%20Day%20Charter%20fort%20lauderdale%20Brett%20Horowitz%20High%20Seas%20Yachting%201.jpg" alt="2019 Azimut It Ain't Easy">
-          <div class="hs-daycharter-badge">DAYCHARTER</div>
-          <button type="button" class="hs-view-details-overlay">
-            <i class="fas fa-eye"></i>
-            View Details
-          </button>
-        </div>
-        <div class="hs-charter-info">
-          <h3 class="hs-charter-name">2019 Azimut It Ain't Easy</h3>
-          <p class="hs-charter-location"><i class="fas fa-map-marker-alt"></i> Fort Lauderdale</p>
-          <div class="hs-charter-specs">
-            <div><i class="fas fa-calendar-alt"></i> 2019</div>
-            <div><i class="fas fa-ruler-horizontal"></i> 60 ft</div>
-            <div> 4, 6, 8 hrs</div>
-          </div>
-          <div class="hs-pricing">
-            <div class="hs-pricing-row"><span>4 Hours</span><strong>$4,000</strong></div>
-            <div class="hs-pricing-row"><span>6 Hours</span><strong>$5,000</strong></div>
-            <div class="hs-pricing-row"><span>8 Hours</span><strong>$6,000</strong></div>
-          </div>
-          <button type="button" class="hs-book-btn"><i class="fas fa-paper-plane"></i> Book This Yacht</button>
-        </div>
-      </div>
-      <div class="hs-charter-card">
-        <div class="hs-charter-image">
-          <img src="https://qumgjqbfreeskjgltfvu.supabase.co/storage/v1/object/public/listings/1768065700531-3f2nnb1w.jpeg" alt="2023 Vanquish VQ40">
-          <div class="hs-daycharter-badge">DAYCHARTER</div>
-          <button type="button" class="hs-view-details-overlay">
-            <i class="fas fa-eye"></i>
-            View Details
-          </button>
-        </div>
-        <div class="hs-charter-info">
-          <h3 class="hs-charter-name">2023 Vanquish VQ40</h3>
-          <p class="hs-charter-location"><i class="fas fa-map-marker-alt"></i> Fort Lauderdale</p>
-          <div class="hs-charter-specs">
-            <div><i class="fas fa-calendar-alt"></i> 2023</div>
-            <div><i class="fas fa-ruler-horizontal"></i> 40 ft</div>
-            <div> 4, 6, 8 hrs</div>
-          </div>
-          <div class="hs-pricing">
-            <div class="hs-pricing-row"><span>4 Hours</span><strong>$2,500</strong></div>
-            <div class="hs-pricing-row"><span>6 Hours</span><strong>$3,300</strong></div>
-            <div class="hs-pricing-row"><span>8 Hours</span><strong>$4,000</strong></div>
-          </div>
-          <button type="button" class="hs-book-btn"><i class="fas fa-paper-plane"></i> Book This Yacht</button>
-        </div>
-      </div>
+    <!-- No Results -->
+    <div v-if="daycharterByCity.length === 0" class="hs-no-results">
+      <p>No day charter yachts available at the moment. Please check back later.</p>
     </div>
   </div>
 </section>
@@ -134,14 +77,104 @@
 <script>
 import FooterSection from '../components/FooterSection.vue';
 import NavbarSection from '../components/NavbarSection.vue';
+import listingsDataRaw from '../../listings.json';
 
-    export default {
-        name: 'DayCharterPage',
-        components: {
-            NavbarSection,
-            FooterSection
+const listingsData = Array.isArray(listingsDataRaw) ? listingsDataRaw : [listingsDataRaw];
+
+const SUPABASE_URL = 'https://qumgjqbfreeskjgltfvu.supabase.co/storage/v1/object/public/listings/';
+
+export default {
+    name: 'DayCharterPage',
+    components: {
+        NavbarSection,
+        FooterSection
+    },
+    data() {
+        return {
+            daycharterByCity: [],
+            uniqueCities: []
+        };
+    },
+    mounted: function() {
+        this.loadDaycharterListings();
+    },
+    methods: {
+        loadDaycharterListings() {
+            let records = [];
+            
+            if (listingsData) {
+                if (Array.isArray(listingsData) && listingsData.length > 0) {
+                    const firstItem = listingsData[0];
+                    if (firstItem && firstItem.records && Array.isArray(firstItem.records)) {
+                        records = firstItem.records;
+                    } else if (Array.isArray(listingsData)) {
+                        records = listingsData;
+                    }
+                } else if (listingsData.records && Array.isArray(listingsData.records)) {
+                    records = listingsData.records;
+                }
+            }
+            
+            const allDaycharters = records
+                .filter(item => item && item.type === 'daycharter')
+                .map(listing => ({
+                    id: listing.id,
+                    yachtName: listing.yacht_name,
+                    year: listing.year,
+                    manufacturer: listing.manufacturer,
+                    length: listing.length,
+                    city: listing.city || listing.metadata?.city || '',
+                    photos: listing.metadata?.photos || [],
+                    pricing: listing.metadata?.pricing?.retail || {}
+                }));
+            
+            const cities = {};
+            allDaycharters.forEach(item => {
+                const cityKey = item.city ? item.city.toLowerCase() : 'unknown';
+                if (!cities[cityKey]) {
+                    cities[cityKey] = [];
+                }
+                cities[cityKey].push(item);
+            });
+            
+            const sortedCities = Object.keys(cities).sort((a, b) => {
+                if (a === 'fort lauderdale') return -1;
+                if (b === 'fort lauderdale') return 1;
+                return a.localeCompare(b);
+            });
+            this.uniqueCities = sortedCities;
+            
+            this.daycharterByCity = sortedCities.map(cityName => ({
+                cityName: cityName.charAt(0).toUpperCase() + cityName.slice(1),
+                listings: cities[cityName]
+            }));
+        },
+        getImageUrl(photoPath) {
+            if (!photoPath) return '';
+            const filename = photoPath.split('/').pop();
+            return SUPABASE_URL + encodeURIComponent(filename);
+        },
+        getListingSlug(listing) {
+            if (!listing) return '';
+            return `${listing.year}-${listing.manufacturer}-${listing.yachtName}-for-sale`.toLowerCase()
+                .replace(/[^a-z0-9]+/g, '-')
+                .replace(/(^-|-$)/g, '');
+        },
+        formatCity(city) {
+            if (!city) return 'N/A';
+            return city.charAt(0).toUpperCase() + city.slice(1);
+        },
+        formatPrice(price) {
+            if (!price) return 'Call for pricing';
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }).format(price);
         }
     }
+}
 </script>
 
 <style scoped>
@@ -363,6 +396,27 @@ import NavbarSection from '../components/NavbarSection.vue';
     box-shadow: 0 24px 50px rgba(15, 40, 24, 0.16);
   }
 
+  .hs-no-results {
+    text-align: center;
+    padding: 80px 20px;
+    background: #ffffff;
+    border-radius: 28px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+  }
+
+  .hs-no-results p {
+    font-size: 1.2rem;
+    color: #5f7063;
+  }
+
+  .hs-city-section {
+    margin-bottom: 60px;
+  }
+
+  .hs-city-section:last-child {
+    margin-bottom: 0;
+  }
+
   .hs-charter-grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(240px, 1fr));
@@ -416,7 +470,9 @@ import NavbarSection from '../components/NavbarSection.vue';
     transition: all 0.3s ease;
     box-shadow: 0 12px 30px rgba(15, 40, 24, 0.18);
     z-index: 2;
-    pointer-events: none;
+    pointer-events: auto;
+    cursor: pointer;
+    text-decoration: none;
   }
 
   .hs-charter-card:hover .hs-view-details-overlay {

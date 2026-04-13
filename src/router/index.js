@@ -82,7 +82,7 @@ const routes = [
     meta: { title: 'Contact Us - Luxury Yacht Brokers Fort Lauderdale & Miami' }
   },
   {
-    path: '/broker-detail',
+    path: '/broker/:id',
     name: 'BrokerDetail',
     component: BrokerDetailPage,
     meta: { title: 'Broker Detail - Luxury Yacht Brokers Fort Lauderdale & Miami' }

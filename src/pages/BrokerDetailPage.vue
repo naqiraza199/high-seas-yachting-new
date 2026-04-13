@@ -3,40 +3,29 @@
 <header class="page-hero">
     <div class="hero-content">
       <span class="hero-label"><i class="fas fa-user"></i> Broker Profile</span>
-      <h1 class="hero-title">Brett Horowitz</h1>
+      <h1 class="hero-title">{{ brokerName }}</h1>
     </div>
   </header>
 
-  <main class="content-shell">
+  <main class="content-shell" v-if="broker">
     <div class="broker-content">
       
       <div class="profile-content">
         <h2 class="section-title">Profile Overview</h2>
         <p class="profile-text">
-          Brett Horowitz is a distinguished yacht broker specializing in high-end yacht sales and 
-          bespoke charter experiences, trusted by elite clients worldwide for his precision 
-          and discretion.
+          {{ broker.short_description || broker.long_description || (brokerName + ' is a distinguished yacht broker specializing in high-end yacht sales and bespoke charter experiences, trusted by elite clients worldwide for his precision and discretion.') }}
         </p>
 
-        <h2 class="section-title">About Brett Horowitz</h2>
+        <h2 class="section-title">About {{ brokerName }}</h2>
         <p class="profile-text">
-          With a refined understanding of the global luxury market, Brett Horowitz delivers exceptional 
-          results through integrity, expertise, and meticulous attention to detail. His career is defined 
-          by guiding clients through complex transactions with clarity and confidence. From exclusive 
-          yacht acquisitions to tailored charter management, Brett ensures every engagement reflects 
-          his commitment to excellence and seamless execution.
-        </p>
-        
-        <p class="profile-text">
-          Recognized for his professional excellence and client-first approach, Brett has established 
-          lasting relationships with discerning yacht owners and buyers across the globe.
+          {{ broker.long_description || 'With a refined understanding of the global luxury market, ' + brokerName + ' delivers exceptional results through integrity, expertise, and meticulous attention to detail. His career is defined by guiding clients through complex transactions with clarity and confidence.' }}
         </p>
       </div>
 
       <div class="profile-card">
         <div class="profile-image-wrapper">
-          <img src="https://new.highseasyachting.com/assets/img/team/brett.webp" 
-               alt="Brett Horowitz" class="profile-image">
+          <img :src="getBrokerImage()" 
+               :alt="brokerName" class="profile-image">
           
           <div class="floating-yacht">
             <img src="https://e5m5sskeexb.exactdn.com/wp-content/uploads/2025/02/EDIT_Majesty-175-Profile-3-1300x867.jpg?strip=all" 
@@ -45,13 +34,13 @@
         </div>
 
         <div class="profile-info">
-          <h3 class="profile-name">Brett Horowitz</h3>
+          <h3 class="profile-name">{{ brokerName }}</h3>
           
           <div class="contact-row">
             <i class="fas fa-envelope"></i>
             <div>
               <span class="contact-label">Email</span>
-              <a href="mailto:Brett@highseasyachting.com" class="contact-value">Brett@highseasyachting.com</a>
+              <a :href="'mailto:' + brokerEmail" class="contact-value">{{ brokerEmail }}</a>
             </div>
           </div>
 
@@ -59,11 +48,11 @@
             <i class="fas fa-phone"></i>
             <div>
               <span class="contact-label">Phone</span>
-              <a href="tel:+19546618225" class="contact-value">954-661-8225</a>
+              <a :href="'tel:+1' + getPhone()" class="contact-value">{{ brokerPhone }}</a>
             </div>
           </div>
 
-          <button onclick="alert('Message sent to Brett Horowitz!')" class="message-btn">
+          <button onclick="alert('Message sent to {{ brokerName }}!')" class="message-btn">
             <i class="fas fa-paper-plane"></i>
             SEND MESSAGE
           </button>
@@ -74,344 +63,99 @@
   </main>
 
 
-  <!-- ====================== BRETT HOROWITZ LISTINGS SECTION ====================== -->
+  <!-- ====================== BROKER LISTINGS SECTION ====================== -->
 <section class="brett-listings">
   <div class="listings-inner">
     
     <div class="listings-header">
-      <h1 class="listings-title">Brett Horowitz's Listings</h1>
-      <p class="listings-subtitle">Explore Brett Horowitz's exclusive for sale yachts</p>
+      <h1 class="listings-title">{{ brokerName }}'s Listings</h1>
+      <p class="listings-subtitle">Explore {{ brokerName }}'s exclusive for sale yachts</p>
     </div>
 
-    <div class="listings-tabs">
-      <a href="#forsale" class="tab-btn active" @click="switchTab($event, 'forsale')">
-        <i class="fas fa-anchor"></i> For Sale <span class="tab-count">6</span>
+<div class="listings-tabs">
+      <a href="#forsale" class="tab-btn active" @click.prevent="switchTab($event, 'forsale')">
+        <i class="fas fa-anchor"></i> For Sale <span class="tab-count">{{ forsaleListings.length }}</span>
       </a>
-      <a href="#daycharter" class="tab-btn" @click="switchTab($event, 'daycharter')">
-        <i class="fas fa-sun"></i> Day Charter <span class="tab-count">13</span>
+      <a href="#daycharter" class="tab-btn" @click.prevent="switchTab($event, 'daycharter')">
+        <i class="fas fa-sun"></i> Day Charter <span class="tab-count">{{ daycharterListings.length }}</span>
       </a>
-      <a href="#termcharter" class="tab-btn" @click="switchTab($event, 'termcharter')">
-        <i class="fas fa-calendar-alt"></i> Term Charter <span class="tab-count">29</span>
+      <a href="#termcharter" class="tab-btn" @click.prevent="switchTab($event, 'termcharter')">
+        <i class="fas fa-calendar-alt"></i> Term Charter <span class="tab-count">{{ termcharterListings.length }}</span>
       </a>
     </div>
 
     <div id="forsale" class="tab-content active">
-      <div class="listings-grid">
-        <article class="yacht-card">
+      <div class="listings-grid" v-if="forsaleListings.length > 0">
+        <article v-for="listing in forsaleListings" :key="listing.slug" class="yacht-card">
           <div class="yacht-image">
-            <img src="https://images.unsplash.com/photo-1583422409510-0b5c8f6d2c4d?q=80&w=800" alt="DUKE">
+            <img :src="getListingImage(listing)" :alt="listing.yacht_name">
             <div class="yacht-badge">FOR SALE</div>
           </div>
           <div class="yacht-info">
-            <h3 class="yacht-name">DUKE</h3>
+            <h3 class="yacht-name">{{ listing.yacht_name }}</h3>
             <div class="yacht-meta">
-              <span class="meta-item"><i class="fas fa-map-marker-alt"></i> Fort Lauderdale</span>
-              <span class="meta-item"><i class="fas fa-calendar-alt"></i> 2018</span>
-              <span class="meta-item"><i class="fas fa-ruler-horizontal"></i> 50 ft</span>
+              <span class="meta-item"><i class="fas fa-map-marker-alt"></i> {{ getListingCity(listing) }}</span>
+              <span class="meta-item"><i class="fas fa-calendar-alt"></i> {{ getListingYear(listing) }}</span>
+              <span class="meta-item"><i class="fas fa-ruler-horizontal"></i> {{ getListingLength(listing) }}</span>
             </div>
-            <div class="yacht-price">$799,000</div>
-            <a href="#" class="view-btn">View Details →</a>
+            <div class="yacht-price">{{ getListingPrice(listing) }}</div>
+            <router-link :to="'/listing-detail/' + listing.slug" class="view-btn">View Details →</router-link>
           </div>
         </article>
-
-        <article class="yacht-card">
-          <div class="yacht-image">
-            <img src="https://images.unsplash.com/photo-1569263979109-5d6d7d6b5b5f?q=80&w=800" alt="Riva 33 Aquariva">
-            <div class="yacht-badge">FOR SALE</div>
-          </div>
-          <div class="yacht-info">
-            <h3 class="yacht-name">Riva 33 Aquariva</h3>
-            <div class="yacht-meta">
-              <span class="meta-item"><i class="fas fa-map-marker-alt"></i> Fort Lauderdale</span>
-              <span class="meta-item"><i class="fas fa-calendar-alt"></i> 2025</span>
-              <span class="meta-item"><i class="fas fa-ruler-horizontal"></i> 33 ft</span>
-            </div>
-            <div class="yacht-price">$1,395,000</div>
-            <a href="#" class="view-btn">View Details →</a>
-          </div>
-        </article>
-
-        <article class="yacht-card">
-          <div class="yacht-image">
-            <img src="https://images.unsplash.com/photo-1540946485063-4d3a2a2f8b0d?q=80&w=800" alt="Ally">
-            <div class="yacht-badge">FOR SALE</div>
-          </div>
-          <div class="yacht-info">
-            <h3 class="yacht-name">Ally</h3>
-            <div class="yacht-meta">
-              <span class="meta-item"><i class="fas fa-map-marker-alt"></i> Fort Lauderdale</span>
-              <span class="meta-item"><i class="fas fa-calendar-alt"></i> 2026</span>
-              <span class="meta-item"><i class="fas fa-ruler-horizontal"></i> 47 ft</span>
-            </div>
-            <div class="yacht-price">$1,499,999</div>
-            <a href="#" class="view-btn">View Details →</a>
-          </div>
-        </article>
-
-        <article class="yacht-card">
-          <div class="yacht-image">
-            <img src="https://images.unsplash.com/photo-1506929562872-bb421503efbf?q=80&w=800" alt="Luhrs">
-            <div class="yacht-badge">FOR SALE</div>
-          </div>
-          <div class="yacht-info">
-            <h3 class="yacht-name">Luhrs</h3>
-            <div class="yacht-meta">
-              <span class="meta-item"><i class="fas fa-map-marker-alt"></i> Fort Lauderdale</span>
-              <span class="meta-item"><i class="fas fa-calendar-alt"></i> 1994</span>
-              <span class="meta-item"><i class="fas fa-ruler-horizontal"></i> 38 ft</span>
-            </div>
-            <div class="yacht-price">$69,900</div>
-            <a href="#" class="view-btn">View Details →</a>
-          </div>
-        </article>
-
-        <article class="yacht-card">
-          <div class="yacht-image">
-            <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=800" alt="Note To Self">
-            <div class="yacht-badge">FOR SALE</div>
-          </div>
-          <div class="yacht-info">
-            <h3 class="yacht-name">Note To Self</h3>
-            <div class="yacht-meta">
-              <span class="meta-item"><i class="fas fa-map-marker-alt"></i> Fort Lauderdale</span>
-              <span class="meta-item"><i class="fas fa-calendar-alt"></i> 2019</span>
-              <span class="meta-item"><i class="fas fa-ruler-horizontal"></i> 36 ft</span>
-            </div>
-            <div class="yacht-price">$449,995</div>
-            <a href="#" class="view-btn">View Details →</a>
-          </div>
-        </article>
-
-        <article class="yacht-card">
-          <div class="yacht-image">
-            <img src="https://images.unsplash.com/photo-1574680096145-d05b474c2155?q=80&w=800" alt="Down Time">
-            <div class="yacht-badge">FOR SALE</div>
-          </div>
-          <div class="yacht-info">
-            <h3 class="yacht-name">Down Time</h3>
-            <div class="yacht-meta">
-              <span class="meta-item"><i class="fas fa-map-marker-alt"></i> Fort Lauderdale</span>
-              <span class="meta-item"><i class="fas fa-calendar-alt"></i> 2015</span>
-              <span class="meta-item"><i class="fas fa-ruler-horizontal"></i> 44 ft</span>
-            </div>
-            <div class="yacht-price">$689,000</div>
-            <a href="#" class="view-btn">View Details →</a>
-          </div>
-        </article>
+      </div>
+      <div v-else class="no-listings">
+        <p>No for sale listings available at this time.</p>
       </div>
     </div>
 
     <div id="daycharter" class="tab-content">
-      <div class="listings-grid">
-        <article class="yacht-card">
+      <div class="listings-grid" v-if="daycharterListings.length > 0">
+        <article v-for="listing in daycharterListings" :key="listing.slug" class="yacht-card">
           <div class="yacht-image">
-            <img src="https://images.unsplash.com/photo-1515382592480-9b45c53e3fa0?q=80&w=800" alt="Sunset Cruise">
+            <img :src="getListingImage(listing)" :alt="listing.yacht_name">
             <div class="yacht-badge charter">DAY CHARTER</div>
           </div>
           <div class="yacht-info">
-            <h3 class="yacht-name">Sunset Cruise</h3>
+            <h3 class="yacht-name">{{ listing.yacht_name }}</h3>
             <div class="yacht-meta">
-              <span class="meta-item"><i class="fas fa-map-marker-alt"></i> Fort Lauderdale</span>
-              <span class="meta-item"><i class="fas fa-clock"></i> 4 Hours</span>
-              <span class="meta-item"><i class="fas fa-ruler-horizontal"></i> 55 ft</span>
+              <span class="meta-item"><i class="fas fa-map-marker-alt"></i> {{ getListingCity(listing) }}</span>
+              <span class="meta-item"><i class="fas fa-calendar-alt"></i> {{ getListingYear(listing) }}</span>
+              <span class="meta-item"><i class="fas fa-ruler-horizontal"></i> {{ getListingLength(listing) }}</span>
             </div>
-            <div class="yacht-price">$1,200</div>
-            <a href="#" class="view-btn">View Details →</a>
+            <div class="yacht-price">{{ getListingPrice(listing) }}</div>
+            <router-link :to="'/listing-detail/' + listing.slug" class="view-btn">View Details →</router-link>
           </div>
         </article>
-
-        <article class="yacht-card">
-          <div class="yacht-image">
-            <img src="https://images.unsplash.com/photo-1526726538690-5cbf956ae2fd?q=80&w=800" alt="Island Hopping">
-            <div class="yacht-badge charter">DAY CHARTER</div>
-          </div>
-          <div class="yacht-info">
-            <h3 class="yacht-name">Island Hopping</h3>
-            <div class="yacht-meta">
-              <span class="meta-item"><i class="fas fa-map-marker-alt"></i> Miami</span>
-              <span class="meta-item"><i class="fas fa-clock"></i> 6 Hours</span>
-              <span class="meta-item"><i class="fas fa-ruler-horizontal"></i> 62 ft</span>
-            </div>
-            <div class="yacht-price">$1,800</div>
-            <a href="#" class="view-btn">View Details →</a>
-          </div>
-        </article>
-
-        <article class="yacht-card">
-          <div class="yacht-image">
-            <img src="https://images.unsplash.com/photo-1548574505-5e239809ee19?q=80&w=800" alt="Fishing Adventure">
-            <div class="yacht-badge charter">DAY CHARTER</div>
-          </div>
-          <div class="yacht-info">
-            <h3 class="yacht-name">Fishing Adventure</h3>
-            <div class="yacht-meta">
-              <span class="meta-item"><i class="fas fa-map-marker-alt"></i> Palm Beach</span>
-              <span class="meta-item"><i class="fas fa-clock"></i> 8 Hours</span>
-              <span class="meta-item"><i class="fas fa-ruler-horizontal"></i> 45 ft</span>
-            </div>
-            <div class="yacht-price">$2,500</div>
-            <a href="#" class="view-btn">View Details →</a>
-          </div>
-        </article>
-
-        <article class="yacht-card">
-          <div class="yacht-image">
-            <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=800" alt="Luxury Day Trip">
-            <div class="yacht-badge charter">DAY CHARTER</div>
-          </div>
-          <div class="yacht-info">
-            <h3 class="yacht-name">Luxury Day Trip</h3>
-            <div class="yacht-meta">
-              <span class="meta-item"><i class="fas fa-map-marker-alt"></i> Fort Lauderdale</span>
-              <span class="meta-item"><i class="fas fa-clock"></i> 5 Hours</span>
-              <span class="meta-item"><i class="fas fa-ruler-horizontal"></i> 70 ft</span>
-            </div>
-            <div class="yacht-price">$3,200</div>
-            <a href="#" class="view-btn">View Details →</a>
-          </div>
-        </article>
-
-        <article class="yacht-card">
-          <div class="yacht-image">
-            <img src="https://images.unsplash.com/photo-1559825481-12a05cc00344?q=80&w=800" alt="Beach Club">
-            <div class="yacht-badge charter">DAY CHARTER</div>
-          </div>
-          <div class="yacht-info">
-            <h3 class="yacht-name">Beach Club Experience</h3>
-            <div class="yacht-meta">
-              <span class="meta-item"><i class="fas fa-map-marker-alt"></i> Miami Beach</span>
-              <span class="meta-item"><i class="fas fa-clock"></i> 4 Hours</span>
-              <span class="meta-item"><i class="fas fa-ruler-horizontal"></i> 48 ft</span>
-            </div>
-            <div class="yacht-price">$1,500</div>
-            <a href="#" class="view-btn">View Details →</a>
-          </div>
-        </article>
-
-        <article class="yacht-card">
-          <div class="yacht-image">
-            <img src="https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?q=80&w=800" alt="Party Cruise">
-            <div class="yacht-badge charter">DAY CHARTER</div>
-          </div>
-          <div class="yacht-info">
-            <h3 class="yacht-name">Premium Party Cruise</h3>
-            <div class="yacht-meta">
-              <span class="meta-item"><i class="fas fa-map-marker-alt"></i> Fort Lauderdale</span>
-              <span class="meta-item"><i class="fas fa-clock"></i> 3 Hours</span>
-              <span class="meta-item"><i class="fas fa-ruler-horizontal"></i> 52 ft</span>
-            </div>
-            <div class="yacht-price">$2,200</div>
-            <a href="#" class="view-btn">View Details →</a>
-          </div>
-        </article>
+      </div>
+      <div v-else class="no-listings">
+        <p>No day charter listings available at this time.</p>
       </div>
     </div>
 
     <div id="termcharter" class="tab-content">
-      <div class="listings-grid">
-        <article class="yacht-card">
+      <div class="listings-grid" v-if="termcharterListings.length > 0">
+        <article v-for="listing in termcharterListings" :key="listing.slug" class="yacht-card">
           <div class="yacht-image">
-            <img src="https://images.unsplash.com/photo-1583422409510-0b5c8f6d2c4d?q=80&w=800" alt="Bahamas Escape">
+            <img :src="getListingImage(listing)" :alt="listing.yacht_name">
             <div class="yacht-badge charter">TERM CHARTER</div>
           </div>
           <div class="yacht-info">
-            <h3 class="yacht-name">Bahamas Escape</h3>
+            <h3 class="yacht-name">{{ listing.yacht_name }}</h3>
             <div class="yacht-meta">
-              <span class="meta-item"><i class="fas fa-map-marker-alt"></i> Nassau</span>
-              <span class="meta-item"><i class="fas fa-clock"></i> 7 Days</span>
-              <span class="meta-item"><i class="fas fa-ruler-horizontal"></i> 85 ft</span>
+              <span class="meta-item"><i class="fas fa-map-marker-alt"></i> {{ getListingCity(listing) }}</span>
+              <span class="meta-item"><i class="fas fa-calendar-alt"></i> {{ getListingYear(listing) }}</span>
+              <span class="meta-item"><i class="fas fa-ruler-horizontal"></i> {{ getListingLength(listing) }}</span>
             </div>
-            <div class="yacht-price">$28,000</div>
-            <a href="#" class="view-btn">View Details →</a>
-          </div>
-        </article>
-
-        <article class="yacht-card">
-          <div class="yacht-image">
-            <img src="https://images.unsplash.com/photo-1526726538690-5cbf956ae2fd?q=80&w=800" alt="Caribbean Journey">
-            <div class="yacht-badge charter">TERM CHARTER</div>
-          </div>
-          <div class="yacht-info">
-            <h3 class="yacht-name">Caribbean Journey</h3>
-            <div class="yacht-meta">
-              <span class="meta-item"><i class="fas fa-map-marker-alt"></i> St. Martin</span>
-              <span class="meta-item"><i class="fas fa-clock"></i> 10 Days</span>
-              <span class="meta-item"><i class="fas fa-ruler-horizontal"></i> 95 ft</span>
-            </div>
-            <div class="yacht-price">$45,000</div>
-            <a href="#" class="view-btn">View Details →</a>
-          </div>
-        </article>
-
-        <article class="yacht-card">
-          <div class="yacht-image">
-            <img src="https://images.unsplash.com/photo-1548574505-5e239809ee19?q=80&w=800" alt="Mediterranean">
-            <div class="yacht-badge charter">TERM CHARTER</div>
-          </div>
-          <div class="yacht-info">
-            <h3 class="yacht-name">Mediterranean Explorer</h3>
-            <div class="yacht-meta">
-              <span class="meta-item"><i class="fas fa-map-marker-alt"></i> Monaco</span>
-              <span class="meta-item"><i class="fas fa-clock"></i> 14 Days</span>
-              <span class="meta-item"><i class="fas fa-ruler-horizontal"></i> 120 ft</span>
-            </div>
-            <div class="yacht-price">$85,000</div>
-            <a href="#" class="view-btn">View Details →</a>
-          </div>
-        </article>
-
-        <article class="yacht-card">
-          <div class="yacht-image">
-            <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=800" alt="Alaska Adventure">
-            <div class="yacht-badge charter">TERM CHARTER</div>
-          </div>
-          <div class="yacht-info">
-            <h3 class="yacht-name">Alaska Adventure</h3>
-            <div class="yacht-meta">
-              <span class="meta-item"><i class="fas fa-map-marker-alt"></i> Seattle</span>
-              <span class="meta-item"><i class="fas fa-clock"></i> 7 Days</span>
-              <span class="meta-item"><i class="fas fa-ruler-horizontal"></i> 80 ft</span>
-            </div>
-            <div class="yacht-price">$32,000</div>
-            <a href="#" class="view-btn">View Details →</a>
-          </div>
-        </article>
-
-        <article class="yacht-card">
-          <div class="yacht-image">
-            <img src="https://images.unsplash.com/photo-1559825481-12a05cc00344?q=80&w=800" alt="Greek Islands">
-            <div class="yacht-badge charter">TERM CHARTER</div>
-          </div>
-          <div class="yacht-info">
-            <h3 class="yacht-name">Greek Islands Luxury</h3>
-            <div class="yacht-meta">
-              <span class="meta-item"><i class="fas fa-map-marker-alt"></i> Athens</span>
-              <span class="meta-item"><i class="fas fa-clock"></i> 10 Days</span>
-              <span class="meta-item"><i class="fas fa-ruler-horizontal"></i> 90 ft</span>
-            </div>
-            <div class="yacht-price">$52,000</div>
-            <a href="#" class="view-btn">View Details →</a>
-          </div>
-        </article>
-
-        <article class="yacht-card">
-          <div class="yacht-image">
-            <img src="https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?q=80&w=800" alt="French Riviera">
-            <div class="yacht-badge charter">TERM CHARTER</div>
-          </div>
-          <div class="yacht-info">
-            <h3 class="yacht-name">French Riviera Retreat</h3>
-            <div class="yacht-meta">
-              <span class="meta-item"><i class="fas fa-map-marker-alt"></i> Nice</span>
-              <span class="meta-item"><i class="fas fa-clock"></i> 7 Days</span>
-              <span class="meta-item"><i class="fas fa-ruler-horizontal"></i> 75 ft</span>
-            </div>
-            <div class="yacht-price">$38,000</div>
-            <a href="#" class="view-btn">View Details →</a>
+            <div class="yacht-price">{{ getListingPrice(listing) }}</div>
+            <router-link :to="'/listing-detail/' + listing.slug" class="view-btn">View Details →</router-link>
           </div>
         </article>
       </div>
+      <div v-else class="no-listings">
+        <p>No term charter listings available at this time.</p>
+      </div>
     </div>
+
   </div>
 </section>
     <FooterSection />
@@ -420,24 +164,131 @@
 <script>
 import FooterSection from '../components/FooterSection.vue';
 import NavbarSection from '../components/NavbarSection.vue';
+import brokers from '../../broker.json';
+import listings from '../../listings.json';
+import { useRoute } from 'vue-router';
 
-    export default {
-        name: 'BrokerDetailPage',
-        components: {
-            NavbarSection,
-            FooterSection
-        },
-        methods: {
-            switchTab(event, tabId) {
-                const btn = event.currentTarget;
-                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                
-                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-                document.getElementById(tabId).classList.add('active');
+const SUPABASE_URL = 'https://qumgjqbfreeskjgltfvu.supabase.co/storage/v1/object/public/listings/';
+
+export default {
+    name: 'BrokerDetailPage',
+    components: {
+        NavbarSection,
+        FooterSection
+    },
+    data() {
+        return {
+            broker: null,
+            forsaleListings: [],
+            daycharterListings: [],
+            termcharterListings: []
+        };
+    },
+    mounted() {
+        this.loadBroker();
+        this.loadListings();
+    },
+    methods: {
+        loadBroker() {
+            const route = useRoute();
+            const brokerId = route.params.id;
+            
+            let allBrokers = [];
+            
+            if (Array.isArray(brokers) && brokers.length > 0) {
+                const brokerData = brokers.find(b => b.data_type === 'brokers' || b.records);
+                if (brokerData && brokerData.records) {
+                    allBrokers = brokerData.records;
+                } else {
+                    allBrokers = brokers;
+                }
             }
+            
+            this.broker = allBrokers.find(b => b.id === brokerId) || null;
+            
+            if (!this.broker && allBrokers.length > 0) {
+                this.broker = allBrokers[0];
+            }
+        },
+        loadListings() {
+            if (!this.broker) return;
+            
+            let allListings = [];
+            
+            if (Array.isArray(listings) && listings.length > 0) {
+                const listingData = listings.find(l => l.data_type === 'listings' || l.records);
+                if (listingData && listingData.records) {
+                    allListings = listingData.records;
+                } else {
+                    allListings = listings;
+                }
+            }
+            
+            const brokerListings = allListings.filter(l => l.broker_id === this.broker.id);
+            
+            this.forsaleListings = brokerListings.filter(l => l.type === 'forsale');
+            this.daycharterListings = brokerListings.filter(l => l.type === 'daycharter');
+            this.termcharterListings = brokerListings.filter(l => l.type === 'termcharter');
+        },
+        getBrokerImage() {
+            if (this.broker && this.broker.profile_image) {
+                return this.broker.profile_image;
+            }
+            return '/green.jpg';
+        },
+        getPhone() {
+            if (this.broker && this.broker.phone) {
+                return this.broker.phone.replace(/[^0-9]/g, '');
+            }
+            return '9546618225';
+        },
+        getListingImage(listing) {
+            const photo = listing.metadata?.photos?.[0];
+            if (!photo) return 'https://i.fbcd.co/products/resized/resized-750-500/a413c24cdb272cf65b11e6799854375d39616d6a9ae46c8c7ab51f763f7b7306.jpg';
+            if (photo.startsWith('http')) return photo;
+            if (photo.startsWith('/media/')) {
+                const filename = photo.split('/').pop();
+                return SUPABASE_URL + encodeURIComponent(filename);
+            }
+            return photo;
+        },
+        getListingPrice(listing) {
+            const price = listing.metadata?.price || listing.price;
+            if (price) {
+                return '$' + price.toLocaleString();
+            }
+            return 'Price on Request';
+        },
+        getListingCity(listing) {
+            return listing.city || listing.metadata?.city || 'N/A';
+        },
+        getListingYear(listing) {
+            return listing.year || 'N/A';
+        },
+        getListingLength(listing) {
+            return listing.length ? `${listing.length} ft` : 'N/A';
+        },
+        switchTab(event, tabId) {
+            const btn = event.currentTarget;
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+        }
+    },
+    computed: {
+        brokerName() {
+            return this.broker ? this.broker.name : 'Brett Horowitz';
+        },
+        brokerEmail() {
+            return this.broker ? this.broker.email : 'Brett@highseasyachting.com';
+        },
+        brokerPhone() {
+            return this.broker ? this.broker.phone : '954-661-8225';
         }
     }
+}
 </script>
 
 <style scoped>
@@ -491,7 +342,6 @@ import NavbarSection from '../components/NavbarSection.vue';
       font-size: clamp(3rem, 5vw, 4.6rem);
       font-weight: 900;
       line-height: 1.05;
-      letter-spacing: -0.03em;
       text-transform: uppercase;
       word-spacing: 0.1em;
     }

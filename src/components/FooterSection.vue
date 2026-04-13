@@ -20,9 +20,12 @@
 
                 <!-- Logo & About -->
                 <div class="hs-footer-col hs-footer-brand">
+                    <router-link to="/" >
                     <div class="hs-footer-logo">
                         <img src="https://new.highseasyachting.com/assets/img/white-hsy.svg" alt="High Seas Yachting">
                     </div>
+                    </router-link>
+                  
                     <p class="hs-footer-tagline">
                         A Trusted &amp; Committed Client-Centric Firm dedicated to providing the best yacht experiences.
                     </p>
@@ -38,10 +41,10 @@
                     <h4 class="hs-footer-heading">Quick Links</h4>
                     <ul class="hs-footer-links">
                         <li><router-link to="/">Home</router-link></li>
-                        <li><router-link to="/about">About Us</router-link></li>
+                        <li><router-link to="/about-us">About Us</router-link></li>
                         <li><router-link to="/forsale">For Sale</router-link></li>
                         <li><router-link to="/dockage">Dockage</router-link></li>
-                        <li><router-link to="/contact">Contact Us</router-link></li>
+                        <li><router-link to="/contact-us">Contact Us</router-link></li>
                     </ul>
                 </div>
 

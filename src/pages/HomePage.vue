@@ -19,45 +19,38 @@
             <p class="subtitle">Fort Lauderdale &amp; Miami Luxury Yacht Brokers</p>
 
             <div class="hero-buttons">
-                <a href="#" class="btn btn-green">Get In Touch →</a>
-                <a href="#" class="btn btn-outline">Browse All</a>
+                <router-link to="/contact-us" class="btn btn-green">Get In Touch →</router-link>
+                <router-link to="/forsale" class="btn btn-outline">Browse All</router-link>
             </div>
         </div>
 
         <!-- Yacht Cards Slider -->
         <div class="yacht-slider-section">
             <div class="yacht-slider-container">
+                <!-- <button class="yacht-slider-arrow yacht-slider-prev" id="yachtSliderPrev">
+                    <i class="fas fa-chevron-left"></i>
+                </button> -->
+                
                 <div class="yacht-slider">
 
-                    <div class="yacht-card">
+                    <div v-for="listing in priorityListings" :key="listing.id" class="yacht-card">
                         <div class="yacht-card-image">
-                            <img src="https://qumgjqbfreeskjgltfvu.supabase.co/storage/v1/object/public/listings/dutch--zeelander--55ft-0b2dc9cd/photos/2019%20Zeelander%2055%20Z55%20Dutch%20For%20Sale%20fort%20lauderdale%20Jordan%20Truchan%20High%20Seas%20Yachting%201.jpg"
-                                alt="Zeelander 55">
+                            <img :src="getImageUrl(listing.photos[0])" :alt="listing.yachtName" @error="($event.target.src = 'https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=600&q=80')">
                             <div class="yacht-card-overlay">
-                                <a href="#" class="view-details-btn"><i class="fas fa-eye"></i> View Details</a>
+                                <router-link :to="'/listing-detail/' + getListingSlug(listing)" class="view-details-btn"><i class="fas fa-eye"></i> View Details</router-link>
                             </div>
                         </div>
                         <div class="yacht-card-info">
-                            <h3 class="yacht-card-name">Zeelander 55</h3>
-                            <p class="yacht-card-price">$2,495,000</p>
-                        </div>
-                    </div>
-
-                    <div class="yacht-card">
-                        <div class="yacht-card-image">
-                            <img src="https://qumgjqbfreeskjgltfvu.supabase.co/storage/v1/object/public/listings/LL%20On%20The%20Rocks%202012%20Azimut%2053%201.webp"
-                                alt="Azimut 53">
-                            <div class="yacht-card-overlay">
-                                <a href="#" class="view-details-btn"><i class="fas fa-eye"></i> View Details</a>
-                            </div>
-                        </div>
-                        <div class="yacht-card-info">
-                            <h3 class="yacht-card-name">2012 Azimut 53</h3>
-                            <p class="yacht-card-price">$895,000</p>
+                            <h3 class="yacht-card-name">{{ listing.year }} {{ listing.manufacturer }} {{ listing.yachtName }}</h3>
+                            <p class="yacht-card-price">{{ formatPrice(listing.price) }}</p>
                         </div>
                     </div>
 
                 </div>
+<!-- 
+                <button class="yacht-slider-arrow yacht-slider-next" id="yachtSliderNext">
+                    <i class="fas fa-chevron-right"></i>
+                </button> -->
             </div>
         </div>
     </section>
@@ -142,190 +135,37 @@
 
             <div class="yachts-grid">
 
-                <!-- Yacht Card 1 -->
-                <div class="yacht-card">
+                <div v-for="listing in featuredListings" :key="listing.id" class="yacht-card" style="background-color: white;">
                     <div class="yacht-card-imageee">
-                        <img src="https://qumgjqbfreeskjgltfvu.supabase.co/storage/v1/object/public/listings/2016%20Azimut%2076%20Captial%20For%20Sale%20fort%20lauderdale%20Bobby%20Giancola%201.webp"
-                            alt="Captial">
+                        <img :src="getImageUrl(listing.photos[0])" :alt="listing.yachtName" @error="($event.target.src = 'https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=600&q=80')">
                         <div class="yacht-card-overlay">
-                            <a href="#" class="yacht-view-btn"><i class="fas fa-eye"></i> View Details</a>
+                            <router-link :to="'/listing-detail/' + getListingSlug(listing)" class="yacht-view-btn"><i class="fas fa-eye"></i> View Details</router-link>
                         </div>
                     </div>
                     <div class="card-body">
-                        <h3 class="yacht-name">Captial</h3>
+                        <h3 class="yacht-name">{{ listing.year }} {{ listing.manufacturer }} {{ listing.yachtName }}</h3>
                         <div class="specs">
                             <div class="spec-box">
                                 <span class="spec-label">YEAR</span>
-                                <span class="spec-value">2016</span>
+                                <span class="spec-value">{{ listing.year }}</span>
                             </div>
                             <div class="spec-box">
                                 <span class="spec-label">LENGTH</span>
-                                <span class="spec-value">76 ft</span>
+                                <span class="spec-value">{{ listing.length }} ft</span>
                             </div>
                             <div class="spec-box">
                                 <span class="spec-label">MAKE</span>
-                                <span class="spec-value">Azimut</span>
+                                <span class="spec-value">{{ listing.manufacturer }}</span>
                             </div>
                         </div>
-                        <div class="price">$2,600,000</div>
-                        <button class="view-btn"><i class="fas fa-search"></i> View Details</button>
-                    </div>
-                </div>
-
-                <!-- Yacht Card 2 -->
-                <div class="yacht-card">
-                    <div class="yacht-card-imageee">
-                        <img src="https://qumgjqbfreeskjgltfvu.supabase.co/storage/v1/object/public/listings/DUKE%202018%20Cruisers%2050%201.jpg"
-                            alt="DUKE">
-                        <div class="yacht-card-overlay">
-                            <a href="#" class="yacht-view-btn"><i class="fas fa-eye"></i> View Details</a>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <h3 class="yacht-name">DUKE</h3>
-                        <div class="specs">
-                            <div class="spec-box">
-                                <span class="spec-label">YEAR</span>
-                                <span class="spec-value">2018</span>
-                            </div>
-                            <div class="spec-box">
-                                <span class="spec-label">LENGTH</span>
-                                <span class="spec-value">50 ft</span>
-                            </div>
-                            <div class="spec-box">
-                                <span class="spec-label">MAKE</span>
-                                <span class="spec-value">Cruisers</span>
-                            </div>
-                        </div>
-                        <div class="price">$799,000</div>
-                        <button class="view-btn"><i class="fas fa-search"></i> View Details</button>
-                    </div>
-                </div>
-
-                <!-- Yacht Card 3 -->
-                <div class="yacht-card">
-                    <div class="yacht-card-imageee">
-                        <img src="https://qumgjqbfreeskjgltfvu.supabase.co/storage/v1/object/public/listings/dutch--zeelander--55ft-0b2dc9cd/photos/2019%20Zeelander%2055%20Z55%20Dutch%20For%20Sale%20fort%20lauderdale%20Jordan%20Truchan%20High%20Seas%20Yachting%201.jpg"
-                            alt="Dutch">
-                        <div class="yacht-card-overlay">
-                            <a href="#" class="yacht-view-btn"><i class="fas fa-eye"></i> View Details</a>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <h3 class="yacht-name">Dutch</h3>
-                        <div class="specs">
-                            <div class="spec-box">
-                                <span class="spec-label">YEAR</span>
-                                <span class="spec-value">2019</span>
-                            </div>
-                            <div class="spec-box">
-                                <span class="spec-label">LENGTH</span>
-                                <span class="spec-value">55 ft</span>
-                            </div>
-                            <div class="spec-box">
-                                <span class="spec-label">MAKE</span>
-                                <span class="spec-value">Zeelander</span>
-                            </div>
-                        </div>
-                        <div class="price">$2,700,000</div>
-                        <button class="view-btn"><i class="fas fa-search"></i> View Details</button>
-                    </div>
-                </div>
-
-                <!-- Yacht Card 4 -->
-                <div class="yacht-card">
-                    <div class="yacht-card-imageee">
-                        <img src="https://qumgjqbfreeskjgltfvu.supabase.co/storage/v1/object/public/listings/LL%20On%20The%20Rocks%202012%20Azimut%2053%201.webp"
-                            alt="LL On The Rocks">
-                        <div class="yacht-card-overlay">
-                            <a href="#" class="yacht-view-btn"><i class="fas fa-eye"></i> View Details</a>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <h3 class="yacht-name">LL On The Rocks</h3>
-                        <div class="specs">
-                            <div class="spec-box">
-                                <span class="spec-label">YEAR</span>
-                                <span class="spec-value">2012</span>
-                            </div>
-                            <div class="spec-box">
-                                <span class="spec-label">LENGTH</span>
-                                <span class="spec-value">53 ft</span>
-                            </div>
-                            <div class="spec-box">
-                                <span class="spec-label">MAKE</span>
-                                <span class="spec-value">Azimut</span>
-                            </div>
-                        </div>
-                        <div class="price">$475,000</div>
-                        <button class="view-btn"><i class="fas fa-search"></i> View Details</button>
-                    </div>
-                </div>
-
-                <!-- Yacht Card 5 -->
-                <div class="yacht-card">
-                    <div class="yacht-card-imageee">
-                        <img src="https://qumgjqbfreeskjgltfvu.supabase.co/storage/v1/object/public/listings/(Elise)%20(2017)%20(Fjord)%20(40)%203.jpg"
-                            alt="Elise">
-                        <div class="yacht-card-overlay">
-                            <a href="#" class="yacht-view-btn"><i class="fas fa-eye"></i> View Details</a>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <h3 class="yacht-name">Elise</h3>
-                        <div class="specs">
-                            <div class="spec-box">
-                                <span class="spec-label">YEAR</span>
-                                <span class="spec-value">2017</span>
-                            </div>
-                            <div class="spec-box">
-                                <span class="spec-label">LENGTH</span>
-                                <span class="spec-value">40 ft</span>
-                            </div>
-                            <div class="spec-box">
-                                <span class="spec-label">MAKE</span>
-                                <span class="spec-value">Fjord</span>
-                            </div>
-                        </div>
-                        <div class="price">$470,000</div>
-                        <button class="view-btn"><i class="fas fa-search"></i> View Details</button>
-                    </div>
-                </div>
-
-                <!-- Yacht Card 6 -->
-                <div class="yacht-card">
-                    <div class="yacht-card-imageee">
-                        <img src="https://qumgjqbfreeskjgltfvu.supabase.co/storage/v1/object/public/listings/Un-Reel%202004%20Jupiter%2031%20Verado%201.jpg"
-                            alt="Un-Reel">
-                        <div class="yacht-card-overlay">
-                            <a href="#" class="yacht-view-btn"><i class="fas fa-eye"></i> View Details</a>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <h3 class="yacht-name">Un-Reel</h3>
-                        <div class="specs">
-                            <div class="spec-box">
-                                <span class="spec-label">YEAR</span>
-                                <span class="spec-value">2004</span>
-                            </div>
-                            <div class="spec-box">
-                                <span class="spec-label">LENGTH</span>
-                                <span class="spec-value">31 ft</span>
-                            </div>
-                            <div class="spec-box">
-                                <span class="spec-label">MAKE</span>
-                                <span class="spec-value">Jupiter</span>
-                            </div>
-                        </div>
-                        <div class="price">$169,000</div>
-                        <button class="view-btn"><i class="fas fa-search"></i> View Details</button>
+                        <div class="price">{{ formatPrice(listing.price) }}</div>
+                        <router-link :to="'/listing-detail/' + getListingSlug(listing)" class="view-btn"><i class="fas fa-search"></i> View Details</router-link>
                     </div>
                 </div>
 
             </div>
-
             <div class="view-more">
-                <a href="#" class="view-more-btn"><i class="fas fa-ship"></i> View More Yachts</a>
+                <router-link to="/forsale" class="view-more-btn"><i class="fas fa-ship"></i> View More Yachts</router-link>
             </div>
         </div>
     </section>
@@ -433,99 +273,21 @@
                     <i class="fas fa-chevron-left"></i>
                 </button>
 
-                <div class="hs-team-slider" id="hsTeamSlider">
+<div class="hs-team-slider" id="hsTeamSlider">
 
-                    <!-- Team Member 1 -->
-                    <div class="hs-team-card">
+                    <div v-for="broker in brokers" :key="broker.id" class="hs-team-card">
                         <div class="hs-team-card-image">
-                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800"
-                                alt="David Pemberty">
+                            <img :src="getBrokerImage(broker.profile_image)" :alt="broker.name" @error="($event.target.src = '/green.jpg')">
                             <div class="hs-team-card-overlay">
-                                <a href="#" class="hs-team-view-btn-overlay"><i class="fas fa-user"></i> View Details</a>
+                                <router-link :to="'/broker/' + broker.id" class="hs-team-view-btn-overlay"><i class="fas fa-user"></i> View Details</router-link>
                             </div>
                         </div>
                         <div class="hs-team-card-info">
-                            <h3>David Pemberty</h3>
-                            <p class="hs-team-role">Sales</p>
+                            <h3>{{ broker.name }}</h3>
+                            <p class="hs-team-role">{{ broker.specialization || 'Sales' }}</p>
                             <div class="hs-team-contact">
-                                <a href="#"><i class="fas fa-envelope"></i></a>
-                                <a href="#"><i class="fas fa-phone"></i></a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Team Member 2 -->
-                    <div class="hs-team-card">
-                        <div class="hs-team-card-image">
-                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=800"
-                                alt="Lola Gilder">
-                            <div class="hs-team-card-overlay">
-                                <a href="#" class="hs-team-view-btn-overlay"><i class="fas fa-user"></i> View Details</a>
-                            </div>
-                        </div>
-                        <div class="hs-team-card-info">
-                            <h3>Lola Gilder</h3>
-                            <p class="hs-team-role">Admin</p>
-                            <div class="hs-team-contact">
-                                <a href="#"><i class="fas fa-envelope"></i></a>
-                                <a href="#"><i class="fas fa-phone"></i></a>
-                            </div>
-                        </div>
-                    </div>
-
-                     <!-- Team Member 4 -->
-                    <div class="hs-team-card">
-                        <div class="hs-team-card-image">
-                            <img src="https://www.photomaintenant.fr/_next/image?url=https%3A%2F%2Fpayload-photomaintenant.vercel.app%2Fapi%2Fstl%2Ffile%2Fphoto-professionnelle-ia-homme-fond-immeuble-costume-noir.webp&w=3840&q=75"
-                                alt="Sebastian Escobar">
-                            <div class="hs-team-card-overlay">
-                                <a href="#" class="hs-team-view-btn-overlay"><i class="fas fa-user"></i> View Details</a>
-                            </div>
-                        </div>
-                        <div class="hs-team-card-info">
-                            <h3>Sebastian Escobar</h3>
-                            <p class="hs-team-role">Sales/Management</p>
-                            <div class="hs-team-contact">
-                                <a href="#"><i class="fas fa-envelope"></i></a>
-                                <a href="#"><i class="fas fa-phone"></i></a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Team Member 3 -->
-                    <div class="hs-team-card">
-                        <div class="hs-team-card-image">
-                            <img src="https://thumbs.dreamstime.com/b/serious-indian-professional-business-man-office-portrait-serious-young-ambitious-indian-businessman-project-leader-dressed-367980912.jpg"
-                                alt="Yali Goldenberg">
-                            <div class="hs-team-card-overlay">
-                                <a href="#" class="hs-team-view-btn-overlay"><i class="fas fa-user"></i> View Details</a>
-                            </div>
-                        </div>
-                        <div class="hs-team-card-info">
-                            <h3>Yali Goldenberg</h3>
-                            <p class="hs-team-role">Sales/Charter</p>
-                            <div class="hs-team-contact">
-                                <a href="#"><i class="fas fa-envelope"></i></a>
-                                <a href="#"><i class="fas fa-phone"></i></a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Team Member 4 -->
-                    <div class="hs-team-card">
-                        <div class="hs-team-card-image">
-                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=800"
-                                alt="Sebastian Escobar">
-                            <div class="hs-team-card-overlay">
-                                <a href="#" class="hs-team-view-btn-overlay"><i class="fas fa-user"></i> View Details</a>
-                            </div>
-                        </div>
-                        <div class="hs-team-card-info">
-                            <h3>Sebastian Escobar</h3>
-                            <p class="hs-team-role">Sales/Management</p>
-                            <div class="hs-team-contact">
-                                <a href="#"><i class="fas fa-envelope"></i></a>
-                                <a href="#"><i class="fas fa-phone"></i></a>
+                                <a :href="'mailto:' + broker.email"><i class="fas fa-envelope"></i></a>
+                                <a v-if="broker.phone" :href="'tel:' + broker.phone"><i class="fas fa-phone"></i></a>
                             </div>
                         </div>
                     </div>
@@ -738,11 +500,128 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import FooterSection from '../components/FooterSection.vue';
 import NavbarSection from '../components/NavbarSection.vue';
+import listingsDataRaw from '../../listings.json';
+import brokersDataRaw from '../../broker.json';
+
+const listingsData = Array.isArray(listingsDataRaw) ? listingsDataRaw : [listingsDataRaw];
+const SUPABASE_URL = 'https://qumgjqbfreeskjgltfvu.supabase.co/storage/v1/object/public/listings/';
+
+const featuredListings = ref([]);
+const brokers = ref([]);
+const priorityListings = ref([]);
+
+function loadPriorityListings() {
+    let records = [];
+    if (listingsData) {
+        if (Array.isArray(listingsData) && listingsData.length > 0) {
+            const firstItem = listingsData[0];
+            if (firstItem && firstItem.records && Array.isArray(firstItem.records)) {
+                records = firstItem.records;
+            } else if (Array.isArray(listingsData)) {
+                records = listingsData;
+            }
+        } else if (listingsData.records && Array.isArray(listingsData.records)) {
+            records = listingsData.records;
+        }
+    }
+    priorityListings.value = records
+        .filter(item => item && item.metadata?.boat_video?.enable_slider === true)
+        .map(listing => ({
+            id: listing.id,
+            yachtName: listing.yacht_name,
+            year: listing.year,
+            manufacturer: listing.manufacturer,
+            length: listing.length,
+            price: listing.metadata?.price || null,
+            city: listing.metadata?.city || listing.city || '',
+            photos: listing.metadata?.photos || []
+        }));
+}
+
+function loadBrokers() {
+    let records = [];
+    if (brokersDataRaw) {
+        if (Array.isArray(brokersDataRaw) && brokersDataRaw.length > 0) {
+            const firstItem = brokersDataRaw[0];
+            if (firstItem && firstItem.records && Array.isArray(firstItem.records)) {
+                records = firstItem.records;
+            } else if (Array.isArray(brokersDataRaw)) {
+                records = brokersDataRaw;
+            }
+        } else if (brokersDataRaw.records && Array.isArray(brokersDataRaw.records)) {
+            records = brokersDataRaw.records;
+        }
+    }
+    brokers.value = records
+        .filter(broker => broker && broker.is_active === true)
+        .sort((a, b) => (a.order_index || 0) - (b.order_index || 0));
+}
+
+function loadFeaturedListings() {
+    let records = [];
+    if (listingsData) {
+        if (Array.isArray(listingsData) && listingsData.length > 0) {
+            const firstItem = listingsData[0];
+            if (firstItem && firstItem.records && Array.isArray(firstItem.records)) {
+                records = firstItem.records;
+            } else if (Array.isArray(listingsData)) {
+                records = listingsData;
+            }
+        } else if (listingsData.records && Array.isArray(listingsData.records)) {
+            records = listingsData.records;
+        }
+    }
+    featuredListings.value = records
+        .filter(item => item && item.type === 'forsale')
+        .slice(0, 6)
+        .map(listing => ({
+            id: listing.id,
+            yachtName: listing.yacht_name,
+            year: listing.year,
+            manufacturer: listing.manufacturer,
+            length: listing.length,
+            price: listing.metadata?.price || null,
+            city: listing.metadata?.city || listing.city || '',
+            photos: listing.metadata?.photos || []
+        }));
+}
+
+function getImageUrl(photoPath) {
+    if (!photoPath) return '';
+    const filename = photoPath.split('/').pop();
+    return SUPABASE_URL + encodeURIComponent(filename);
+}
+
+function getBrokerImage(profileImage) {
+    if (!profileImage) return '';
+    if (profileImage.startsWith('data:')) {
+        return profileImage;
+    }
+    if (profileImage.startsWith('http')) {
+        return profileImage;
+    }
+    return profileImage;
+}
+
+function formatPrice(price) {
+    if (!price) return 'Price on request';
+    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0 }).format(price);
+}
+
+function getListingSlug(listing) {
+    if (!listing) return '';
+    return `${listing.year}-${listing.manufacturer}-${listing.yachtName}-for-sale`.toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/(^-|-$)/g, '');
+}
 
 onMounted(() => {
+    loadFeaturedListings();
+    loadBrokers();
+    loadPriorityListings();
     const style = document.createElement('style');
     style.textContent = `
       .slider-nav-buttons {
@@ -818,6 +697,22 @@ onMounted(() => {
             const walk = (x - yachtStartX) * 2;
             yachtSliderContainer.scrollLeft = yachtScrollLeft - walk;
         });
+
+        // Yacht Slider Arrow Buttons
+        const yachtSliderPrev = document.getElementById('yachtSliderPrev');
+        const yachtSliderNext = document.getElementById('yachtSliderNext');
+
+        if (yachtSliderPrev && yachtSliderNext && yachtSliderContainer) {
+            const cardWidth = 260;
+
+            yachtSliderPrev.addEventListener('click', () => {
+                yachtSliderContainer.scrollBy({ left: -cardWidth, behavior: 'smooth' });
+            });
+
+            yachtSliderNext.addEventListener('click', () => {
+                yachtSliderContainer.scrollBy({ left: cardWidth, behavior: 'smooth' });
+            });
+        }
     }
 
     // Team Slider
@@ -1041,6 +936,7 @@ onMounted(() => {
             justify-content: center;
             flex-wrap: wrap;
             margin-top: 20px;
+            margin-bottom: 60px;
         }
 
         .btn {
@@ -1089,10 +985,43 @@ onMounted(() => {
 
         }
 
+        .yacht-slider-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 45px;
+            height: 45px;
+            background: white;
+            border: none;
+            border-radius: 50%;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            color: #1a3320;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+
+        .yacht-slider-prev {
+            left: 15px;
+        }
+
+        .yacht-slider-next {
+            right: 15px;
+        }
+
+        .yacht-slider-arrow:hover {
+            background: #416B3C;
+            color: white;
+        }
+
         .yacht-slider-container {
-            max-width: 510px;
+            max-width: 560px;
             margin: 0 auto;
-            padding: 0 2rem;
+            padding: 0 60px;
             overflow-x: auto;
             scroll-behavior: smooth;
             -webkit-overflow-scrolling: touch;
@@ -1113,7 +1042,7 @@ onMounted(() => {
 
         .yacht-card {
             flex: 0 0 230px;
-            background: white;
+            background: #ffffff21;
             border-radius: 16px;
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
@@ -1192,14 +1121,14 @@ onMounted(() => {
         .yacht-card-name {
             font-size: 15px;
             font-weight: 700;
-            color: #1a3320;
+            color: #ffffff;
             line-height: 1.3;
         }
 
         .yacht-card-price {
             font-size: 15px;
             font-weight: 700;
-            color: #416B3C;
+            color: #35A727;
             margin-top: 5px;
                     }
 
@@ -1232,6 +1161,20 @@ onMounted(() => {
 
             .yacht-slider-container {
                 padding: 0 1rem;
+            }
+
+            .yacht-slider-arrow {
+                width: 35px;
+                height: 35px;
+                font-size: 0.9rem;
+            }
+
+            .yacht-slider-prev {
+                left: 5px;
+            }
+
+            .yacht-slider-next {
+                right: 5px;
             }
 
             .yacht-card {
@@ -1591,7 +1534,7 @@ onMounted(() => {
         }
 
         .yacht-card {
-            background: white;
+            background: #ffffff21;
             border-radius: 20px;
             overflow: hidden;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
@@ -2104,6 +2047,8 @@ onMounted(() => {
 
         .hs-team-card {
             min-width: 280px;
+            max-width: 280px;
+            width: 280px;
             flex-shrink: 0;
             background: white;
             border-radius: 20px;
@@ -2122,13 +2067,17 @@ onMounted(() => {
             overflow: hidden;
             height: 300px;
             width: 100%;
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            flex-shrink: 0;
         }
 
         .hs-team-card-image img {
             width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center;
+            height: 300px !important;
+            min-height: 300px !important;
+            max-height: 300px !important;
+            object-fit: cover !important;
+            object-position: center center;
             transition: transform 0.5s ease;
         }
 

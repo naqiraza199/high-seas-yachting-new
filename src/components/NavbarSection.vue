@@ -30,7 +30,7 @@
                 </ul>
 
                 <div class="nav-right">
-                    <a href="#" class="book-btn">Book Now →</a>
+                    <router-link to="/contact-us" class="book-btn">Book Now →</router-link>
                     <button class="mobile-toggle" @click.stop="toggleMobileMenu" :class="{ active: mobileMenuOpen }">
                         <span></span>
                         <span></span>
@@ -70,7 +70,7 @@
             <div class="mobile-contact">
                 <a href="mailto:Sales@highseasyachting.com">Sales@highseasyachting.com</a>
                 <a href="tel:+19546861671">+1 (954) 686-1671</a>
-                <a href="#" class="book-btn">Book Now →</a>
+                <router-link to="/contact-us" class="book-btn">Book Now →</router-link>
             </div>
         </div>
 </template>

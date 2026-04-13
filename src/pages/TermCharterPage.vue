@@ -132,101 +132,32 @@
         <h2 class="listings-title">Boats Term Charter</h2>
       </div>
       <div class="term-listings-grid">
-        <article class="term-card">
+        <article 
+          v-for="listing in termcharterListings" 
+          :key="listing.id" 
+          class="term-card"
+        >
           <div class="term-card-image">
-            <img src="https://qumgjqbfreeskjgltfvu.supabase.co/storage/v1/object/public/listings/1759161752690-gae1fcft.jpg" alt="2009 Sunseeker Natural 9">
+            <img 
+              :src="getImageUrl(listing.photos[0])" 
+              :alt="listing.yachtName"
+              @error="($event.target.src = 'https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=600&q=80')"
+            >
             <span class="term-card-badge">TermCharter</span>
           </div>
           <div class="term-card-body">
-            <h3>2009 Sunseeker Natural 9</h3>
-            <p class="term-card-location"><i class="fas fa-map-marker-alt"></i> Bahamas</p>
+            <h3>{{ listing.year }} {{ listing.manufacturer }} {{ listing.yachtName }}</h3>
+            <p class="term-card-location"><i class="fas fa-map-marker-alt"></i> {{ formatCity(listing.city) }}</p>
             <div class="term-card-specs">
-              <div class="term-card-spec"><span>Year</span><strong>2009</strong></div>
-              <div class="term-card-spec"><span>Length</span><strong>121 ft</strong></div>
+              <div class="term-card-spec"><span>Year</span><strong>{{ listing.year }}</strong></div>
+              <div class="term-card-spec"><span>Length</span><strong>{{ listing.length }} ft</strong></div>
             </div>
-            <a href="#" class="term-card-button">View Details <i class="fas fa-arrow-right"></i></a>
+            <router-link :to="'/listing-detail/' + getListingSlug(listing)" class="term-card-button">View Details <i class="fas fa-arrow-right"></i></router-link>
           </div>
         </article>
-
-        <article class="term-card">
-          <div class="term-card-image">
-            <img src="https://qumgjqbfreeskjgltfvu.supabase.co/storage/v1/object/public/listings/Dolce%20Far%20Niente%202026%20Sunseeker%2088%201.jpg" alt="2026 Sunseeker Dolce Far Niente">
-            <span class="term-card-badge">TermCharter</span>
-          </div>
-          <div class="term-card-body">
-            <h3>2026 Sunseeker Dolce Far Niente</h3>
-            <p class="term-card-location"><i class="fas fa-map-marker-alt"></i> Bahamas</p>
-            <div class="term-card-specs">
-              <div class="term-card-spec"><span>Year</span><strong>2026</strong></div>
-              <div class="term-card-spec"><span>Length</span><strong>88 ft</strong></div>
-            </div>
-            <a href="#" class="term-card-button">View Details <i class="fas fa-arrow-right"></i></a>
-          </div>
-        </article>
-
-        <article class="term-card">
-          <div class="term-card-image">
-            <img src="https://qumgjqbfreeskjgltfvu.supabase.co/storage/v1/object/public/listings/Amici%202022%20Pershing%2070%201.jpg" alt="2022 Pershing Amici">
-            <span class="term-card-badge">TermCharter</span>
-          </div>
-          <div class="term-card-body">
-            <h3>2022 Pershing Amici</h3>
-            <p class="term-card-location"><i class="fas fa-map-marker-alt"></i> Aventura</p>
-            <div class="term-card-specs">
-              <div class="term-card-spec"><span>Year</span><strong>2022</strong></div>
-              <div class="term-card-spec"><span>Length</span><strong>70 ft</strong></div>
-            </div>
-            <a href="#" class="term-card-button">View Details <i class="fas fa-arrow-right"></i></a>
-          </div>
-        </article>
-
-        <article class="term-card">
-          <div class="term-card-image">
-            <img src="https://qumgjqbfreeskjgltfvu.supabase.co/storage/v1/object/public/listings/1757781720903-9oguatbm.jpg" alt="2017 Riva Recreational Use">
-            <span class="term-card-badge">TermCharter</span>
-          </div>
-          <div class="term-card-body">
-            <h3>2017 Riva Recreational Use</h3>
-            <p class="term-card-location"><i class="fas fa-map-marker-alt"></i> Miami</p>
-            <div class="term-card-specs">
-              <div class="term-card-spec"><span>Year</span><strong>2017</strong></div>
-              <div class="term-card-spec"><span>Length</span><strong>76 ft</strong></div>
-            </div>
-            <a href="#" class="term-card-button">View Details <i class="fas fa-arrow-right"></i></a>
-          </div>
-        </article>
-
-        <article class="term-card">
-          <div class="term-card-image">
-            <img src="https://qumgjqbfreeskjgltfvu.supabase.co/storage/v1/object/public/listings/1757781229502-b1rmq3wx.jpg" alt="2022 Azimut Nena">
-            <span class="term-card-badge">TermCharter</span>
-          </div>
-          <div class="term-card-body">
-            <h3>2022 Azimut Nena</h3>
-            <p class="term-card-location"><i class="fas fa-map-marker-alt"></i> Florida Keys</p>
-            <div class="term-card-specs">
-              <div class="term-card-spec"><span>Year</span><strong>2022</strong></div>
-              <div class="term-card-spec"><span>Length</span><strong>78 ft</strong></div>
-            </div>
-            <a href="#" class="term-card-button">View Details <i class="fas fa-arrow-right"></i></a>
-          </div>
-        </article>
-
-        <article class="term-card">
-          <div class="term-card-image">
-            <img src="https://qumgjqbfreeskjgltfvu.supabase.co/storage/v1/object/public/listings/1757777483990-06g7g84r.jpg" alt="2023 Numarine Exit Strategy">
-            <span class="term-card-badge">TermCharter</span>
-          </div>
-          <div class="term-card-body">
-            <h3>2023 Numarine Exit Strategy</h3>
-            <p class="term-card-location"><i class="fas fa-map-marker-alt"></i> Nassau</p>
-            <div class="term-card-specs">
-              <div class="term-card-spec"><span>Year</span><strong>2023</strong></div>
-              <div class="term-card-spec"><span>Length</span><strong>85 ft</strong></div>
-            </div>
-            <a href="#" class="term-card-button">View Details <i class="fas fa-arrow-right"></i></a>
-          </div>
-        </article>
+      </div>
+      <div v-if="termcharterListings.length === 0" class="no-listings">
+        <p>No term charter yachts available at the moment. Please check back later.</p>
       </div>
     </div>
   </section>
@@ -364,12 +295,70 @@
 <script>
 import NavbarSection from '../components/NavbarSection.vue';
 import FooterSection from '../components/FooterSection.vue';
+import listingsDataRaw from '../../listings.json';
+
+const listingsData = Array.isArray(listingsDataRaw) ? listingsDataRaw : [listingsDataRaw];
+
+const SUPABASE_URL = 'https://qumgjqbfreeskjgltfvu.supabase.co/storage/v1/object/public/listings/';
 
     export default {
         name: 'TermCharterPage',
         components: {
             NavbarSection,
             FooterSection
+        },
+        data() {
+            return {
+                termcharterListings: []
+            };
+        },
+        mounted: function() {
+            this.loadTermcharterListings();
+        },
+        methods: {
+            loadTermcharterListings() {
+                let records = [];
+                
+                if (listingsData) {
+                    if (Array.isArray(listingsData) && listingsData.length > 0) {
+                        const firstItem = listingsData[0];
+                        if (firstItem && firstItem.records && Array.isArray(firstItem.records)) {
+                            records = firstItem.records;
+                        } else if (Array.isArray(listingsData)) {
+                            records = listingsData;
+                        }
+                    } else if (listingsData.records && Array.isArray(listingsData.records)) {
+                        records = listingsData.records;
+                    }
+                }
+                
+                this.termcharterListings = records
+                    .filter(item => item && item.type === 'termcharter')
+                    .map(listing => ({
+                        id: listing.id,
+                        yachtName: listing.yacht_name,
+                        year: listing.year,
+                        manufacturer: listing.manufacturer,
+                        length: listing.length,
+                        city: listing.metadata?.city || listing.city || '',
+                        photos: listing.metadata?.photos || []
+                    }));
+            },
+            getImageUrl(photoPath) {
+                if (!photoPath) return '';
+                const filename = photoPath.split('/').pop();
+                return SUPABASE_URL + encodeURIComponent(filename);
+            },
+            getListingSlug(listing) {
+                if (!listing) return '';
+                return `${listing.year}-${listing.manufacturer}-${listing.yachtName}-for-sale`.toLowerCase()
+                    .replace(/[^a-z0-9]+/g, '-')
+                    .replace(/(^-|-$)/g, '');
+            },
+            formatCity(city) {
+                if (!city) return 'N/A';
+                return city.charAt(0).toUpperCase() + city.slice(1);
+            }
         }
     }
 </script>
@@ -1373,6 +1362,13 @@ import FooterSection from '../components/FooterSection.vue';
       .term-card-body h3 {
         font-size: 1.1rem;
       }
+    }
+
+    .no-listings {
+      text-align: center;
+      padding: 60px 20px;
+      color: #6b7280;
+      font-size: 1.1rem;
     }
 
     @media (max-width: 1100px) {
