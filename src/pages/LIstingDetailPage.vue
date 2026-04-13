@@ -1,15 +1,19 @@
 <template>
     <NavbarSection />
-<header class="page-hero">
+    <div v-if="!listing">
+        <div class="ls-loading">Loading...</div>
+    </div>
+    <div v-else>
+<header class="page-hero" :style="{ backgroundImage: headerBackground }">
     <div class="hero-content">
       <div class="hero-info">
-        <span class="hero-label"><i class="fas fa-ship"></i> Motor Yacht</span>
-        <h1 class="hero-title">2024 Princess Y85</h1>
-        <p class="hero-subtitle"><i class="fas fa-map-marker-alt"></i> Fort Lauderdale, Florida</p>
+        <span class="hero-label"><i class="fas fa-ship"></i> For Sale</span>
+        <h1 class="hero-title">{{ listing.year }} {{ listing.manufacturer }} {{ listing.yacht_name }}</h1>
+        <p class="hero-subtitle"><i class="fas fa-map-marker-alt"></i> {{ listing.metadata?.city ? listing.metadata.city.charAt(0).toUpperCase() + listing.metadata.city.slice(1) : 'N/A' }}, Florida</p>
       </div>
       <div class="hero-price">
         <div class="price-label">Asking Price</div>
-        <div class="price-value">$5,850,000</div>
+        <div class="price-value">{{ formattedPrice }}</div>
       </div>
     </div>
   </header>
@@ -24,48 +28,18 @@
             <div class="ls-gallery-wrapper">
               <div class="ls-main-slider">
                 <div class="ls-slider-track" id="sliderTrack">
-                  <div class="ls-slider-slide">
-                    <img src="https://images7.alphacoders.com/669/thumb-1920-669500.jpg" alt="Yacht Main View">
-                  </div>
-                  <div class="ls-slider-slide">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYU3KN6bPgbnc9EYxSF2yerVeQGdupFTDutg&s" alt="Yacht Side View">
-                  </div>
-                  <div class="ls-slider-slide">
-                    <img src="https://static.vecteezy.com/system/resources/thumbnails/016/037/046/small/yacht-with-lots-of-deck-photo.jpg" alt="Yacht Deck">
-                  </div>
-                  <div class="ls-slider-slide">
-                    <img src="https://worldyachtgroup.com/wp-content/uploads/2025/10/10.png" alt="Yacht Profile">
-                  </div>
-                  <div class="ls-slider-slide">
-                    <img src="https://static.vecteezy.com/system/resources/thumbnails/049/002/165/small/a-breathtaking-luxury-yacht-elegantly-sailing-at-sunset-creating-a-serene-and-picturesque-ambiance-all-around-photo.jpg" alt="Yacht Interior">
-                  </div>
-                  <div class="ls-slider-slide">
-                    <img src="https://navalyachts.com/uploads/1200px/naval-yachts-home.jpg" alt="Yacht Cockpit">
+                  <div class="ls-slider-slide" v-for="(photo, index) in listingPhotos" :key="index">
+                    <img :src="photo" :alt="listing.yacht_name" @error="($event.target.src = 'https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=1200&q=80')">
                   </div>
                 </div>
                 <button class="ls-slider-nav prev" @click="changeSlide(-1)"><i class="fas fa-chevron-left"></i></button>
                 <button class="ls-slider-nav next" @click="changeSlide(1)"><i class="fas fa-chevron-right"></i></button>
                 <div class="ls-slider-dots" id="sliderDots"></div>
-                <div class="ls-slider-counter"><span id="currentSlide">1</span> / <span id="totalSlides">6</span></div>
+                <div class="ls-slider-counter"><span id="currentSlide">1</span> / <span id="totalSlides">{{ listingPhotos.length }}</span></div>
               </div>
               <div class="ls-thumbnails">
-                <div class="ls-thumbnail active" @click="goToSlide(0)">
-                  <img src="https://images7.alphacoders.com/669/thumb-1920-669500.jpg" alt="Thumb 1">
-                </div>
-                <div class="ls-thumbnail" @click="goToSlide(1)">
-                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYU3KN6bPgbnc9EYxSF2yerVeQGdupFTDutg&s" alt="Thumb 2">
-                </div>
-                <div class="ls-thumbnail" @click="goToSlide(2)">
-                  <img src="https://static.vecteezy.com/system/resources/thumbnails/016/037/046/small/yacht-with-lots-of-deck-photo.jpg" alt="Thumb 3">
-                </div>
-                <div class="ls-thumbnail" @click="goToSlide(3)">
-                  <img src="https://worldyachtgroup.com/wp-content/uploads/2025/10/10.png" alt="Thumb 4">
-                </div>
-                <div class="ls-thumbnail" @click="goToSlide(4)">
-                  <img src="https://static.vecteezy.com/system/resources/thumbnails/049/002/165/small/a-breathtaking-luxury-yacht-elegantly-sailing-at-sunset-creating-a-serene-and-picturesque-ambiance-all-around-photo.jpg" alt="Thumb 5">
-                </div>
-                <div class="ls-thumbnail" @click="goToSlide(5)">
-                  <img src="https://navalyachts.com/uploads/1200px/naval-yachts-home.jpg" alt="Thumb 6">
+                <div class="ls-thumbnail" :class="{ active: currentSlideIndex === index }" v-for="(photo, index) in listingPhotos" :key="index" @click="goToSlide(index)">
+                  <img :src="photo" :alt="'Thumb ' + (index + 1)" @error="($event.target.src = 'https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=100&q=80')">
                 </div>
               </div>
             </div>
@@ -77,18 +51,18 @@
           <div class="ls-details-card">
             <div class="ls-details-header">
               <div class="ls-details-info">
-                <h2 class="ls-details-title">2024 Princess Y85</h2>
+                <h2 class="ls-details-title">{{ listing.year }} {{ listing.manufacturer }} {{ listing.yacht_name }}</h2>
                 <div class="ls-details-meta">
-                  <span><i class="fas fa-tag"></i> Motor Yacht</span>
-                  <span><i class="fas fa-map-marker-alt"></i> Fort Lauderdale, FL</span>
-                  <span><i class="fas fa-tag"></i> $5,850,000</span>
+                  <span><i class="fas fa-tag"></i> For Sale</span>
+                  <span><i class="fas fa-map-marker-alt"></i> {{ listing.metadata?.city ? listing.metadata.city.charAt(0).toUpperCase() + listing.metadata.city.slice(1) : 'N/A' }}, FL</span>
+                  <span><i class="fas fa-tag"></i> {{ formattedPrice }}</span>
                 </div>
               </div>
             </div>
 
-            <div class="ls-tabs">
-              <button class="ls-tab active" data-tab="description">
-                <i class="fas fa-align-left"></i> <span>Description</span>
+<div class="ls-tabs">
+              <button class="ls-tab active" data-tab="overview">
+                <i class="fas fa-align-left"></i> <span>Overview</span>
               </button>
               <button class="ls-tab" data-tab="features">
                 <i class="fas fa-list-ul"></i> <span>Features</span>
@@ -96,8 +70,8 @@
               <button class="ls-tab" data-tab="specs">
                 <i class="fas fa-cogs"></i> <span>Specs</span>
               </button>
-              <button class="ls-tab" data-tab="video">
-                <i class="fas fa-video"></i> <span>Video</span>
+              <button class="ls-tab" data-tab="equipment">
+                <i class="fas fa-tools"></i> <span>Equipment</span>
               </button>
               <button class="ls-tab" data-tab="gallery">
                 <i class="fas fa-images"></i> <span>Gallery</span>
@@ -111,68 +85,30 @@
             </div>
 
             <div class="ls-tab-content">
-              <!-- Description Tab -->
-              <div class="ls-tab-pane active" id="description">
-                <p class="ls-description-text">
-                  Experience the pinnacle of luxury motor yachts with this pristine 2024 Princess Y85. 
-                  Featuring a sleek contemporary design, this yacht offers the perfect blend of performance 
-                  and elegance. The spacious flybridge provides panoramic views and ample entertainment space, 
-                  while the interior showcases the finest craftsmanship with premium materials throughout. 
-                  Equipped with twin CAT C32 engines, she delivers impressive speed and handling. This vessel 
-                  has been meticulously maintained and is turn-key ready for your next adventure on the water.
-                </p>
+              <!-- Overview Tab -->
+              <div class="ls-tab-pane active" id="overview">
+              
+                <!-- Description -->
+                <div class="ls-description-section">
+                  <h3 class="ls-section-subtitle">Description</h3>
+                  <p class="ls-description-text" v-html="listing.description || 'No description available for this listing.'"></p>
+                </div>
+
+               
               </div>
 
               <!-- Features Tab -->
               <div class="ls-tab-pane" id="features">
-                <div class="ls-features-grid">
-                  <div class="ls-feature-item">
-                    <i class="fas fa-check-circle"></i>
-                    Tropical Air Conditioning
+                <div class="ls-features-grid" v-if="Object.keys(equipment).length > 0">
+                  <div class="ls-feature-item" v-for="(item, key) in equipment" :key="key" v-show="item.included">
+                    <i :class="item.icon || 'fas fa-check-circle'"></i>
+                    {{ key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) }}
                   </div>
+                </div>
+                <div class="ls-features-grid" v-else>
                   <div class="ls-feature-item">
-                    <i class="fas fa-check-circle"></i>
-                    Hydraulic Swim Platform
-                  </div>
-                  <div class="ls-feature-item">
-                    <i class="fas fa-check-circle"></i>
-                    Williams 445 Jet Tender
-                  </div>
-                  <div class="ls-feature-item">
-                    <i class="fas fa-check-circle"></i>
-                    Full Beam Master Suite
-                  </div>
-                  <div class="ls-feature-item">
-                    <i class="fas fa-check-circle"></i>
-                    Flybridge Bar & Grill
-                  </div>
-                  <div class="ls-feature-item">
-                    <i class="fas fa-check-circle"></i>
-                    Starlink Internet
-                  </div>
-                  <div class="ls-feature-item">
-                    <i class="fas fa-check-circle"></i>
-                    Joystick Control
-                  </div>
-                  <div class="ls-feature-item">
-                    <i class="fas fa-check-circle"></i>
-                    Underwater Lighting
-                  </div>
-                  <div class="ls-feature-item">
-                    <i class="fas fa-check-circle"></i>
-                    Water Maker
-                  </div>
-                  <div class="ls-feature-item">
-                    <i class="fas fa-check-circle"></i>
-                    Northern Lights Generator
-                  </div>
-                  <div class="ls-feature-item">
-                    <i class="fas fa-check-circle"></i>
-                    Electric Shakespeare
-                  </div>
-                  <div class="ls-feature-item">
-                    <i class="fas fa-check-circle"></i>
-                    Wine Cooler
+                    <i class="fas fa-info-circle"></i>
+                    No additional features listed
                   </div>
                 </div>
               </div>
@@ -182,117 +118,145 @@
                 <div class="ls-specs-table">
                   <div class="ls-spec-row">
                     <span class="ls-spec-name">Length</span>
-                    <span class="ls-spec-val">85'</span>
+                    <span class="ls-spec-val">{{ listing.length || 'N/A' }} ft</span>
                   </div>
                   <div class="ls-spec-row">
                     <span class="ls-spec-name">Beam</span>
-                    <span class="ls-spec-val">21' 6"</span>
+                    <span class="ls-spec-val">{{ listing.beam || 'N/A' }} ft</span>
                   </div>
                   <div class="ls-spec-row">
                     <span class="ls-spec-name">Draft</span>
-                    <span class="ls-spec-val">5' 6"</span>
+                    <span class="ls-spec-val">{{ listing.draft || 'N/A' }} ft</span>
                   </div>
                   <div class="ls-spec-row">
                     <span class="ls-spec-name">Year</span>
-                    <span class="ls-spec-val">2024</span>
+                    <span class="ls-spec-val">{{ listing.year || 'N/A' }}</span>
                   </div>
-                  <div class="ls-spec-row">
-                    <span class="ls-spec-name">Speed</span>
-                    <span class="ls-spec-val">28 knots</span>
+                  <div class="ls-spec-row" v-if="engines?.make">
+                    <span class="ls-spec-name">Engine Make</span>
+                    <span class="ls-spec-val">{{ engines.make }}</span>
                   </div>
-                  <div class="ls-spec-row">
-                    <span class="ls-spec-name">Guests</span>
-                    <span class="ls-spec-val">8</span>
+                  <div class="ls-spec-row" v-if="engines?.model">
+                    <span class="ls-spec-name">Engine Model</span>
+                    <span class="ls-spec-val">{{ engines.model }}</span>
                   </div>
-                  <div class="ls-spec-row">
-                    <span class="ls-spec-name">Cabins</span>
-                    <span class="ls-spec-val">4</span>
+                  <div class="ls-spec-row" v-if="engines?.hours">
+                    <span class="ls-spec-name">Engine Hours</span>
+                    <span class="ls-spec-val">{{ engines.hours }}</span>
                   </div>
-                  <div class="ls-spec-row">
+                  <div class="ls-spec-row" v-if="engines?.horse_power">
+                    <span class="ls-spec-name">Horse Power</span>
+                    <span class="ls-spec-val">{{ engines.horse_power }} HP</span>
+                  </div>
+                  <div class="ls-spec-row" v-if="engines?.fuel_type">
+                    <span class="ls-spec-name">Fuel Type</span>
+                    <span class="ls-spec-val">{{ engines.fuel_type }}</span>
+                  </div>
+                  <div class="ls-spec-row" v-if="listing.metadata?.crew_count !== undefined">
                     <span class="ls-spec-name">Crew</span>
-                    <span class="ls-spec-val">2</span>
-                  </div>
-                  <div class="ls-spec-row">
-                    <span class="ls-spec-name">Fuel Capacity</span>
-                    <span class="ls-spec-val">1,350 gal</span>
-                  </div>
-                  <div class="ls-spec-row">
-                    <span class="ls-spec-name">Water Capacity</span>
-                    <span class="ls-spec-val">300 gal</span>
-                  </div>
-                  <div class="ls-spec-row">
-                    <span class="ls-spec-name">Engines</span>
-                    <span class="ls-spec-val">Twin CAT C32</span>
-                  </div>
-                  <div class="ls-spec-row">
-                    <span class="ls-spec-name">Flag</span>
-                    <span class="ls-spec-val">USA</span>
+                    <span class="ls-spec-val">{{ listing.metadata.crew_count }}</span>
                   </div>
                 </div>
               </div>
 
-              <!-- Video Tab -->
-              <div class="ls-tab-pane" id="video">
-                <div class="ls-video-container">
-                  <div class="ls-video-wrapper">
-                    <img src="https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?auto=format&fit=crop&w=1200&q=80" alt="Yacht Video Thumbnail">
-                    <div class="ls-video-play">
-                      <i class="fas fa-play"></i>
+              <!-- Equipment Tab -->
+              <div class="ls-tab-pane" id="equipment">
+                <div class="ls-equipment-sections">
+                  <!-- Electronics -->
+                  <div v-if="listing.metadata?.electronics && Object.keys(listing.metadata.electronics).length > 0" class="ls-equipment-category">
+                    <h3 class="ls-section-subtitle"><i class="fas fa-satellite-dish"></i> Electronics</h3>
+                    <div class="ls-equipment-grid">
+                      <div v-for="(item, key) in listing.metadata.electronics" :key="key" v-show="item.included" class="ls-equipment-item">
+                        <i class="fas fa-check-circle"></i>
+                        {{ key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) }}
+                      </div>
                     </div>
                   </div>
-                  <p class="ls-video-note">Take a virtual tour of this magnificent yacht</p>
+
+                  <!-- Electrical Equipment -->
+                  <div v-if="listing.metadata?.electrical_equipment && Object.keys(listing.metadata.electrical_equipment).length > 0" class="ls-equipment-category">
+                    <h3 class="ls-section-subtitle"><i class="fas fa-bolt"></i> Electrical Equipment</h3>
+                    <div class="ls-equipment-grid">
+                      <div v-for="(item, key) in listing.metadata.electrical_equipment" :key="key" v-show="item.included" class="ls-equipment-item">
+                        <i class="fas fa-check-circle"></i>
+                        {{ key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) }}
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Inside Equipment -->
+                  <div v-if="listing.metadata?.inside_equipment && Object.keys(listing.metadata.inside_equipment).length > 0" class="ls-equipment-category">
+                    <h3 class="ls-section-subtitle"><i class="fas fa-couch"></i> Inside Equipment</h3>
+                    <div class="ls-equipment-grid">
+                      <div v-for="(item, key) in listing.metadata.inside_equipment" :key="key" v-show="item.included" class="ls-equipment-item">
+                        <i class="fas fa-check-circle"></i>
+                        {{ key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) }}
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Outside Equipment -->
+                  <div v-if="listing.metadata?.outside_equipment && Object.keys(listing.metadata.outside_equipment).length > 0" class="ls-equipment-category">
+                    <h3 class="ls-section-subtitle"><i class="fas fa-umbrella-beach"></i> Outside Equipment</h3>
+                    <div class="ls-equipment-grid">
+                      <div v-for="(item, key) in listing.metadata.outside_equipment" :key="key" v-show="item.included" class="ls-equipment-item">
+                        <i class="fas fa-check-circle"></i>
+                        {{ key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) }}
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Water Equipment -->
+                  <div v-if="listing.metadata?.water_equipment && Object.keys(listing.metadata.water_equipment).length > 0" class="ls-equipment-category">
+                    <h3 class="ls-section-subtitle"><i class="fas fa-water"></i> Water Equipment</h3>
+                    <div class="ls-equipment-grid">
+                      <div v-for="(item, key) in listing.metadata.water_equipment" :key="key" v-show="item.included" class="ls-equipment-item">
+                        <i class="fas fa-check-circle"></i>
+                        {{ key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) }}
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Additional Equipment -->
+                  <div v-if="listing.metadata?.additional_equipment && Object.keys(listing.metadata.additional_equipment).length > 0" class="ls-equipment-category">
+                    <h3 class="ls-section-subtitle"><i class="fas fa-plus-circle"></i> Additional Equipment</h3>
+                    <div class="ls-equipment-grid">
+                      <div v-for="(item, key) in listing.metadata.additional_equipment" :key="key" v-show="item.included" class="ls-equipment-item">
+                        <i class="fas fa-check-circle"></i>
+                        {{ key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) }}
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Water Toys -->
+                  <div v-if="listing.metadata?.water_toys && Object.keys(listing.metadata.water_toys).length > 0" class="ls-equipment-category">
+                    <h3 class="ls-section-subtitle"><i class="fas fa-life-ring"></i> Water Toys</h3>
+                    <div class="ls-equipment-grid">
+                      <div v-for="(item, key) in listing.metadata.water_toys" :key="key" v-show="item.included" class="ls-equipment-item">
+                        <i :class="item.icon || 'fas fa-check-circle'"></i>
+                        {{ key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) }}
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Tanks -->
+                  <div v-if="listing.metadata?.tanks && Object.keys(listing.metadata.tanks).length > 0" class="ls-equipment-category">
+                    <h3 class="ls-section-subtitle"><i class="fas fa-gas-pump"></i> Tanks</h3>
+                    <div class="ls-equipment-grid">
+                      <div v-for="(item, key) in listing.metadata.tanks" :key="key" v-show="item.capacity" class="ls-equipment-item">
+                        <i class="fas fa-check-circle"></i>
+                        {{ key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) }}: {{ item.capacity }} gal
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
 
               <!-- Gallery Tab -->
               <div class="ls-tab-pane" id="gallery">
                 <div class="ls-gallery-grid">
-                  <div class="ls-gallery-item" @click="openGallery(0)">
-                    <img src="https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?auto=format&fit=crop&w=600&q=80" alt="Gallery 1">
-                    <div class="ls-gallery-overlay"><i class="fas fa-expand"></i></div>
-                  </div>
-                  <div class="ls-gallery-item" @click="openGallery(1)">
-                    <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=600&q=80" alt="Gallery 2">
-                    <div class="ls-gallery-overlay"><i class="fas fa-expand"></i></div>
-                  </div>
-                  <div class="ls-gallery-item" @click="openGallery(2)">
-                    <img src="https://images.unsplash.com/photo-1502672023488-70e25813eb80?auto=format&fit=crop&w=600&q=80" alt="Gallery 3">
-                    <div class="ls-gallery-overlay"><i class="fas fa-expand"></i></div>
-                  </div>
-                  <div class="ls-gallery-item" @click="openGallery(3)">
-                    <img src="https://images.unsplash.com/photo-1500564507877-0c3d7d4f66ca?auto=format&fit=crop&w=600&q=80" alt="Gallery 4">
-                    <div class="ls-gallery-overlay"><i class="fas fa-expand"></i></div>
-                  </div>
-                  <div class="ls-gallery-item" @click="openGallery(4)">
-                    <img src="https://images.unsplash.com/photo-1572013349620-e82ef6f48f39?auto=format&fit=crop&w=600&q=80" alt="Gallery 5">
-                    <div class="ls-gallery-overlay"><i class="fas fa-expand"></i></div>
-                  </div>
-                  <div class="ls-gallery-item" @click="openGallery(5)">
-                    <img src="https://images.unsplash.com/photo-1602343165848-460f4b71e0f1?auto=format&fit=crop&w=600&q=80" alt="Gallery 6">
-                    <div class="ls-gallery-overlay"><i class="fas fa-expand"></i></div>
-                  </div>
-                  <div class="ls-gallery-item" @click="openGallery(6)">
-                    <img src="https://images.unsplash.com/photo-1582731689369-4f89bf7939e3?auto=format&fit=crop&w=600&q=80" alt="Gallery 7">
-                    <div class="ls-gallery-overlay"><i class="fas fa-expand"></i></div>
-                  </div>
-                  <div class="ls-gallery-item" @click="openGallery(7)">
-                    <img src="https://images.unsplash.com/photo-1569255004150-604c4b4bb656?auto=format&fit=crop&w=600&q=80" alt="Gallery 8">
-                    <div class="ls-gallery-overlay"><i class="fas fa-expand"></i></div>
-                  </div>
-                  <div class="ls-gallery-item" @click="openGallery(8)">
-                    <img src="https://images.unsplash.com/photo-1601584115197-04f0dbc7ef90?auto=format&fit=crop&w=600&q=80" alt="Gallery 9">
-                    <div class="ls-gallery-overlay"><i class="fas fa-expand"></i></div>
-                  </div>
-                  <div class="ls-gallery-item" @click="openGallery(9)">
-                    <img src="https://images.unsplash.com/photo-1608582744082-7b585ed8e9eb?auto=format&fit=crop&w=600&q=80" alt="Gallery 10">
-                    <div class="ls-gallery-overlay"><i class="fas fa-expand"></i></div>
-                  </div>
-                  <div class="ls-gallery-item" @click="openGallery(10)">
-                    <img src="https://images.unsplash.com/photo-1564415311488-936d3f7d508?auto=format&fit=crop&w=600&q=80" alt="Gallery 11">
-                    <div class="ls-gallery-overlay"><i class="fas fa-expand"></i></div>
-                  </div>
-                  <div class="ls-gallery-item" @click="openGallery(11)">
-                    <img src="https://images.unsplash.com/photo-1511707171634-8fce00936614?auto=format&fit=crop&w=600&q=80" alt="Gallery 12">
+                  <div class="ls-gallery-item" v-for="(photo, index) in listingPhotos" :key="index" @click="openGallery(index)">
+                    <img :src="photo" :alt="'Gallery ' + (index + 1)" @error="($event.target.src = 'https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=600&q=80')">
                     <div class="ls-gallery-overlay"><i class="fas fa-expand"></i></div>
                   </div>
                 </div>
@@ -306,9 +270,7 @@
                   </div>
                   <div class="ls-location-details">
                     <h4><i class="fas fa-anchor"></i> Marina Location</h4>
-                    <p>Located at <strong>Bahia Mar Marina</strong></p>
-                    <p>801 Seabreeze Way</p>
-                    <p>Fort Lauderdale, FL 33316</p>
+                    <p>Located in <strong>{{ listing.metadata?.city ? listing.metadata.city.charAt(0).toUpperCase() + listing.metadata.city.slice(1) : 'Florida' }}</strong></p>
                     <p class="ls-location-note"><i class="fas fa-info-circle"></i> This yacht is available for immediate viewing</p>
                   </div>
                 </div>
@@ -319,24 +281,44 @@
                 <div class="ls-broker-detail">
                   <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=200&q=80" alt="Broker" class="ls-broker-detail-avatar">
                   <div class="ls-broker-detail-info">
-                    <h3>James Mitchell</h3>
-                    <span>Senior Yacht Broker</span>
-                    <p>With over 15 years of experience in the luxury yacht industry, James has helped countless clients find their dream vessels.</p>
+                    <h3>High Seas Yachting</h3>
+                    <span>Professional Yacht Brokers</span>
+                    <p>Contact us for more information about this yacht or to schedule a viewing.</p>
                   </div>
                 </div>
                 <div class="ls-broker-detail-contact">
-                  <a href="tel:+1234567890" class="ls-contact-item">
+                  <a href="tel:+19545551234" class="ls-contact-item">
                     <i class="fas fa-phone"></i>
-                    +1 (555) 123-4567
+                    +1 (954) 555-1234
                   </a>
-                  <a href="mailto:james@highseasyachting.com" class="ls-contact-item">
+                  <a href="mailto:info@highseasyachting.com" class="ls-contact-item">
                     <i class="fas fa-envelope"></i>
-                    james@highseasyachting.com
+                    info@highseasyachting.com
                   </a>
                 </div>
               </div>
             </div>
           </div>
+
+              <!-- Key Features Slider -->
+                <div v-if="listing.metadata?.key_features && listing.metadata.key_features.length > 0" class="ls-key-features">
+                  <h3 class="ls-section-subtitle">Key Features</h3>
+                  <div class="ls-key-features-slider">
+                    <div 
+                      class="ls-key-feature-card" 
+                      v-for="(feature, index) in listing.metadata.key_features" 
+                      :key="index"
+                    >
+                      <div class="ls-key-feature-image">
+                        <img :src="feature.image" :alt="feature.title" @error="($event.target.src = 'https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=400&q=80')">
+                      </div>
+                      <div class="ls-key-feature-content">
+                        <h4>{{ feature.title }}</h4>
+                        <p>{{ feature.description }}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
        
 
@@ -348,19 +330,19 @@
             <div class="ls-broker-header">
               <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=200&q=80" alt="Broker" class="ls-broker-avatar">
               <div class="ls-broker-info">
-                <h4>James Mitchell</h4>
-                <span>Senior Yacht Broker</span>
+                <h4>High Seas Yachting</h4>
+                <span>Professional Yacht Brokers</span>
               </div>
             </div>
 
             <div class="ls-broker-contact">
-              <a href="tel:+1234567890" class="ls-contact-item">
+              <a href="tel:+19545551234" class="ls-contact-item">
                 <i class="fas fa-phone"></i>
-                +1 (555) 123-4567
+                +1 (954) 555-1234
               </a>
-              <a href="mailto:james@highseasyachting.com" class="ls-contact-item">
+              <a href="mailto:info@highseasyachting.com" class="ls-contact-item">
                 <i class="fas fa-envelope"></i>
-                james@highseasyachting.com
+                info@highseasyachting.com
               </a>
             </div>
 
@@ -376,20 +358,20 @@
           <div class="ls-price-card">
             <div class="ls-price-header">
               <span class="ls-price-label">Asking Price</span>
-              <div class="ls-price-value">$5,850,000</div>
+              <div class="ls-price-value">{{ formattedPrice }}</div>
             </div>
             <div class="ls-price-details">
               <div class="ls-price-item">
                 <span class="ls-price-item-label">Year</span>
-                <span class="ls-price-item-value">2024</span>
+                <span class="ls-price-item-value">{{ listing.year || 'N/A' }}</span>
               </div>
               <div class="ls-price-item">
                 <span class="ls-price-item-label">Length</span>
-                <span class="ls-price-item-value">85'</span>
+                <span class="ls-price-item-value">{{ listing.length || 'N/A' }} ft</span>
               </div>
               <div class="ls-price-item">
                 <span class="ls-price-item-label">Location</span>
-                <span class="ls-price-item-value">Fort Lauderdale, FL</span>
+                <span class="ls-price-item-value">{{ listing.metadata?.city ? listing.metadata.city.charAt(0).toUpperCase() + listing.metadata.city.slice(1) : 'N/A' }}, FL</span>
               </div>
             </div>
           </div>
@@ -404,14 +386,14 @@
                 <label>Purchase Price</label>
                 <div class="ls-calc-input-wrap">
                   <span class="ls-calc-currency">$</span>
-                  <input type="number" id="calcPrice" class="ls-calc-input" value="5850000" @input="calculatePayment()">
+                  <input type="number" id="calcPrice" class="ls-calc-input" @input="calculatePayment()">
                 </div>
               </div>
               <div class="ls-calc-group">
                 <label>Down Payment Amount</label>
                 <div class="ls-calc-input-wrap">
                   <span class="ls-calc-currency">$</span>
-                  <input type="number" id="calcDown" class="ls-calc-input" value="1170000" @input="calculatePayment()">
+                  <input type="number" id="calcDown" class="ls-calc-input" @input="calculatePayment()">
                 </div>
               </div>
               <div class="ls-calc-group">
@@ -464,75 +446,44 @@
       </div>
 
       <div class="ls-similar-grid">
-        <!-- Similar Yacht 1 -->
-        <div class="ls-similar-card">
+        <div v-if="brokerListings.length > 0" v-for="item in brokerListings" :key="item.id" class="ls-similar-card">
           <div class="ls-similar-image">
-            <img src="https://navalyachts.com/uploads/1200px/naval-yachts-home.jpg" alt="2023 Sunseeker">
-            <span class="ls-similar-badge"><i class="fas fa-map-marker-alt"></i> Miami, FL</span>
+            <router-link :to="'/listing-detail/' + item.slug">
+              <img :src="item.imageUrl" :alt="item.yacht_name" @error="($event.target.src = 'https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=600&q=80')">
+            </router-link>
+            <span class="ls-similar-badge"><i class="fas fa-map-marker-alt"></i> {{ item.metadata?.city ? item.metadata.city.charAt(0).toUpperCase() + item.metadata.city.slice(1) : 'N/A' }}, FL</span>
           </div>
           <div class="ls-similar-info">
-            <h3>2023 Sunseeker 76 Sport</h3>
+            <h3>{{ item.year }} {{ item.manufacturer }} {{ item.yacht_name }}</h3>
             <div class="ls-yacht-specs">
-              <div><strong>Year</strong>2023</div>
-              <div><strong>Length</strong>76 ft</div>
-              <div><strong>Speed</strong>32 kn</div>
+              <div><strong>Year</strong>{{ item.year }}</div>
+              <div><strong>Length</strong>{{ item.length }} ft</div>
             </div>
             <div class="ls-similar-footer">
-              <span class="ls-similar-price">$5,250,000</span>
-              <a href="#" class="ls-similar-link">View Details <i class="fas fa-arrow-right"></i></a>
+              <span class="ls-similar-price">{{ formatListingPrice(item.metadata?.price) }}</span>
+              <a :href="'/listing-detail/' + item.slug" class="ls-similar-link">View Details <i class="fas fa-arrow-right"></i></a>
             </div>
           </div>
         </div>
 
-        <!-- Similar Yacht 2 -->
-        <div class="ls-similar-card">
-          <div class="ls-similar-image">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUekS9ukJLdUK1h4aRtHeV_I9qwL9OjJsYRg&s" alt="2022 Azimut">
-            <span class="ls-similar-badge"><i class="fas fa-map-marker-alt"></i> Palm Beach, FL</span>
-          </div>
-          <div class="ls-similar-info">
-            <h3>2022 Azimut Grande 35</h3>
-            <div class="ls-yacht-specs">
-              <div><strong>Year</strong>2022</div>
-              <div><strong>Length</strong>108 ft</div>
-              <div><strong>Speed</strong>26 kn</div>
-            </div>
-            <div class="ls-similar-footer">
-              <span class="ls-similar-price">$8,900,000</span>
-              <a href="#" class="ls-similar-link">View Details <i class="fas fa-arrow-right"></i></a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Similar Yacht 3 -->
-        <div class="ls-similar-card">
-          <div class="ls-similar-image">
-            <img src="https://images.pexels.com/photos/42091/pexels-photo-42091.jpeg?cs=srgb&dl=pexels-mali-42091.jpg&fm=jpg" alt="2024 Pershing">
-            <span class="ls-similar-badge"><i class="fas fa-map-marker-alt"></i> Fort Lauderdale, FL</span>
-          </div>
-          <div class="ls-similar-info">
-            <h3>2024 Pershing 140</h3>
-            <div class="ls-yacht-specs">
-              <div><strong>Year</strong>2024</div>
-              <div><strong>Length</strong>140 ft</div>
-              <div><strong>Speed</strong>38 kn</div>
-            </div>
-            <div class="ls-similar-footer">
-              <span class="ls-similar-price">$12,500,000</span>
-              <a href="#" class="ls-similar-link">View Details <i class="fas fa-arrow-right"></i></a>
-            </div>
-          </div>
+        <div v-if="brokerListings.length === 0" class="ls-no-similar">
+          <p>No other listings available from this broker.</p>
         </div>
       </div>
     </div>
   </section>
 
     <FooterSection />
+    </div>
 </template>
 
 <script>
 import FooterSection from '../components/FooterSection.vue';
 import NavbarSection from '../components/NavbarSection.vue';
+import listingsDataRaw from '../../listings.json';
+
+const listingsData = Array.isArray(listingsDataRaw) ? listingsDataRaw : [listingsDataRaw];
+const SUPABASE_URL = 'https://qumgjqbfreeskjgltfvu.supabase.co/storage/v1/object/public/listings/';
 
 export default {
     name: 'ListingDetailPage',
@@ -542,63 +493,94 @@ export default {
     },
     data() {
         return {
+            listing: null,
             currentSlideIndex: 0,
             totalSlides: 6
         };
     },
+    computed: {
+        listingPhotos() {
+            if (!this.listing?.metadata?.photos || this.listing.metadata.photos.length === 0) {
+                return ['https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=1200&q=80'];
+            }
+            return this.listing.metadata.photos.map(photo => {
+                const filename = photo.split('/').pop();
+                return SUPABASE_URL + encodeURIComponent(filename);
+            });
+        },
+        formattedPrice() {
+            if (!this.listing?.metadata?.price) return 'Price on request';
+            return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0 }).format(this.listing.metadata.price);
+        },
+engines() { return this.listing?.metadata?.engines || null; },
+        equipment() { return this.listing?.metadata?.equipment || {}; },
+        headerBackground() {
+            const fallback = 'https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=1920&q=80';
+            if (!this.listingPhotos || this.listingPhotos.length === 0) return fallback;
+            return 'linear-gradient(180deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.55) 50%, rgba(0,0,0,0.35) 100%), url(' + this.listingPhotos[0] + ')';
+        },
+        brokerListings() {
+            if (!this.listing?.broker_id) return [];
+            let records = [];
+            if (listingsData.length > 0 && listingsData[0].records) records = listingsData[0].records;
+            return records
+                .filter(item => item.broker_id === this.listing.broker_id && item.id !== this.listing.id && item.type === 'forsale')
+                .slice(0, 3)
+                .map(item => ({
+                    ...item,
+                    slug: this.generateSlug(item),
+                    imageUrl: this.getListingImage(item)
+                }));
+        }
+    },
     methods: {
         calculatePayment() {
-            const price = parseFloat(document.getElementById('calcPrice').value) || 0;
-            const downAmount = parseFloat(document.getElementById('calcDown').value) || 0;
-            const rate = parseFloat(document.getElementById('calcRate').value) || 0;
-            const termYears = parseInt(document.getElementById('calcTerm').value) || 20;
-            
+            if (!this.listing) return;
+            const price = this.listing.metadata?.price || 0;
+            const el = id => document.getElementById(id);
+            if (el('calcPrice')) el('calcPrice').value = price;
+            const downAmount = parseFloat(el('calcDown')?.value) || (price * 0.2);
+            const rate = parseFloat(el('calcRate')?.value) || 6.74;
+            const termYears = parseInt(el('calcTerm')?.value) || 20;
             const loanAmount = price - downAmount;
             const monthlyRate = rate / 100 / 12;
             const totalPayments = termYears * 12;
-            
-            let monthlyPayment = 0;
-            
+            let payment = 0;
             if (loanAmount > 0 && monthlyRate > 0 && totalPayments > 0) {
-                monthlyPayment = loanAmount * (monthlyRate * Math.pow(1 + monthlyRate, totalPayments)) / (Math.pow(1 + monthlyRate, totalPayments) - 1);
-            } else if (loanAmount > 0 && monthlyRate === 0) {
-                monthlyPayment = loanAmount / totalPayments;
+                payment = loanAmount * (monthlyRate * Math.pow(1 + monthlyRate, totalPayments)) / (Math.pow(1 + monthlyRate, totalPayments) - 1);
             }
-            
-            document.getElementById('monthlyPayment').textContent = '$' + monthlyPayment.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            if (el('monthlyPayment')) el('monthlyPayment').textContent = '$' + payment.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         },
         updateDownPercent() {
-            const percent = document.getElementById('calcDownPercent').value;
-            const price = parseFloat(document.getElementById('calcPrice').value) || 0;
+            const percent = document.getElementById('calcDownPercent')?.value;
+            const price = this.listing?.metadata?.price || 0;
             const downAmount = Math.round(price * percent / 100);
-            document.getElementById('calcDown').value = downAmount;
-            document.getElementById('downPercentDisplay').textContent = percent + '%';
+            const el = id => document.getElementById(id);
+            if (el('calcDown')) el('calcDown').value = downAmount;
+            if (el('downPercentDisplay')) el('downPercentDisplay').textContent = percent + '%';
             this.calculatePayment();
         },
         initSlider() {
+            this.totalSlides = this.listingPhotos.length;
             const dotsContainer = document.getElementById('sliderDots');
-            dotsContainer.innerHTML = '';
-            for (let i = 0; i < this.totalSlides; i++) {
-                const dot = document.createElement('button');
-                dot.className = i === 0 ? 'ls-slider-dot active' : 'ls-slider-dot';
-                dot.onclick = () => this.goToSlide(i);
-                dotsContainer.appendChild(dot);
+            if (dotsContainer) {
+                dotsContainer.innerHTML = '';
+                for (let i = 0; i < this.totalSlides; i++) {
+                    const dot = document.createElement('button');
+                    dot.className = i === 0 ? 'ls-slider-dot active' : 'ls-slider-dot';
+                    dot.onclick = () => this.goToSlide(i);
+                    dotsContainer.appendChild(dot);
+                }
             }
             this.updateSlider();
         },
         updateSlider() {
             const track = document.getElementById('sliderTrack');
-            track.style.transform = `translateX(-${this.currentSlideIndex * 100}%)`;
-            
-            document.getElementById('currentSlide').textContent = this.currentSlideIndex + 1;
-            
-            document.querySelectorAll('.ls-slider-dot').forEach((dot, i) => {
-                dot.classList.toggle('active', i === this.currentSlideIndex);
-            });
-            
-            document.querySelectorAll('.ls-thumbnail').forEach((thumb, i) => {
-                thumb.classList.toggle('active', i === this.currentSlideIndex);
-            });
+            if (track) track.style.transform = `translateX(-${this.currentSlideIndex * 100}%)`;
+            const el = id => document.getElementById(id);
+            if (el('currentSlide')) el('currentSlide').textContent = this.currentSlideIndex + 1;
+            document.querySelectorAll('.ls-slider-dot').forEach((dot, i) => dot.classList.toggle('active', i === this.currentSlideIndex));
+            document.querySelectorAll('.ls-thumbnail').forEach((thumb, i) => thumb.classList.toggle('active', i === this.currentSlideIndex));
         },
         changeSlide(direction) {
             this.currentSlideIndex += direction;
@@ -606,32 +588,54 @@ export default {
             if (this.currentSlideIndex >= this.totalSlides) this.currentSlideIndex = 0;
             this.updateSlider();
         },
-        goToSlide(index) {
-            this.currentSlideIndex = index;
-            this.updateSlider();
-        },
+        goToSlide(index) { this.currentSlideIndex = index; this.updateSlider(); },
         handleTabClick(event) {
             const tab = event.currentTarget;
             document.querySelectorAll('.ls-tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.ls-tab-pane').forEach(p => p.classList.remove('active'));
-            
             tab.classList.add('active');
-            document.getElementById(tab.dataset.tab).classList.add('active');
+            document.getElementById(tab.dataset.tab)?.classList.add('active');
         },
         openGallery(index) {
             this.goToSlide(index);
-            document.getElementById('gallery').classList.add('active');
+            document.getElementById('gallery')?.classList.add('active');
             document.querySelectorAll('.ls-tab').forEach(t => t.classList.remove('active'));
-            document.querySelector('[data-tab="gallery"]').classList.add('active');
+            document.querySelector('[data-tab="gallery"]')?.classList.add('active');
+        },
+        generateSlug(listing) {
+            if (!listing) return '';
+            return `${listing.year}-${listing.manufacturer}-${listing.yacht_name}-for-sale`.toLowerCase()
+                .replace(/[^a-z0-9]+/g, '-')
+                .replace(/(^-|-$)/g, '');
+        },
+        getListingImage(listing) {
+            if (!listing?.metadata?.photos || listing.metadata.photos.length === 0) {
+                return 'https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=600&q=80';
+            }
+            const filename = listing.metadata.photos[0].split('/').pop();
+            return SUPABASE_URL + encodeURIComponent(filename);
+        },
+        formatListingPrice(price) {
+            if (!price) return 'Price on request';
+            return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0 }).format(price);
+        },
+        loadListing() {
+            const slug = this.$route.params.slug;
+            let records = [];
+            if (listingsData.length > 0 && listingsData[0].records) records = listingsData[0].records;
+            this.listing = records.find(item => this.generateSlug(item) === slug);
+            if (this.listing) {
+                this.$nextTick(() => {
+                    this.calculatePayment();
+                    this.initSlider();
+                    document.querySelectorAll('.ls-tab').forEach(tab => tab.addEventListener('click', this.handleTabClick));
+                });
+            }
         }
     },
-    mounted() {
-        this.calculatePayment();
-        this.initSlider();
-        
-        document.querySelectorAll('.ls-tab').forEach(tab => {
-            tab.addEventListener('click', this.handleTabClick);
-        });
+    mounted() { this.loadListing(); },
+    beforeUnmount() {
+        document.querySelectorAll('.ls-tab').forEach(tab => tab.removeEventListener('click', this.handleTabClick));
     }
 };
 </script>
@@ -658,8 +662,7 @@ export default {
 
     .page-hero {
       position: relative;
-      background: linear-gradient(180deg, rgba(0, 0, 0, 0.82) 0%, rgba(0, 0, 0, 0.2) 60%),
-        url('https://images7.alphacoders.com/669/thumb-1920-669500.jpg') center/cover no-repeat;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0.82) 0%, rgba(0, 0, 0, 0.2) 60%) center/cover no-repeat;
       min-height: 480px;
       display: flex;
       align-items: flex-end;
@@ -1061,6 +1064,7 @@ export default {
       margin-top: 16px;
       overflow-x: auto;
       padding-bottom: 8px;
+      width: 890px;
     }
 
     .ls-thumbnails::-webkit-scrollbar {
@@ -1153,6 +1157,7 @@ export default {
         padding: 12px 8px;
         margin-top: 0;
         justify-content: center;
+        width: 350px;
       }
 
       .ls-thumbnail {
@@ -2639,5 +2644,223 @@ export default {
       .ls-cta-content h2 {
         font-size: 1.25rem;
       }
+    
     }
+
+    /* Key Features Section */
+    .ls-key-features {
+      margin-bottom: 40px;
+      width: 100%;
+    }
+
+    .ls-section-subtitle {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #1a3a2a;
+      margin-bottom: 24px;
+    }
+
+    .ls-key-features-slider {
+      display: flex;
+      gap: 24px;
+      overflow-x: auto;
+      padding-bottom: 16px;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .ls-key-features-slider::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    .ls-key-features-slider::-webkit-scrollbar-track {
+      background: #f0f0f0;
+      border-radius: 4px;
+    }
+
+    .ls-key-features-slider::-webkit-scrollbar-thumb {
+      background: #355a32;
+      border-radius: 4px;
+    }
+
+    .ls-key-feature-card {
+      flex: 0 0 300px;
+      scroll-snap-align: start;
+      background: #ffffff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .ls-key-feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+    }
+
+    .ls-key-feature-image {
+      width: 100%;
+      height: 180px;
+      overflow: hidden;
+    }
+
+    .ls-key-feature-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .ls-key-feature-card:hover .ls-key-feature-image img {
+      transform: scale(1.05);
+    }
+
+    .ls-key-feature-content {
+      padding: 20px;
+    }
+
+    .ls-key-feature-content h4 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #1a3a2a;
+      margin-bottom: 8px;
+    }
+
+    .ls-key-feature-content p {
+      font-size: 0.9rem;
+      color: #5f6d60;
+      line-height: 1.6;
+    }
+
+    
+
+    .ls-description-section .ls-description-text {
+      color: #5f6d60;
+      line-height: 1.9;
+      font-size: 1.05rem;
+    }
+
+    @media (max-width: 768px) {
+      .ls-key-feature-card {
+        flex: 0 0 260px;
+      }
+
+      .ls-key-feature-image {
+        height: 150px;
+      }
+
+      .ls-section-subtitle {
+        font-size: 1.3rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .ls-key-features-slider {
+        gap: 16px;
+      width: 320px;
+      }
+
+      .ls-key-features{
+        padding: 20px !important; 
+      }
+
+      .ls-key-feature-card {
+        flex: 0 0 220px;
+      }
+
+      .ls-key-feature-image {
+        height: 120px;
+      }
+
+      .ls-key-feature-content {
+        padding: 16px;
+      }
+
+      .ls-key-feature-content h4 {
+        font-size: 1rem;
+      }
+
+      .ls-key-feature-content p {
+        font-size: 0.85rem;
+      }
+    }
+
+    .ls-key-features {
+  background: #fff;
+  border-radius: 26px;
+  box-shadow: 0 10px 30px rgba(15, 40, 24, 0.08);
+  border: 1px solid rgba(26, 58, 42, 0.06);
+  overflow: hidden;
+  padding: 40px;
+}
+
+/* Equipment Tab Styles */
+.ls-equipment-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.ls-equipment-category {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+.ls-equipment-category .ls-section-subtitle {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #355a32;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ls-equipment-category .ls-section-subtitle i {
+  color: #355a32;
+}
+
+.ls-equipment-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.ls-equipment-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  background: #f8f9f8;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  color: #5f6d60;
+  transition: all 0.2s ease;
+}
+
+.ls-equipment-item:hover {
+  background: #eef2ee;
+  transform: translateX(4px);
+}
+
+.ls-equipment-item i {
+  color: #355a32;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  .ls-equipment-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ls-equipment-category {
+    padding: 20px;
+  }
+
+  .ls-equipment-category .ls-section-subtitle {
+    font-size: 1.1rem;
+  }
+}
 </style>

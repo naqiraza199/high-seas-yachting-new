@@ -26,34 +26,82 @@
         <div class="hs-filters-grid">
           <div class="hs-filter-group">
             <label>Search Location</label>
-            <input type="text" placeholder="e.g., Fort Lauderdale, Miami...">
+            <input 
+              type="text" 
+              v-model="filters.location"
+              placeholder="e.g., Fort Lauderdale, Miami..."
+              list="location-suggestions"
+            >
+            <datalist id="location-suggestions">
+              <option v-for="loc in uniqueLocations" :key="loc" :value="loc"></option>
+            </datalist>
           </div>
 
           <div class="hs-filter-group">
             <label>Yacht Make</label>
-            <input type="text" placeholder="e.g., Azimut, Sea Ray...">
+            <input 
+              type="text" 
+              v-model="filters.make"
+              placeholder="e.g., Azimut, Sea Ray..."
+              list="make-suggestions"
+            >
+            <datalist id="make-suggestions">
+              <option v-for="make in uniqueMakes" :key="make" :value="make"></option>
+            </datalist>
           </div>
 
           <div class="hs-filter-group">
             <label>Yacht Model</label>
-            <input type="text" placeholder="e.g., Aquila, Princess...">
+            <input 
+              type="text" 
+              v-model="filters.model"
+              placeholder="e.g., Aquila, Princess..."
+              list="model-suggestions"
+            >
+            <datalist id="model-suggestions">
+              <option v-for="model in uniqueModels" :key="model" :value="model"></option>
+            </datalist>
           </div>
 
           <div class="hs-filter-group">
-            <label>Length</label>
-            <input type="text" placeholder="e.g., 47 ft">
+            <label>Length (ft)</label>
+            <input 
+              type="text" 
+              v-model="filters.length"
+              placeholder="e.g., 47"
+              list="length-suggestions"
+            >
+            <datalist id="length-suggestions">
+              <option v-for="len in uniqueLengths" :key="len" :value="len"></option>
+            </datalist>
           </div>
 
           <div class="hs-filter-group">
-            <label>Price</label>
-            <input type="text" placeholder="e.g., $1,000,000">
+            <label>Max Price ($)</label>
+            <input 
+              type="text" 
+              v-model="filters.price"
+              placeholder="e.g., 1000000"
+              list="price-suggestions"
+            >
+            <datalist id="price-suggestions">
+              <option v-for="price in uniquePrices" :key="price" :value="price"></option>
+            </datalist>
           </div>
 
           <div class="hs-filter-group">
             <label>Year</label>
-            <input type="text" placeholder="e.g., 2026">
+            <input 
+              type="text" 
+              v-model="filters.year"
+              placeholder="e.g., 2026"
+              list="year-suggestions"
+            >
+            <datalist id="year-suggestions">
+              <option v-for="year in uniqueYears" :key="year" :value="year"></option>
+            </datalist>
           </div>
-          </div>
+        </div>
 
        
       </aside>
@@ -64,604 +112,76 @@
         <!-- Top Bar -->
         <div class="hs-top-bar">
           <div class="hs-search-box">
-            <input type="text" placeholder="Search yachts, brands...">
+            <input 
+              type="text" 
+              v-model="searchQuery"
+              placeholder="Search yachts, brands..."
+            >
             <button class="hs-search-btn"><i class="fas fa-search"></i></button>
           </div>
           
           <div class="hs-sort-wrapper">
             <span class="hs-sort-label">Sort by:</span>
-            <select class="hs-sort-select">
-              <option>Newest First</option>
-              <option>Price: Low to High</option>
-              <option>Price: High to Low</option>
-              <option>Length: High to Low</option>
+            <select class="hs-sort-select" v-model="sortBy">
+              <option value="newest">Newest First</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="price-high">Price: High to Low</option>
+              <option value="length-high">Length: High to Low</option>
             </select>
           </div>
         </div>
 
-        <!-- Yacht Grid -->
+<!-- Yacht Grid -->
         <div class="hs-yacht-grid">
-          <!-- Card 1 -->
-          <article class="hs-yacht-card">
+          <article 
+            v-for="listing in paginatedListings" 
+            :key="listing.id" 
+            class="hs-yacht-card"
+          >
             <div class="hs-yacht-image">
-              <img src="https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=600&q=80" alt="2026 Statement Ally" loading="lazy">
+              <router-link :to="'/listing-detail/' + getListingSlug(listing)">
+                <img 
+                  :src="getImageUrl(listing.photos[0])" 
+                  :alt="listing.yachtName" 
+                  loading="lazy"
+                  @error="($event.target.src = 'https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=600&q=80')"
+                >
+              </router-link>
               <div class="hs-forsale-badge">For Sale</div>
             
-              <button class="hs-view-details-overlay">
+              <router-link :to="'/listing-detail/' + getListingSlug(listing)" class="hs-view-details-overlay">
                 <i class="fas fa-eye"></i>
                 View Details
-              </button>
+              </router-link>
             </div>
             <div class="hs-yacht-info">
-              <h3 class="hs-yacht-name">2026 Statement Ally</h3>
+              <h3 class="hs-yacht-name">{{ listing.year }} {{ listing.manufacturer }} {{ listing.yachtName }}</h3>
               <p class="hs-yacht-location">
                 <i class="fas fa-map-marker-alt"></i>
-                Fort Lauderdale, FL
+                {{ listing.city ? listing.city.charAt(0).toUpperCase() + listing.city.slice(1).replace(/,/g, ', ') : 'N/A' }}, FL
               </p>
               <div class="hs-yacht-specs">
                 <div class="hs-spec-item">
-                  
-                  <span class="hs-spec-value">47 ft</span>
+                  <span class="hs-spec-value">{{ formatLength(listing.length) }}</span>
                   <span class="hs-spec-label">Length</span>
                 </div>
                 <div class="hs-spec-item">
-                  
-                  <span class="hs-spec-value">Statement</span>
+                  <span class="hs-spec-value">{{ listing.manufacturer || 'N/A' }}</span>
                   <span class="hs-spec-label">Make</span>
                 </div>
                 <div class="hs-spec-item">
-                  
-                  <span class="hs-spec-value">2026</span>
+                  <span class="hs-spec-value">{{ listing.year }}</span>
                   <span class="hs-spec-label">Year</span>
                 </div>
               </div>
               <div class="hs-yacht-price-row">
-                <div class="hs-yacht-price">$1,499,999</div>
+                <div class="hs-yacht-price">{{ formatPrice(listing.price) }}</div>
               </div>
               <div class="hs-card-actions">
-                <button class="hs-view-details-btn">
+                <router-link :to="'/listing-detail/' + getListingSlug(listing)" class="hs-view-details-btn">
                   View Details
                   <i class="fas fa-arrow-right"></i>
-                </button>
-                <button class="hs-contact-btn" aria-label="Contact seller">
-                  <i class="fas fa-phone"></i>
-                </button>
-              </div>
-            </div>
-          </article>
-
-          <!-- Card 2 -->
-          <article class="hs-yacht-card">
-            <div class="hs-yacht-image">
-              <img src="https://images.unsplash.com/photo-1605281317010-fe5ffe798166?w=600&q=80" alt="2025 Riva 33 Aquariva" loading="lazy">
-              <div class="hs-forsale-badge">For Sale</div>
-            
-              <button class="hs-view-details-overlay">
-                <i class="fas fa-eye"></i>
-                View Details
-              </button>
-            </div>
-            <div class="hs-yacht-info">
-              <h3 class="hs-yacht-name">2025 Riva 33 Aquariva</h3>
-              <p class="hs-yacht-location">
-                <i class="fas fa-map-marker-alt"></i>
-                Fort Lauderdale, FL
-              </p>
-              <div class="hs-yacht-specs">
-                <div class="hs-spec-item">
-                  
-                  <span class="hs-spec-value">33 ft</span>
-                  <span class="hs-spec-label">Length</span>
-                </div>
-                <div class="hs-spec-item">
-                  
-                  <span class="hs-spec-value">Riva</span>
-                  <span class="hs-spec-label">Make</span>
-                </div>
-                <div class="hs-spec-item">
-                  
-                  <span class="hs-spec-value">2025</span>
-                  <span class="hs-spec-label">Year</span>
-                </div>
-              </div>
-              <div class="hs-yacht-price-row">
-                <div class="hs-yacht-price">$1,395,000</div>
-              </div>
-              <div class="hs-card-actions">
-                <button class="hs-view-details-btn">
-                  View Details
-                  <i class="fas fa-arrow-right"></i>
-                </button>
-                <button class="hs-contact-btn" aria-label="Contact seller">
-                  <i class="fas fa-phone"></i>
-                </button>
-              </div>
-            </div>
-          </article>
-
-          <!-- Card 3 -->
-          <article class="hs-yacht-card">
-            <div class="hs-yacht-image">
-              <img src="https://images.boatsgroup.com/resize/1/85/72/2025-edgewater-370cc-power-9768572-20250429103406641-1_XLARGE.jpg" alt="2025 NorthCoast 285 HT" loading="lazy">
-              <div class="hs-forsale-badge">For Sale</div>
-            
-              <button class="hs-view-details-overlay">
-                <i class="fas fa-eye"></i>
-                View Details
-              </button>
-            </div>
-            <div class="hs-yacht-info">
-              <h3 class="hs-yacht-name">2025 NorthCoast 285 HT</h3>
-              <p class="hs-yacht-location">
-                <i class="fas fa-map-marker-alt"></i>
-                North Kingstown, RI
-              </p>
-              <div class="hs-yacht-specs">
-                <div class="hs-spec-item">
-                  
-                  <span class="hs-spec-value">32 ft</span>
-                  <span class="hs-spec-label">Length</span>
-                </div>
-                <div class="hs-spec-item">
-                  
-                  <span class="hs-spec-value">NorthCoast</span>
-                  <span class="hs-spec-label">Make</span>
-                </div>
-                <div class="hs-spec-item">
-                  
-                  <span class="hs-spec-value">2025</span>
-                  <span class="hs-spec-label">Year</span>
-                </div>
-              </div>
-              <div class="hs-yacht-price-row">
-                <div class="hs-yacht-price">$350,000</div>
-              </div>
-              <div class="hs-card-actions">
-                <button class="hs-view-details-btn">
-                  View Details
-                  <i class="fas fa-arrow-right"></i>
-                </button>
-                <button class="hs-contact-btn" aria-label="Contact seller">
-                  <i class="fas fa-phone"></i>
-                </button>
-              </div>
-            </div>
-          </article>
-
-          <!-- Card 4 -->
-          <article class="hs-yacht-card">
-            <div class="hs-yacht-image">
-              <img src="https://images.boatsgroup.com/resize/1/20/25/2025-navan-c30-power-9792025-20250513073316962-1_XLARGE.jpg" alt="2025 Aquila 54" loading="lazy">
-              <div class="hs-forsale-badge">For Sale</div>
-            
-              <button class="hs-view-details-overlay">
-                <i class="fas fa-eye"></i>
-                View Details
-              </button>
-            </div>
-            <div class="hs-yacht-info">
-              <h3 class="hs-yacht-name">2025 Aquila 54</h3>
-              <p class="hs-yacht-location">
-                <i class="fas fa-map-marker-alt"></i>
-                Fort Lauderdale, FL
-              </p>
-              <div class="hs-yacht-specs">
-                <div class="hs-spec-item">
-                  
-                  <span class="hs-spec-value">54 ft</span>
-                  <span class="hs-spec-label">Length</span>
-                </div>
-                <div class="hs-spec-item">
-                  
-                  <span class="hs-spec-value">Aquila</span>
-                  <span class="hs-spec-label">Make</span>
-                </div>
-                <div class="hs-spec-item">
-                  
-                  <span class="hs-spec-value">2025</span>
-                  <span class="hs-spec-label">Year</span>
-                </div>
-              </div>
-              <div class="hs-yacht-price-row">
-                <div class="hs-yacht-price">$2,499,000</div>
-              </div>
-              <div class="hs-card-actions">
-                <button class="hs-view-details-btn">
-                  View Details
-                  <i class="fas fa-arrow-right"></i>
-                </button>
-                <button class="hs-contact-btn" aria-label="Contact seller">
-                  <i class="fas fa-phone"></i>
-                </button>
-              </div>
-            </div>
-          </article>
-
-          <!-- Card 5 -->
-          <article class="hs-yacht-card">
-            <div class="hs-yacht-image">
-              <img src="https://images.boatsgroup.com/resize/1/44/85/2025-skipper-bsk-38-power-9834485-20250702073243971-1.jpg" alt="2024 Princess F55" loading="lazy">
-              <div class="hs-forsale-badge">For Sale</div>
-            
-              <button class="hs-view-details-overlay">
-                <i class="fas fa-eye"></i>
-                View Details
-              </button>
-            </div>
-            <div class="hs-yacht-info">
-              <h3 class="hs-yacht-name">2024 Princess F55</h3>
-              <p class="hs-yacht-location">
-                <i class="fas fa-map-marker-alt"></i>
-                Miami, FL
-              </p>
-              <div class="hs-yacht-specs">
-                <div class="hs-spec-item">
-                  
-                  <span class="hs-spec-value">55 ft</span>
-                  <span class="hs-spec-label">Length</span>
-                </div>
-                <div class="hs-spec-item">
-                  
-                  <span class="hs-spec-value">Princess</span>
-                  <span class="hs-spec-label">Make</span>
-                </div>
-                <div class="hs-spec-item">
-                  
-                  <span class="hs-spec-value">2024</span>
-                  <span class="hs-spec-label">Year</span>
-                </div>
-              </div>
-              <div class="hs-yacht-price-row">
-                <div class="hs-yacht-price">$3,250,000</div>
-              </div>
-              <div class="hs-card-actions">
-                <button class="hs-view-details-btn">
-                  View Details
-                  <i class="fas fa-arrow-right"></i>
-                </button>
-                <button class="hs-contact-btn" aria-label="Contact seller">
-                  <i class="fas fa-phone"></i>
-                </button>
-              </div>
-            </div>
-          </article>
-
-          <!-- Card 6 -->
-          <article class="hs-yacht-card">
-            <div class="hs-yacht-image">
-              <img src="https://images.boatsgroup.com/resize/1/8/73/2025-cobra-45-power-9970873-20251007065245535-1.jpg" alt="2024 Azimut 68" loading="lazy">
-              <div class="hs-forsale-badge">For Sale</div>
-            
-              <button class="hs-view-details-overlay">
-                <i class="fas fa-eye"></i>
-                View Details
-              </button>
-            </div>
-            <div class="hs-yacht-info">
-              <h3 class="hs-yacht-name">2024 Azimut 68</h3>
-              <p class="hs-yacht-location">
-                <i class="fas fa-map-marker-alt"></i>
-                Naples, FL
-              </p>
-              <div class="hs-yacht-specs">
-                <div class="hs-spec-item">
-                  
-                  <span class="hs-spec-value">68 ft</span>
-                  <span class="hs-spec-label">Length</span>
-                </div>
-                <div class="hs-spec-item">
-                  
-                  <span class="hs-spec-value">Azimut</span>
-                  <span class="hs-spec-label">Make</span>
-                </div>
-                <div class="hs-spec-item">
-                  
-                  <span class="hs-spec-value">2024</span>
-                  <span class="hs-spec-label">Year</span>
-                </div>
-              </div>
-              <div class="hs-yacht-price-row">
-                <div class="hs-yacht-price">$5,890,000</div>
-              </div>
-              <div class="hs-card-actions">
-                <button class="hs-view-details-btn">
-                  View Details
-                  <i class="fas fa-arrow-right"></i>
-                </button>
-                <button class="hs-contact-btn" aria-label="Contact seller">
-                  <i class="fas fa-phone"></i>
-                </button>
-              </div>
-            </div>
-          </article>
-
-          <!-- Card 7 -->
-          <article class="hs-yacht-card">
-            <div class="hs-yacht-image">
-              <img src="https://images.boatsgroup.com/resize/1/24/12/2025-de-antonio-yachts-d50-coupe-power-9492412-20241205120645763-1_XLARGE.jpg" alt="2024 Sunseeker 76" loading="lazy">
-              <div class="hs-forsale-badge">For Sale</div>
-            
-              <button class="hs-view-details-overlay">
-                <i class="fas fa-eye"></i>
-                View Details
-              </button>
-            </div>
-            <div class="hs-yacht-info">
-              <h3 class="hs-yacht-name">2024 Sunseeker 76</h3>
-              <p class="hs-yacht-location">
-                <i class="fas fa-map-marker-alt"></i>
-                Pensacola, FL
-              </p>
-              <div class="hs-yacht-specs">
-                <div class="hs-spec-item">
-                  
-                  <span class="hs-spec-value">76 ft</span>
-                  <span class="hs-spec-label">Length</span>
-                </div>
-                <div class="hs-spec-item">
-                  
-                  <span class="hs-spec-value">Sunseeker</span>
-                  <span class="hs-spec-label">Make</span>
-                </div>
-                <div class="hs-spec-item">
-                  
-                  <span class="hs-spec-value">2024</span>
-                  <span class="hs-spec-label">Year</span>
-                </div>
-              </div>
-              <div class="hs-yacht-price-row">
-                <div class="hs-yacht-price">$4,750,000</div>
-              </div>
-              <div class="hs-card-actions">
-                <button class="hs-view-details-btn">
-                  View Details
-                  <i class="fas fa-arrow-right"></i>
-                </button>
-                <button class="hs-contact-btn" aria-label="Contact seller">
-                  <i class="fas fa-phone"></i>
-                </button>
-              </div>
-            </div>
-          </article>
-
-          <!-- Card 8 -->
-          <article class="hs-yacht-card">
-            <div class="hs-yacht-image">
-              <img src="https://images.boatsgroup.com/resize/1/92/28/2025-freeman-43-power-10089228-20260220082651558-1.jpg" alt="2023 Ferretti 720" loading="lazy">
-              <div class="hs-forsale-badge">For Sale</div>
-            
-              <button class="hs-view-details-overlay">
-                <i class="fas fa-eye"></i>
-                View Details
-              </button>
-            </div>
-            <div class="hs-yacht-info">
-              <h3 class="hs-yacht-name">2023 Ferretti 720</h3>
-              <p class="hs-yacht-location">
-                <i class="fas fa-map-marker-alt"></i>
-                Fort Lauderdale, FL
-              </p>
-              <div class="hs-yacht-specs">
-                <div class="hs-spec-item">
-                  
-                  <span class="hs-spec-value">72 ft</span>
-                  <span class="hs-spec-label">Length</span>
-                </div>
-                <div class="hs-spec-item">
-                  
-                  <span class="hs-spec-value">Ferretti</span>
-                  <span class="hs-spec-label">Make</span>
-                </div>
-                <div class="hs-spec-item">
-                  
-                  <span class="hs-spec-value">2023</span>
-                  <span class="hs-spec-label">Year</span>
-                </div>
-              </div>
-              <div class="hs-yacht-price-row">
-                <div class="hs-yacht-price">$6,200,000</div>
-              </div>
-              <div class="hs-card-actions">
-                <button class="hs-view-details-btn">
-                  View Details
-                  <i class="fas fa-arrow-right"></i>
-                </button>
-                <button class="hs-contact-btn" aria-label="Contact seller">
-                  <i class="fas fa-phone"></i>
-                </button>
-              </div>
-            </div>
-          </article>
-
-          <!-- Card 9 -->
-          <article class="hs-yacht-card">
-            <div class="hs-yacht-image">
-              <img src="https://images.boatsgroup.com/resize/1/60/32/2025-eclipse-505-002-power-9696032-20250227093205984-1_XLARGE.jpg" alt="2023 Pershing 9X" loading="lazy">
-              <div class="hs-forsale-badge">For Sale</div>
-            
-              <button class="hs-view-details-overlay">
-                <i class="fas fa-eye"></i>
-                View Details
-              </button>
-            </div>
-            <div class="hs-yacht-info">
-              <h3 class="hs-yacht-name">2023 Pershing 9X</h3>
-              <p class="hs-yacht-location">
-                <i class="fas fa-map-marker-alt"></i>
-                Miami, FL
-              </p>
-              <div class="hs-yacht-specs">
-                <div class="hs-spec-item">
-                  
-                  <span class="hs-spec-value">90 ft</span>
-                  <span class="hs-spec-label">Length</span>
-                </div>
-                <div class="hs-spec-item">
-                  
-                  <span class="hs-spec-value">Pershing</span>
-                  <span class="hs-spec-label">Make</span>
-                </div>
-                <div class="hs-spec-item">
-                  
-                  <span class="hs-spec-value">2023</span>
-                  <span class="hs-spec-label">Year</span>
-                </div>
-              </div>
-              <div class="hs-yacht-price-row">
-                <div class="hs-yacht-price">$8,950,000</div>
-              </div>
-              <div class="hs-card-actions">
-                <button class="hs-view-details-btn">
-                  View Details
-                  <i class="fas fa-arrow-right"></i>
-                </button>
-                <button class="hs-contact-btn" aria-label="Contact seller">
-                  <i class="fas fa-phone"></i>
-                </button>
-              </div>
-            </div>
-          </article>
-
-          <!-- Card 10 -->
-          <article class="hs-yacht-card">
-            <div class="hs-yacht-image">
-              <img src="https://images.boatsgroup.com/resize/1/16/95/2025-galeon-510sky-power-9451695-967518353-0-260820241152-6.png" alt="2024 Meridian 391" loading="lazy">
-              <div class="hs-forsale-badge">For Sale</div>
-            
-              <button class="hs-view-details-overlay">
-                <i class="fas fa-eye"></i>
-                View Details
-              </button>
-            </div>
-            <div class="hs-yacht-info">
-              <h3 class="hs-yacht-name">2024 Meridian 391</h3>
-              <p class="hs-yacht-location">
-                <i class="fas fa-map-marker-alt"></i>
-                Fort Lauderdale, FL
-              </p>
-              <div class="hs-yacht-specs">
-                <div class="hs-spec-item">
-                  
-                  <span class="hs-spec-value">39 ft</span>
-                  <span class="hs-spec-label">Length</span>
-                </div>
-                <div class="hs-spec-item">
-                  
-                  <span class="hs-spec-value">Meridian</span>
-                  <span class="hs-spec-label">Make</span>
-                </div>
-                <div class="hs-spec-item">
-                  
-                  <span class="hs-spec-value">2024</span>
-                  <span class="hs-spec-label">Year</span>
-                </div>
-              </div>
-              <div class="hs-yacht-price-row">
-                <div class="hs-yacht-price">$685,000</div>
-              </div>
-              <div class="hs-card-actions">
-                <button class="hs-view-details-btn">
-                  View Details
-                  <i class="fas fa-arrow-right"></i>
-                </button>
-                <button class="hs-contact-btn" aria-label="Contact seller">
-                  <i class="fas fa-phone"></i>
-                </button>
-              </div>
-            </div>
-          </article>
-
-          <!-- Card 11 -->
-          <article class="hs-yacht-card">
-            <div class="hs-yacht-image">
-              <img src="https://images.boatsgroup.com/resize/1/23/91/2025-azimut-s6-power-9542391-972675519-0-140120250712-0.png" alt="2025 Sea Ray L550" loading="lazy">
-              <div class="hs-forsale-badge">For Sale</div>
-            
-              <button class="hs-view-details-overlay">
-                <i class="fas fa-eye"></i>
-                View Details
-              </button>
-            </div>
-            <div class="hs-yacht-info">
-              <h3 class="hs-yacht-name">2025 Sea Ray L550</h3>
-              <p class="hs-yacht-location">
-                <i class="fas fa-map-marker-alt"></i>
-                Naples, FL
-              </p>
-              <div class="hs-yacht-specs">
-                <div class="hs-spec-item">
-                  
-                  <span class="hs-spec-value">55 ft</span>
-                  <span class="hs-spec-label">Length</span>
-                </div>
-                <div class="hs-spec-item">
-                  
-                  <span class="hs-spec-value">Sea Ray</span>
-                  <span class="hs-spec-label">Make</span>
-                </div>
-                <div class="hs-spec-item">
-                  
-                  <span class="hs-spec-value">2025</span>
-                  <span class="hs-spec-label">Year</span>
-                </div>
-              </div>
-              <div class="hs-yacht-price-row">
-                <div class="hs-yacht-price">$1,890,000</div>
-              </div>
-              <div class="hs-card-actions">
-                <button class="hs-view-details-btn">
-                  View Details
-                  <i class="fas fa-arrow-right"></i>
-                </button>
-                <button class="hs-contact-btn" aria-label="Contact seller">
-                  <i class="fas fa-phone"></i>
-                </button>
-              </div>
-            </div>
-          </article>
-
-          <!-- Card 12 -->
-          <article class="hs-yacht-card">
-            <div class="hs-yacht-image">
-              <img src="https://images.boatsgroup.com/resize/1/4/80/2025-marlow-explorer-70e-cb-power-10080480-20260211132126258-3.jpg" alt="2024 Nor-Tech 390" loading="lazy">
-              <div class="hs-forsale-badge">For Sale</div>
-            
-              <button class="hs-view-details-overlay">
-                <i class="fas fa-eye"></i>
-                View Details
-              </button>
-            </div>
-            <div class="hs-yacht-info">
-              <h3 class="hs-yacht-name">2024 Nor-Tech 390</h3>
-              <p class="hs-yacht-location">
-                <i class="fas fa-map-marker-alt"></i>
-                Pensacola, FL
-              </p>
-              <div class="hs-yacht-specs">
-                <div class="hs-spec-item">
-                  
-                  <span class="hs-spec-value">39 ft</span>
-                  <span class="hs-spec-label">Length</span>
-                </div>
-                <div class="hs-spec-item">
-                  
-                  <span class="hs-spec-value">Nor-Tech</span>
-                  <span class="hs-spec-label">Make</span>
-                </div>
-                <div class="hs-spec-item">
-                  
-                  <span class="hs-spec-value">2024</span>
-                  <span class="hs-spec-label">Year</span>
-                </div>
-              </div>
-              <div class="hs-yacht-price-row">
-                <div class="hs-yacht-price">$1,125,000</div>
-              </div>
-              <div class="hs-card-actions">
-                <button class="hs-view-details-btn">
-                  View Details
-                  <i class="fas fa-arrow-right"></i>
-                </button>
+                </router-link>
                 <button class="hs-contact-btn" aria-label="Contact seller">
                   <i class="fas fa-phone"></i>
                 </button>
@@ -671,22 +191,43 @@
         </div>
 
         <!-- Pagination -->
-        <div class="hs-pagination-wrapper">
-          <p class="hs-results-info">Showing <strong>1 - 12</strong> of <strong>5,422</strong> results</p>
+        <div class="hs-pagination-wrapper" v-if="forsaleListings.length > 0">
+          <p class="hs-results-info">Showing <strong>{{ startItem }} - {{ endItem }}</strong> of <strong>{{ forsaleListings.length }}</strong> results</p>
           
           <div class="hs-pagination">
-            <button class="hs-page-arrow" disabled><i class="fas fa-chevron-left"></i></button>
+            <button 
+              class="hs-page-arrow" 
+              :disabled="currentPage === 1"
+              @click="goToPage(currentPage - 1)"
+            >
+              <i class="fas fa-chevron-left"></i>
+            </button>
             <div class="hs-page-numbers">
-              <span class="hs-page active">1</span>
-              <span class="hs-page">2</span>
-              <span class="hs-page">3</span>
-              <span class="hs-page">4</span>
-              <span class="hs-page">5</span>
-              <span class="hs-page-dots">...</span>
-              <span class="hs-page">452</span>
+              <span 
+                v-for="(page, index) in pageNumbers" 
+                :key="index"
+                :class="['hs-page', { active: page === currentPage, 'hs-page-dots': page === '...' }]"
+                @click="page !== '...' && goToPage(page)"
+              >
+                {{ page }}
+              </span>
             </div>
-            <button class="hs-page-arrow"><i class="fas fa-chevron-right"></i></button>
+            <button 
+              class="hs-page-arrow" 
+              :disabled="currentPage === totalPages"
+              @click="goToPage(currentPage + 1)"
+            >
+              <i class="fas fa-chevron-right"></i>
+            </button>
           </div>
+        </div>
+
+        <!-- No Results -->
+        <div v-if="forsaleListings.length > 0 && filteredListings.length === 0" class="hs-no-results">
+          <p>No yachts match your search criteria. Try adjusting your filters.</p>
+        </div>
+        <div v-else-if="forsaleListings.length === 0" class="hs-no-results">
+          <p>No yachts for sale at the moment. Please check back later.</p>
         </div>
 
       </div>
@@ -699,15 +240,292 @@
 <script>
 import NavbarSection from '../components/NavbarSection.vue';
 import FooterSection from '../components/FooterSection.vue';
+import listingsDataRaw from '../../listings.json';
 
+const listingsData = Array.isArray(listingsDataRaw) ? listingsDataRaw : [listingsDataRaw];
 
-    export default {
-        name: 'ForsalePage',
-        components: {
-            NavbarSection,
-            FooterSection
+const SUPABASE_URL = 'https://qumgjqbfreeskjgltfvu.supabase.co/storage/v1/object/public/listings/';
+
+export default {
+  name: 'ForsalePage',
+  components: {
+    NavbarSection,
+    FooterSection
+  },
+  data() {
+    return {
+      forsaleListings: [],
+      filteredListings: [],
+      currentPage: 1,
+      itemsPerPage: 12,
+      filters: {
+        location: '',
+        make: '',
+        model: '',
+        length: '',
+        price: '',
+        year: ''
+      },
+      sortBy: 'newest',
+      searchQuery: ''
+    };
+  },
+  computed: {
+    paginatedListings() {
+      const start = (this.currentPage - 1) * this.itemsPerPage;
+      const end = start + this.itemsPerPage;
+      return this.filteredListings.slice(start, end);
+    },
+    totalPages() {
+      return Math.ceil(this.filteredListings.length / this.itemsPerPage);
+    },
+    startItem() {
+      return (this.currentPage - 1) * this.itemsPerPage + 1;
+    },
+    endItem() {
+      return Math.min(this.currentPage * this.itemsPerPage, this.filteredListings.length);
+    },
+    pageNumbers() {
+      const pages = [];
+      const total = this.totalPages;
+      const current = this.currentPage;
+      
+      if (total <= 7) {
+        for (let i = 1; i <= total; i++) pages.push(i);
+      } else {
+        pages.push(1);
+        if (current > 3) pages.push('...');
+        for (let i = Math.max(2, current - 1); i <= Math.min(total - 1, current + 1); i++) {
+          pages.push(i);
         }
+        if (current < total - 2) pages.push('...');
+        pages.push(total);
+      }
+      return pages;
+    },
+    sortedListings() {
+      let result = [...this.filteredListings];
+      
+      switch(this.sortBy) {
+        case 'price-low':
+          result.sort((a, b) => a.price - b.price);
+          break;
+        case 'price-high':
+          result.sort((a, b) => b.price - a.price);
+          break;
+        case 'length-high':
+          result.sort((a, b) => b.length - a.length);
+          break;
+        case 'newest':
+        default:
+          result.sort((a, b) => b.year - a.year);
+          break;
+      }
+      
+      return result;
+    },
+    getListingSlug() {
+      return (listing) => {
+        if (!listing) return '';
+        return `${listing.year}-${listing.manufacturer}-${listing.yachtName}-for-sale`.toLowerCase()
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/(^-|-$)/g, '');
+      };
+    },
+    uniqueLocations() {
+      const locations = this.forsaleListings
+        .map(item => item.city)
+        .filter(city => city)
+        .map(city => city.charAt(0).toUpperCase() + city.slice(1));
+      return [...new Set(locations)].sort();
+    },
+    uniqueMakes() {
+      const makes = this.forsaleListings
+        .map(item => item.manufacturer)
+        .filter(m => m);
+      return [...new Set(makes)].sort();
+    },
+    uniqueModels() {
+      const models = this.forsaleListings
+        .map(item => item.yachtName)
+        .filter(m => m);
+      return [...new Set(models)].sort();
+    },
+    uniqueLengths() {
+      const lengths = this.forsaleListings
+        .map(item => item.length)
+        .filter(l => l);
+      return [...new Set(lengths)].sort((a, b) => a - b);
+    },
+    uniquePrices() {
+      const prices = this.forsaleListings
+        .map(item => item.price)
+        .filter(p => p);
+      return [...new Set(prices)].sort((a, b) => a - b);
+    },
+    uniqueYears() {
+      const years = this.forsaleListings
+        .map(item => item.year)
+        .filter(y => y);
+      return [...new Set(years)].sort((a, b) => b - a);
     }
+  },
+  watch: {
+    filters: {
+      handler() {
+        this.applyFilters();
+      },
+      deep: true
+    },
+    sortBy() {
+      this.applyFilters();
+    },
+    searchQuery() {
+      this.applyFilters();
+    }
+  },
+  mounted: function() {
+    this.loadForsaleListings();
+  },
+  methods: {
+    loadForsaleListings() {
+      let records = [];
+      
+      if (listingsData) {
+        if (Array.isArray(listingsData) && listingsData.length > 0) {
+          const firstItem = listingsData[0];
+          if (firstItem && firstItem.records && Array.isArray(firstItem.records)) {
+            records = firstItem.records;
+          } else if (Array.isArray(listingsData)) {
+            records = listingsData;
+          }
+        } else if (listingsData.records && Array.isArray(listingsData.records)) {
+          records = listingsData.records;
+        }
+      }
+      
+      console.log('Found records:', records.length);
+      
+      this.forsaleListings = records
+        .filter(item => item && item.type === 'forsale')
+        .map(listing => ({
+          id: listing.id,
+          yachtName: listing.yacht_name,
+          year: listing.year,
+          manufacturer: listing.manufacturer,
+          length: listing.length,
+          beam: listing.beam,
+          draft: listing.draft,
+          description: listing.description,
+          city: listing.metadata?.city || '',
+          price: listing.metadata?.price || 0,
+          photos: listing.metadata?.photos || []
+        }));
+      
+      this.filteredListings = [...this.forsaleListings];
+    },
+    applyFilters() {
+      let result = [...this.forsaleListings];
+      
+      const searchLower = (this.searchQuery || '').toLowerCase();
+      if (searchLower) {
+        result = result.filter(item => 
+          item.yachtName.toLowerCase().includes(searchLower) ||
+          item.manufacturer.toLowerCase().includes(searchLower) ||
+          item.city.toLowerCase().includes(searchLower) ||
+          String(item.year).includes(searchLower)
+        );
+      }
+      
+      if (this.filters.location) {
+        const loc = this.filters.location.toLowerCase();
+        result = result.filter(item => 
+          item.city && item.city.toLowerCase().includes(loc)
+        );
+      }
+      
+      if (this.filters.make) {
+        const make = this.filters.make.toLowerCase();
+        result = result.filter(item => 
+          item.manufacturer && item.manufacturer.toLowerCase().includes(make)
+        );
+      }
+      
+      if (this.filters.model) {
+        const model = this.filters.model.toLowerCase();
+        result = result.filter(item => 
+          item.yachtName && item.yachtName.toLowerCase().includes(model)
+        );
+      }
+      
+      if (this.filters.length) {
+        const len = this.filters.length.toLowerCase();
+        result = result.filter(item => 
+          item.length && String(item.length).includes(len)
+        );
+      }
+      
+      if (this.filters.price) {
+        const priceInput = this.filters.price.replace(/[^0-9]/g, '');
+        if (priceInput) {
+          const priceNum = parseInt(priceInput);
+          result = result.filter(item => 
+            item.price && item.price <= priceNum
+          );
+        }
+      }
+      
+      if (this.filters.year) {
+        const year = this.filters.year.toLowerCase();
+        result = result.filter(item => 
+          item.year && String(item.year).includes(year)
+        );
+      }
+      
+      switch(this.sortBy) {
+        case 'price-low':
+          result.sort((a, b) => (a.price || 0) - (b.price || 0));
+          break;
+        case 'price-high':
+          result.sort((a, b) => (b.price || 0) - (a.price || 0));
+          break;
+        case 'length-high':
+          result.sort((a, b) => (b.length || 0) - (a.length || 0));
+          break;
+        case 'newest':
+        default:
+          result.sort((a, b) => (b.year || 0) - (a.year || 0));
+          break;
+      }
+      
+      this.filteredListings = result;
+      this.currentPage = 1;
+    },
+    getImageUrl(photoPath) {
+      if (!photoPath) return '';
+      const filename = photoPath.split('/').pop();
+      return SUPABASE_URL + encodeURIComponent(filename);
+    },
+    formatPrice(price) {
+      if (!price) return 'Price on request';
+      return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+      }).format(price);
+    },
+    formatLength(length) {
+      return length ? `${length} ft` : 'N/A';
+    },
+    goToPage(page) {
+      if (page >= 1 && page <= this.totalPages) {
+        this.currentPage = page;
+        window.scrollTo({ top: 400, behavior: 'smooth' });
+      }
+    }
+  }
+};
 </script>
 
 <style scoped>
@@ -1279,6 +1097,7 @@ import FooterSection from '../components/FooterSection.vue';
       z-index: 10;
       text-transform: uppercase;
       letter-spacing: 0.5px;
+      text-decoration: none;
     }
 
     .hs-yacht-card:hover .hs-view-details-overlay {
@@ -1293,6 +1112,7 @@ import FooterSection from '../components/FooterSection.vue';
       border-color: #355a32;
       transform: translate(-50%, -50%) scale(1.08);
       box-shadow: 0 16px 50px rgba(53, 90, 50, 0.4);
+      text-decoration: none;
     }
 
     .hs-view-details-overlay:active {
@@ -1471,6 +1291,7 @@ import FooterSection from '../components/FooterSection.vue';
       align-items: center;
       justify-content: center;
       gap: 8px;
+      text-decoration: none;
     }
 
     .hs-view-details-btn:hover {
@@ -1956,7 +1777,7 @@ import FooterSection from '../components/FooterSection.vue';
       }
     }
 
-    @keyframes pulse {
+@keyframes pulse {
       0%, 100% {
         opacity: 1;
       }
@@ -1964,4 +1785,17 @@ import FooterSection from '../components/FooterSection.vue';
         opacity: 0.7;
       }
     }
-</style>
+
+    .hs-no-results {
+      text-align: center;
+      padding: 80px 20px;
+      background: #ffffff;
+      border-radius: 28px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+    }
+
+    .hs-no-results p {
+      font-size: 1.2rem;
+      color: #5a6b63;
+    }
+  </style>

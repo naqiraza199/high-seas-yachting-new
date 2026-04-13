@@ -94,7 +94,7 @@ const routes = [
     meta: { title: 'Event Detail - Luxury Yacht Brokers Fort Lauderdale & Miami' }
   },
   {
-    path: '/listing-detail',
+    path: '/listing-detail/:slug',
     name: 'ListingDetail',
     component: ListingDetailPage,
     meta: { title: 'Listing Detail - Luxury Yacht Brokers Fort Lauderdale & Miami' }
