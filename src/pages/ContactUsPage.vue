@@ -248,7 +248,7 @@ import FooterSection from '../components/FooterSection.vue';
     .page-hero {
       position: relative;
       background: linear-gradient(180deg, rgba(15,40,24,0.75) 0%, rgba(15,40,24,0.35) 50%, rgba(15,40,24,0.15) 100%),
-        url('https://e5m5sskeexb.exactdn.com/wp-content/uploads/2025/02/EDIT_Majesty-175-Profile-3-1300x867.jpg?strip=all') center/cover no-repeat;
+        url('/images/contact.jpg') center/cover no-repeat;
       min-height: 480px;
       display: flex;
       align-items: center;

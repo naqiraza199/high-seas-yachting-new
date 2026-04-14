@@ -3,7 +3,7 @@
         <nav class="navbar">
             <div class="nav-container">
                 <router-link to="/" class="logo">
-                    <img src="https://new.highseasyachting.com/assets/img/hsy-logo.svg" alt="High Seas Yachting Logo">
+                    <img src="/images/hsy-logo.svg" alt="High Seas Yachting Logo">
                 </router-link>
 
                 <ul class="nav-menu">

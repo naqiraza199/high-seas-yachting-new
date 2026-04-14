@@ -200,7 +200,7 @@ export default {
     .page-hero {
       position: relative;
       background: linear-gradient(180deg, rgba(15,40,24,0.75) 0%, rgba(15,40,24,0.35) 50%, rgba(15,40,24,0.15) 100%),
-        url('https://images.boatsgroup.com/resize/1/76/92/2027-tureddi-azzurra-36-power-9967692-20251003074300871-2.jpg') center/cover no-repeat;
+        url('/images/daycharter.png') center/cover no-repeat;
       min-height: 480px;
       display: flex;
       align-items: center;

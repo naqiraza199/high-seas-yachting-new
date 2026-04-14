@@ -156,7 +156,7 @@ export default {
     .page-hero {
       position: relative;
       background: linear-gradient(180deg, rgba(15, 40, 24, 0.8) 0%, rgba(15, 40, 24, 0.2) 55%),
-        url('https://www.yyachts.de/wp-content/uploads/2024/08/YYachts-Y9-Sideview-Header-min.jpg') center/cover no-repeat;
+        url('/images/team.jpg') center/cover no-repeat;
       min-height: 420px;
       display: flex;
       align-items: center;

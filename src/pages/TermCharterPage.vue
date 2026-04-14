@@ -167,7 +167,7 @@
       <div class="term-info-inner">
         <div class="term-info-row">
           <div class="term-info-image">
-            <img src="https://new.highseasyachting.com/assets/img/normal/about1.webp" alt="Term charter yacht on the water">
+            <img src="/images/ts1.webp" alt="Term charter yacht on the water">
           </div>
           <div class="term-info-copy">
             <h2>What is a Term Charter?</h2>
@@ -181,7 +181,7 @@
             <p>Our expert team crafts bespoke term charter experiences with premium yachts, seamless logistics, and concierge-level support. From route planning to on-board service, each charter is built around your preferences for a truly memorable voyage.</p>
           </div>
           <div class="term-info-image">
-            <img src="https://new.highseasyachting.com/assets/img/normal/about2.webp" alt="Luxury yacht interior and service">
+            <img src="/images/ts2.webp" alt="Luxury yacht interior and service">
           </div>
         </div>
       </div>
@@ -270,7 +270,7 @@
       <div class="term-info-inner">
         <div class="term-info-row">
           <div class="term-info-image">
-            <img src="https://new.highseasyachting.com/assets/img/normal/service1.webp" alt="Term charter yacht on the water">
+            <img src="/images/ts3.webp" alt="Term charter yacht on the water">
           </div>
           <div class="term-info-copy">
             <h2>Personalized Itineraries</h2>
@@ -284,7 +284,7 @@
             <p>Choosing High Seas Yachting means you’re opting for a hassle-free vacation. We handle all logistics, from booking to boarding, so you can focus on enjoying your journey. Our dedication to excellence and meticulous attention to detail ensures that your term charter experience is nothing short of spectacular. By offering a comprehensive guide to term charters and showcasing the unique benefits of each destination, High Seas Yachting ensures a memorable and luxurious sailing experience. Whether you’re looking to explore the vibrant life of the Caribbean or the tranquil beauty of the Bahamas, High Seas Yachting is your trusted partner in adventure. Each section of this webpage could be visually enhanced with stunning images from the corresponding destinations, linking each image to a more detailed gallery or itinerary page for further exploration. </p>
           </div>
           <div class="term-info-image">
-            <img src="https://new.highseasyachting.com/assets/img/normal/service2.webp" alt="Luxury yacht interior and service">
+            <img src="/images/ts4.webp" alt="Luxury yacht interior and service">
           </div>
         </div>
       </div>
@@ -382,7 +382,7 @@ const SUPABASE_URL = 'https://qumgjqbfreeskjgltfvu.supabase.co/storage/v1/object
     .page-hero {
       position: relative;
       background: linear-gradient(180deg, rgba(15,40,24,0.75) 0%, rgba(15,40,24,0.35) 50%, rgba(15,40,24,0.15) 100%),
-        url('https://www.jotun.com/globalassets-b2b/b2b/shipping/yachting/yachting-side-2560x1440px.png?format=webp&quality=90&height=800') center/cover no-repeat;
+        url('/images/termcharter.webp') center/cover no-repeat;
       min-height: 480px;
       display: flex;
       align-items: center;

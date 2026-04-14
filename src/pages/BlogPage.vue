@@ -294,7 +294,7 @@ import blogs from '../../blogs.json';
     .page-hero {
       position: relative;
       background: linear-gradient(180deg, rgba(15,40,24,0.75) 0%, rgba(15,40,24,0.35) 50%, rgba(15,40,24,0.15) 100%),
-        url('https://www.charterworld.com/images/yachts-1/Mangusta-108-yacht-sunset.jpg') center/cover no-repeat;
+        url('/images/blog.jpg') center/cover no-repeat;
       min-height: 480px;
       display: flex;
       align-items: center;

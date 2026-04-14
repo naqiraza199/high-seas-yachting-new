@@ -22,7 +22,7 @@
                 <div class="hs-footer-col hs-footer-brand">
                     <router-link to="/" >
                     <div class="hs-footer-logo">
-                        <img src="https://new.highseasyachting.com/assets/img/white-hsy.svg" alt="High Seas Yachting">
+                        <img src="/images/white-hsy.svg" alt="High Seas Yachting">
                     </div>
                     </router-link>
                   
@@ -71,12 +71,12 @@
                 <div class="hs-footer-col hs-instagram-col">
                     <h4 class="hs-footer-heading">Instagram Posts</h4>
                     <div class="hs-instagram-grid">
-                        <img src="https://new.highseasyachting.com/assets/img/widget/gallery_1_1.jpg" alt="Instagram">
-                        <img src="https://new.highseasyachting.com/assets/img/widget/gallery_1_2.jpg" alt="Instagram">
-                        <img src="https://new.highseasyachting.com/assets/img/widget/gallery_1_3.jpg" alt="Instagram">
-                        <img src="https://new.highseasyachting.com/assets/img/widget/gallery_1_4.jpg" alt="Instagram">
-                        <img src="https://new.highseasyachting.com/assets/img/widget/gallery_1_5.jpg" alt="Instagram">
-                        <img src="https://new.highseasyachting.com/assets/img/widget/gallery_1_6.jpg" alt="Instagram">
+                        <img src="/images/i1.webp" alt="Instagram">
+                        <img src="/images/i2.webp" alt="Instagram">
+                        <img src="/images/i3.webp" alt="Instagram">
+                        <img src="/images/i4.webp" alt="Instagram">
+                        <img src="/images/i5.webp" alt="Instagram">
+                        <img src="/images/i6.webp" alt="Instagram">
                     </div>
                 </div>
 

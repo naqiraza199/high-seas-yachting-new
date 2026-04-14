@@ -66,7 +66,7 @@ import NavbarSection from '../components/NavbarSection.vue';
         .page-hero {
             position: relative;
             background: linear-gradient(180deg, rgba(12, 31, 18, 0.7) 0%, rgba(12, 31, 18, 0.18) 60%),
-                url('https://new.highseasyachting.com/assets/img/hero/term-charter-main.webp') center/cover no-repeat;
+                url('/images/dockage.webp') center/cover no-repeat;
             min-height: 520px;
             display: flex;
             align-items: center;

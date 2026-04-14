@@ -82,7 +82,7 @@ import eventsData from '../../events.json';
     .page-hero {
       position: relative;
       background: linear-gradient(180deg, rgba(15, 40, 24, 0.82) 0%, rgba(15, 40, 24, 0.2) 60%),
-        url('https://photos.superyachtapi.com/download/349139/large') center/cover no-repeat;
+        url('/images/event.jpeg') center/cover no-repeat;
       min-height: 420px;
       display: flex;
       align-items: center;

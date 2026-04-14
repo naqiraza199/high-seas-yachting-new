@@ -6,7 +6,7 @@
 
         <!-- Hero Background Video -->
         <video class="hero-video-bg" autoplay muted loop playsinline>
-            <source src="https://videos.pexels.com/video-files/36375958/15427525_2560_1440_50fps.mp4" type="video/mp4">
+            <source src="/images/main-video.mp4" type="video/mp4">
         </video>
         <div class="hero-overlay"></div>
 
@@ -64,7 +64,7 @@
                 <!-- LEFT: Image Area -->
                 <div class="image-column">
                     <div class="main-image-wrapper">
-                        <img src="https://new.highseasyachting.com/assets/img/normal/new1.webp"
+                        <img src="/images/explore1.webp"
                             alt="Luxury Yachts in Ocean" class="main-image">
 
                         <!-- Experience Badge -->
@@ -75,7 +75,7 @@
 
                         <!-- Overlapping Small Image -->
                         <div class="overlay-image">
-                            <img src="https://new.highseasyachting.com/assets/img/normal/new2.webp"
+                            <img src="/images/explore2.webp"
                                 alt="Yacht in Miami">
                         </div>
                     </div>

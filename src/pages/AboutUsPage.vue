@@ -23,7 +23,7 @@
 
     <section class="story-section">
       <div class="story-image">
-        <img src="https://new.highseasyachting.com/assets/img/normal/abser1.webp" alt="Ocean at sunset">
+        <img src="/images/sa1.webp" alt="Ocean at sunset">
       </div>
       <div class="story-content">
         <h2 class="story-title">Our Story & Heritage</h2>
@@ -47,13 +47,13 @@
       </div>
 
       <div class="story-image">
-        <img src="https://new.highseasyachting.com/assets/img/normal/abser02.png" alt="Ocean at sunset">
+        <img src="/images/sa2.avif" alt="Ocean at sunset">
       </div>
     </section>
 
     <section class="team-intro">
       <div class="team-intro-image">
-        <img src="https://new.highseasyachting.com/assets/img/normal/chart.webp" alt="Our Team">
+        <img src="/images/sa3.webp" alt="Our Team">
       </div>
     </section>
 
@@ -68,7 +68,7 @@
         <div class="advisor-grid">
           <div class="advisor-card">
             <div class="advisor-image">
-              <img src="https://new.highseasyachting.com/assets/img/team/brett.webp" alt="Brett Horowitz">
+              <img src="/images/sa4.webp" alt="Brett Horowitz">
             </div>
             <div class="advisor-content">
               <div class="advisor-name">Brett Horowitz</div>
@@ -84,7 +84,7 @@
 
           <div class="advisor-card">
             <div class="advisor-image">
-              <img src="https://new.highseasyachting.com/assets/img/team/shane.webp" alt="Shane Bussey">
+              <img src="/images/sa5.webp" alt="Shane Bussey">
             </div>
             <div class="advisor-content">
               <div class="advisor-name">Shane Bussey</div>
@@ -109,39 +109,19 @@
         </div>
 
         <div class="events-grid">
-        <article class="event-card">
-          <div class="event-image">
-            <img src="https://new.highseasyachting.com/assets/img/blog/anna.webp" alt="Annapolis 2024">
-          </div>
-          <div class="event-content">
-            <div class="event-title">Annapolis 2024</div>
-            <div class="event-date"><i class="fas fa-calendar-alt"></i> September 18-22</div><br>
-            <a class="event-button" href="#">Learn More <i class="fas fa-arrow-right"></i></a>
-          </div>
-        </article>
-
-        <article class="event-card">
-          <div class="event-image">
-            <img src="https://new.highseasyachting.com/assets/img/blog/mibs.webp" alt="MIBS 2026">
-          </div>
-          <div class="event-content">
-            <div class="event-title">MIBS 2026</div>
-            <div class="event-date"><i class="fas fa-calendar-alt"></i> February 12-16</div><br>
-            <a class="event-button" href="#">Learn More <i class="fas fa-arrow-right"></i></a>
-          </div>
-        </article>
-
-        <article class="event-card">
-          <div class="event-image">
-            <img src="https://new.highseasyachting.com/assets/img/blog/fibs.webp" alt="FLIBS 2025">
-          </div>
-          <div class="event-content">
-            <div class="event-title">FLIBS 2025</div>
-            <div class="event-date"><i class="fas fa-calendar-alt"></i> October 29-Nov 2</div><br>
-            <a class="event-button" href="#">Learn More <i class="fas fa-arrow-right"></i></a>
-          </div>
-        </article>
-      </div>
+          <article class="event-card" v-for="event in events" :key="event.id">
+            <router-link :to="'/event/' + event.id" class="event-card-link">
+              <div class="event-image">
+                <img :src="event.image" :alt="event.name">
+              </div>
+              <div class="event-content">
+                <div class="event-title">{{ event.name }}</div>
+                <div class="event-date"><i class="fas fa-calendar-alt"></i> {{ formatDate(event.date) }}</div><br>
+                <span class="event-button">Learn More <i class="fas fa-arrow-right"></i></span>
+              </div>
+            </router-link>
+          </article>
+        </div>
     </div>
     </section>
 
@@ -227,12 +207,25 @@
 <script>
 import FooterSection from '../components/FooterSection.vue';
 import NavbarSection from '../components/NavbarSection.vue';
+import eventsData from '../../events.json';
 
     export default {
         name: 'AboutUsPage',
         components: {
             NavbarSection,
             FooterSection
+        },
+        data() {
+            return {
+                events: eventsData[0].records.slice(0, 3)
+            }
+        },
+        methods: {
+            formatDate(dateString) {
+                if (!dateString) return '';
+                const date = new Date(dateString);
+                return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            }
         }
     }
 </script>
@@ -260,7 +253,7 @@ import NavbarSection from '../components/NavbarSection.vue';
     .page-hero {
       position: relative;
       background: linear-gradient(180deg, rgba(15, 40, 24, 0.8) 0%, rgba(15, 40, 24, 0.2) 55%),
-        url('https://images.unsplash.com/photo-1562281302-809108fd533c?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bHV4dXJ5JTIweWFjaHR8ZW58MHx8MHx8fDA%3D') center/cover no-repeat;
+        url('/images/about.jpeg') center/cover no-repeat;
       min-height: 420px;
       display: flex;
       align-items: center;
@@ -748,6 +741,12 @@ import NavbarSection from '../components/NavbarSection.vue';
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 30px;
+    }
+
+    .event-card-link {
+      text-decoration: none;
+      color: inherit;
+      display: block;
     }
 
     .event-card {
