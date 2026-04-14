@@ -179,83 +179,63 @@
                 <h2 class="section-title">Top Charter Destinations</h2>
             </div>
 
-            <div class="destinations-slider" id="destinationsSlider">
+            <div class="destinations-slider-wrapper">
+                <button class="destinations-arrow destinations-prev" id="destinationsPrev">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
 
-                <!-- Destination Card 1 - Maldives (Featured) -->
-                <div class="destination-card featured">
-                    <div class="destination-card-image">
-                        <img src="https://new.highseasyachting.com/assets/img/destination/destination_1_5.jpg"
-                            alt="Maldives">
-                        <div class="destination-card-overlay">
-                            <a href="#" class="explore-btn"><i class="fas fa-compass"></i> Explore Now</a>
+                <div class="destinations-slider" id="destinationsSlider">
+
+                    <!-- Destination Card 1 - Maldives (Featured) -->
+                    <div class="destination-card featured">
+                        <div class="destination-card-image">
+                            <img src="/images/england.jpg"
+                                alt="Maldives">
+                            <div class="destination-card-overlay">
+                                <router-link to="/destination-listings/7f0099dc-4336-47ad-aee7-16138f08ea29" class="explore-btn"><i class="fas fa-compass"></i> Explore Now</router-link>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="destination-name">New England & The Hamptons</h3>
+                            <p class="listings"><i class="fas fa-ship"></i> 15 Listings</p>
                         </div>
                     </div>
-                    <div class="card-content">
-                        <h3 class="destination-name">Maldives</h3>
-                        <p class="listings"><i class="fas fa-ship"></i> 15 Listings</p>
-                    </div>
-                </div>
 
-                <!-- Destination Card 2 -->
-                <div class="destination-card">
-                    <div class="destination-card-image">
-                        <img src="https://new.highseasyachting.com/assets/img/destination/destination_1_4.jpg"
-                            alt="Bahamas">
-                        <div class="destination-card-overlay">
-                            <a href="#" class="explore-btn"><i class="fas fa-compass"></i> Explore Now</a>
+                    <!-- Destination Card 2 -->
+                    <div class="destination-card">
+                        <div class="destination-card-image">
+                            <img src="/images/south.jpg"
+                                alt="Bahamas">
+                            <div class="destination-card-overlay">
+                                <router-link to="/destination-listings/ef4e5acf-30d6-42e8-b3d4-ced8e5731c3b" class="explore-btn"><i class="fas fa-compass"></i> Explore Now</router-link>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="destination-name">South Florida & The Keys</h3>
+                            <p class="listings"><i class="fas fa-ship"></i> 12 Listings</p>
                         </div>
                     </div>
-                    <div class="card-content">
-                        <h3 class="destination-name">Bahamas</h3>
-                        <p class="listings"><i class="fas fa-ship"></i> 12 Listings</p>
-                    </div>
-                </div>
 
-                <!-- Destination Card 3 -->
-                <div class="destination-card">
-                    <div class="destination-card-image">
-                        <img src="https://new.highseasyachting.com/assets/img/destination/destination_1_3.jpg"
-                            alt="Greek Islands">
-                        <div class="destination-card-overlay">
-                            <a href="#" class="explore-btn"><i class="fas fa-compass"></i> Explore Now</a>
+                    <!-- Destination Card 3 -->
+                    <div class="destination-card">
+                        <div class="destination-card-image">
+                            <img src="/images/mediterranean.png"
+                                alt="Greek Islands">
+                            <div class="destination-card-overlay">
+                                <router-link to="/destination-listings/5e5763c6-3ac1-4f0d-8fd7-36dcb2f31220" class="explore-btn"><i class="fas fa-compass"></i> Explore Now</router-link>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="destination-name">Mediterranean</h3>
+                            <p class="listings"><i class="fas fa-ship"></i> 18 Listings</p>
                         </div>
                     </div>
-                    <div class="card-content">
-                        <h3 class="destination-name">Greek Islands</h3>
-                        <p class="listings"><i class="fas fa-ship"></i> 18 Listings</p>
-                    </div>
+
                 </div>
 
-                <!-- Destination Card 4 -->
-                <div class="destination-card">
-                    <div class="destination-card-image">
-                        <img src="https://new.highseasyachting.com/assets/img/destination/destination_1_2.jpg"
-                            alt="French Riviera">
-                        <div class="destination-card-overlay">
-                            <a href="#" class="explore-btn"><i class="fas fa-compass"></i> Explore Now</a>
-                        </div>
-                    </div>
-                    <div class="card-content">
-                        <h3 class="destination-name">French Riviera</h3>
-                        <p class="listings"><i class="fas fa-ship"></i> 9 Listings</p>
-                    </div>
-                </div>
-
-                <!-- Destination Card 5 -->
-                <div class="destination-card">
-                    <div class="destination-card-image">
-                        <img src="https://new.highseasyachting.com/assets/img/destination/destination_1_1.jpg"
-                            alt="Caribbean">
-                        <div class="destination-card-overlay">
-                            <a href="#" class="explore-btn"><i class="fas fa-compass"></i> Explore Now</a>
-                        </div>
-                    </div>
-                    <div class="card-content">
-                        <h3 class="destination-name">Caribbean</h3>
-                        <p class="listings"><i class="fas fa-ship"></i> 22 Listings</p>
-                    </div>
-                </div>
-
+                <button class="destinations-arrow destinations-next" id="destinationsNext">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
             </div>
         </div>
     </section>
@@ -436,59 +416,56 @@
                     <h2 class="hs-blog-title">Latest News From HSY</h2>
                 </div>
 
-                <a href="#" class="hs-see-more-btn">
+                <router-link to="/blog" class="hs-see-more-btn">
                     See All Articles
                     <i class="fas fa-arrow-right"></i>
-                </a>
+                </router-link>
             </div>
 
             <div class="hs-blog-grid">
 
                 <!-- Large Featured Blog -->
-                <div class="hs-blog-card hs-featured-card">
+                <div class="hs-blog-card hs-featured-card" v-if="blogs[0]">
                     <div class="hs-blog-image">
-                        <img src="https://qumgjqbfreeskjgltfvu.supabase.co/storage/v1/object/public/blog-images/blog-images/1773055295014-lzt0b5.jpg"
-                            alt="Luxury Yacht">
+                        <img :src="blogs[0].featured_image" :alt="blogs[0].title">
                     </div>
                     <div class="hs-blog-content">
                         <div class="hs-blog-meta">
-                            <span><i class="fas fa-calendar-alt"></i> Mar 9, 2026</span>
-                            <span><i class="fas fa-clock"></i> 5 min read</span>
+                            <span><i class="fas fa-calendar-alt"></i> {{ formatBlogDate(blogs[0].publish_date) }}</span>
+                            <span><i class="fas fa-clock"></i> {{ blogs[0].category }}</span>
                         </div>
-                        <h3 class="hs-blog-post-title">The Ultimate Guide to Luxury Yachts: Everything You Need to Know</h3>
-                        <a href="#" class="hs-read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                        <h3 class="hs-blog-post-title">{{ blogs[0].title }}</h3>
+                        <router-link :to="'/blog/' + blogs[0].id" class="hs-read-more">Read More <i class="fas fa-arrow-right"></i></router-link>
                     </div>
                 </div>
 
                 <!-- Blog Card 2 -->
-                <div class="hs-blog-card">
+                <div class="hs-blog-card" v-if="blogs[1]">
                     <div class="hs-blog-image">
-                        <img src="https://qumgjqbfreeskjgltfvu.supabase.co/storage/v1/object/public/blog-images/blog-images/1773054665901-s769o.jpg"
-                            alt="Ocean Wave">
+                        <img :src="blogs[1].featured_image" :alt="blogs[1].title">
                     </div>
                     <div class="hs-blog-content">
                         <div class="hs-blog-meta">
-                            <span><i class="fas fa-calendar-alt"></i> Mar 8, 2026</span>
-                            <span><i class="fas fa-clock"></i> 3 min read</span>
+                            <span><i class="fas fa-calendar-alt"></i> {{ formatBlogDate(blogs[1].publish_date) }}</span>
+                            <span><i class="fas fa-clock"></i> {{ blogs[1].category }}</span>
                         </div>
-                        <h3 class="hs-blog-post-title">Top 5 Destinations for Yacht Lovers</h3>
-                        <a href="#" class="hs-read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                        <h3 class="hs-blog-post-title">{{ blogs[1].title }}</h3>
+                        <router-link :to="'/blog/' + blogs[1].id" class="hs-read-more">Read More <i class="fas fa-arrow-right"></i></router-link>
                     </div>
                 </div>
 
                 <!-- Blog Card 3 -->
-                <div class="hs-blog-card">
+                <div class="hs-blog-card" v-if="blogs[2]">
                     <div class="hs-blog-image">
-                        <img src="https://qumgjqbfreeskjgltfvu.supabase.co/storage/v1/object/public/blog-images/blog-images/1773054720347-g0za2k.jpg"
-                            alt="Sunset Beach">
+                        <img :src="blogs[2].featured_image" :alt="blogs[2].title">
                     </div>
                     <div class="hs-blog-content">
                         <div class="hs-blog-meta">
-                            <span><i class="fas fa-calendar-alt"></i> Mar 7, 2026</span>
-                            <span><i class="fas fa-clock"></i> 4 min read</span>
+                            <span><i class="fas fa-calendar-alt"></i> {{ formatBlogDate(blogs[2].publish_date) }}</span>
+                            <span><i class="fas fa-clock"></i> {{ blogs[2].category }}</span>
                         </div>
-                        <h3 class="hs-blog-post-title">How to Choose the Perfect Yacht for Your Needs</h3>
-                        <a href="#" class="hs-read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                        <h3 class="hs-blog-post-title">{{ blogs[2].title }}</h3>
+                        <router-link :to="'/blog/' + blogs[2].id" class="hs-read-more">Read More <i class="fas fa-arrow-right"></i></router-link>
                     </div>
                 </div>
 
@@ -505,13 +482,16 @@ import FooterSection from '../components/FooterSection.vue';
 import NavbarSection from '../components/NavbarSection.vue';
 import listingsDataRaw from '../../listings.json';
 import brokersDataRaw from '../../broker.json';
+import blogsDataRaw from '../../blogs.json';
 
 const listingsData = Array.isArray(listingsDataRaw) ? listingsDataRaw : [listingsDataRaw];
+const blogsData = Array.isArray(blogsDataRaw) ? blogsDataRaw : [blogsDataRaw];
 const SUPABASE_URL = 'https://qumgjqbfreeskjgltfvu.supabase.co/storage/v1/object/public/listings/';
 
 const featuredListings = ref([]);
 const brokers = ref([]);
 const priorityListings = ref([]);
+const blogs = ref([]);
 
 function loadPriorityListings() {
     let records = [];
@@ -558,6 +538,32 @@ function loadBrokers() {
     brokers.value = records
         .filter(broker => broker && broker.is_active === true)
         .sort((a, b) => (a.order_index || 0) - (b.order_index || 0));
+}
+
+function loadBlogs() {
+    let records = [];
+    if (blogsData) {
+        if (Array.isArray(blogsData) && blogsData.length > 0) {
+            const firstItem = blogsData[0];
+            if (firstItem && firstItem.records && Array.isArray(firstItem.records)) {
+                records = firstItem.records;
+            } else if (Array.isArray(blogsData)) {
+                records = blogsData;
+            }
+        } else if (blogsData.records && Array.isArray(blogsData.records)) {
+            records = blogsData.records;
+        }
+    }
+    const uniqueBlogs = records.filter((item, index, self) => index === self.findIndex((t) => t.id === item.id));
+    blogs.value = uniqueBlogs.slice(0, 3).map(blog => ({
+        id: blog.id,
+        title: blog.title,
+        category: blog.category,
+        content: blog.content,
+        featured_image: blog.featured_image,
+        publish_date: blog.publish_date,
+        excerpt: blog.excerpt
+    }));
 }
 
 function loadFeaturedListings() {
@@ -613,15 +619,22 @@ function formatPrice(price) {
 
 function getListingSlug(listing) {
     if (!listing) return '';
-    return `${listing.year}-${listing.manufacturer}-${listing.yachtName}-for-sale`.toLowerCase()
+    return `${listing.year}-${listing.manufacturer}-${listing.yachtName}-${listing.city ? listing.city.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') : 'location'}`.toLowerCase()
         .replace(/[^a-z0-9]+/g, '-')
         .replace(/(^-|-$)/g, '');
+}
+
+function formatBlogDate(dateString) {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 }
 
 onMounted(() => {
     loadFeaturedListings();
     loadBrokers();
     loadPriorityListings();
+    loadBlogs();
     const style = document.createElement('style');
     style.textContent = `
       .slider-nav-buttons {
@@ -697,7 +710,7 @@ onMounted(() => {
             const walk = (x - yachtStartX) * 2;
             yachtSliderContainer.scrollLeft = yachtScrollLeft - walk;
         });
-
+  
         // Yacht Slider Arrow Buttons
         const yachtSliderPrev = document.getElementById('yachtSliderPrev');
         const yachtSliderNext = document.getElementById('yachtSliderNext');
@@ -833,6 +846,25 @@ onMounted(() => {
             const walk = (x - destStartX) * 2;
             destinationsSlider.scrollLeft = destScrollLeft - walk;
         });
+
+        // Add navigation arrows functionality
+        const destPrevBtn = document.getElementById('destinationsPrev');
+        const destNextBtn = document.getElementById('destinationsNext');
+        
+        if (destPrevBtn && destNextBtn) {
+            const cardCount = 3;
+            const cardWidth = destinationsSlider.querySelector('.destination-card')?.offsetWidth || 380;
+            const gap = 25;
+            const scrollAmount = (cardWidth + gap) * cardCount;
+
+            destPrevBtn.addEventListener('click', () => {
+                destinationsSlider.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+            });
+
+            destNextBtn.addEventListener('click', () => {
+                destinationsSlider.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+            });
+        }
     }
 
     // Form submission handling
@@ -1779,6 +1811,13 @@ onMounted(() => {
         }
 
         /* Slider Container */
+        .destinations-slider-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
         .destinations-slider {
             display: flex;
             gap: 25px;
@@ -1787,10 +1826,58 @@ onMounted(() => {
             padding: 10px 0 30px;
             scrollbar-width: none;
             cursor: grab;
+            flex: 1;
         }
 
         .destinations-slider:active {
             cursor: grabbing;
+        }
+
+        .destinations-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #1a3a2a;
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            z-index: 10;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .destinations-arrow:hover {
+            background: #355a32;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .destinations-prev {
+            left: -25px;
+        }
+
+        .destinations-next {
+            right: -25px;
+        }
+
+        @media (max-width: 1200px) {
+            .destinations-arrow {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+            .destinations-prev {
+                left: 10px;
+            }
+            .destinations-next {
+                right: 10px;
+            }
         }
 
         .destinations-slider::-webkit-scrollbar {
@@ -1798,7 +1885,7 @@ onMounted(() => {
         }
 
         .destination-card {
-            min-width: 380px;
+            min-width: calc((100% - 50px) / 3);
             border-radius: 20px;
             overflow: hidden;
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
@@ -1808,7 +1895,7 @@ onMounted(() => {
         }
 
         .destination-card.featured {
-            min-width: 420px;
+            min-width: calc((100% - 50px) / 3);
             box-shadow: 0 20px 50px rgba(65, 107, 60, 0.2);
         }
 
@@ -1926,23 +2013,40 @@ onMounted(() => {
         }
 
         /* Responsive */
-        @media (max-width: 992px) {
-            .destination-card {
-                min-width: 340px;
-            }
-
+        @media (max-width: 1200px) {
+            .destination-card,
             .destination-card.featured {
-                min-width: 370px;
+                min-width: calc((100% - 50px) / 3);
+                min-width: -webkit-calc((100% - 50px) / 3);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .destination-card,
+            .destination-card.featured {
+                min-width: calc((100% - 30px) / 3);
+                min-width: -webkit-calc((100% - 30px) / 3);
             }
 
             .destination-card-image {
                 height: 380px;
             }
+
+            .destinations-slider-wrapper {
+                gap: 15px;
+            }
         }
 
         @media (max-width: 768px) {
             .destinations-slider {
-                gap: 18px;
+                gap: 15px;
+                padding: 10px 0 20px;
+            }
+
+            .destination-card,
+            .destination-card.featured {
+                min-width: calc(100% - 10px);
+                min-width: -webkit-calc(100% - 10px);
             }
 
             .destination-card {

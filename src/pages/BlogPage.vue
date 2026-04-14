@@ -11,65 +11,91 @@
 
 <main class="content-shell">
   <div class="blog-layout">
-    <div class="blog-list">
-      <div class="section-header">
-        <h2 class="section-title">Latest Articles</h2>
-        <a href="#" class="section-link">View All <i class="fas fa-arrow-right"></i></a>
+<div class="blog-list">
+        <div class="section-header">
+          <h2 class="section-title">Latest Articles</h2>
+          <a href="#" class="section-link">View All <i class="fas fa-arrow-right"></i></a>
+        </div>
+
+        <article v-for="blog in paginatedBlogs" :key="blog.id" class="blog-card">
+          <div class="blog-card-image">
+            <img :src="blog.featured_image || blog.image || 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1200&q=80'" :alt="blog.title">
+            <span class="blog-card-badge">{{ blog.category || 'Luxury Lifestyle' }}</span>
+          </div>
+          <div class="blog-card-content">
+            <div class="blog-meta">
+              <span><i class="fas fa-user"></i> {{ blog.author || 'By Admin' }}</span>
+              <span><i class="fas fa-calendar-alt"></i> {{ formatDate(blog.publish_date || blog.date) }}</span>
+            </div>
+            <h2 class="blog-title">{{ blog.title }}</h2>
+            <p class="blog-snippet">{{ blog.excerpt || blog.description }}</p>
+            <router-link class="blog-action" :to="`/blog/${blog.id}`">Read Article <i class="fas fa-arrow-right"></i></router-link>
+          </div>
+        </article>
+
+        <div v-if="filteredBlogs.length === 0" class="no-blogs">
+          <p>No blogs found matching your search.</p>
+        </div>
+
+        <div v-if="totalPages > 1" class="pagination-container">
+          <div class="pagination">
+            <button 
+              class="page-btn" 
+              :disabled="currentPage === 1"
+              @click="currentPage = 1"
+              title="First page"
+            >
+              <i class="fas fa-angles-left"></i>
+            </button>
+            <button 
+              class="page-btn" 
+              :disabled="currentPage === 1"
+              @click="currentPage--"
+            >
+              <i class="fas fa-angle-left"></i>
+            </button>
+            
+            <template v-for="page in visiblePages" :key="page">
+              <button 
+                v-if="page !== '...'"
+                class="page-btn"
+                :class="{ active: currentPage === page }"
+                @click="currentPage = page"
+              >
+                {{ page }}
+              </button>
+              <span v-else class="page-ellipsis">...</span>
+            </template>
+            
+            <button 
+              class="page-btn" 
+              :disabled="currentPage === totalPages"
+              @click="currentPage++"
+            >
+              <i class="fas fa-angle-right"></i>
+            </button>
+            <button 
+              class="page-btn" 
+              :disabled="currentPage === totalPages"
+              @click="currentPage = totalPages"
+              title="Last page"
+            >
+              <i class="fas fa-angles-right"></i>
+            </button>
+          </div>
+          <p class="pagination-info">Showing {{ startIndex + 1 }}-{{ Math.min(endIndex, filteredBlogs.length) }} of {{ filteredBlogs.length }} articles</p>
+        </div>
       </div>
-
-      <article class="blog-card">
-        <div class="blog-card-image">
-          <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1200&q=80" alt="Luxury yacht">
-          <span class="blog-card-badge">Luxury Lifestyle</span>
-        </div>
-        <div class="blog-card-content">
-          <div class="blog-meta">
-            <span><i class="fas fa-user"></i> By Admin</span>
-            <span><i class="fas fa-calendar-alt"></i> Mar 9, 2026</span>
-          </div>
-          <h2 class="blog-title">All About the Private Yacht Lifestyle</h2>
-          <p class="blog-snippet">Discover what it feels like to live aboard a luxury yacht, from premium amenities to the freedom of cruising coastal waters in style.</p>
-          <a class="blog-action" href="#">Read Article <i class="fas fa-arrow-right"></i></a>
-        </div>
-      </article>
-
-      <article class="blog-card">
-        <div class="blog-card-image">
-          <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80" alt="Ocean voyage">
-          <span class="blog-card-badge">Travel</span>
-        </div>
-        <div class="blog-card-content">
-          <div class="blog-meta">
-            <span><i class="fas fa-user"></i> By Admin</span>
-            <span><i class="fas fa-calendar-alt"></i> Mar 9, 2026</span>
-          </div>
-          <h2 class="blog-title">Top 5 Destinations for Yacht Lovers</h2>
-          <p class="blog-snippet">From the Caribbean to the Mediterranean, explore the most stunning marinas and anchorages for your next luxury voyage.</p>
-          <a class="blog-action" href="#">Read Article <i class="fas fa-arrow-right"></i></a>
-        </div>
-      </article>
-
-      <article class="blog-card">
-        <div class="blog-card-image">
-          <img src="https://images.unsplash.com/photo-1483721310020-03333e577078?auto=format&fit=crop&w=1200&q=80" alt="Beach sunrise">
-          <span class="blog-card-badge">Boating Guide</span>
-        </div>
-        <div class="blog-card-content">
-          <div class="blog-meta">
-            <span><i class="fas fa-user"></i> By Admin</span>
-            <span><i class="fas fa-calendar-alt"></i> Mar 9, 2026</span>
-          </div>
-          <h2 class="blog-title">How to Choose the Perfect Yacht for Your Needs</h2>
-          <p class="blog-snippet">A practical guide to matching yacht size, amenities, and cruising plans so you can make the best ownership or charter decision.</p>
-          <a class="blog-action" href="#">Read Article <i class="fas fa-arrow-right"></i></a>
-        </div>
-      </article>
-    </div>
 
     <aside class="sidebar">
       <div class="sidebar-panel">
         <div class="search-box">
-          <input type="search" placeholder="Search articles...">
+          <input 
+            type="search" 
+            placeholder="Search articles..." 
+            v-model="searchQuery"
+            @input="currentPage = 1"
+          >
           <button type="button"><i class="fas fa-search"></i></button>
         </div>
       </div>
@@ -77,66 +103,47 @@
       <div class="sidebar-panel">
         <h3 class="sidebar-title">Categories</h3>
         <ul class="category-list">
-          <li class="category-item"><span>Luxury Lifestyle</span><span>12</span></li>
-          <li class="category-item"><span>Boating Guide</span><span>8</span></li>
-          <li class="category-item"><span>Travel</span><span>15</span></li>
-          <li class="category-item"><span>Yacht News</span><span>6</span></li>
+          <li v-for="(count, category) in categories" :key="category" class="category-item">
+            <span>{{ category }}</span><span>{{ count }}</span>
+          </li>
         </ul>
       </div>
 
       <div class="sidebar-panel">
         <h3 class="sidebar-title">Popular Tags</h3>
         <div class="tag-list">
-          <span class="tag-item">Yachts</span>
-          <span class="tag-item">Yacht Buying</span>
-          <span class="tag-item">Yacht Travel</span>
-          <span class="tag-item">Charter</span>
-          <span class="tag-item">Destinations</span>
+          <span v-for="tag in tags" :key="tag" class="tag-item">{{ tag }}</span>
         </div>
       </div>
 
       <div class="sidebar-panel recent-sidebar-panel">
       <h3 class="sidebar-title">Recent Articles</h3>
       <div class="recent-sidebar-list">
-        <article class="recent-sidebar-item">
-          <div class="recent-sidebar-image">
-            <img src="https://images.unsplash.com/photo-1540946485063-4d3a2a2f8b0d?auto=format&fit=crop&w=150&q=80" alt="Yacht">
-          </div>
-          <div class="recent-sidebar-content">
-            <p class="recent-sidebar-date">Mar 5, 2026</p>
-            <h4 class="recent-sidebar-title">The Ultimate Guide to Yacht Maintenance</h4>
-          </div>
+        <article v-for="blog in recentBlogs" :key="blog.id" class="recent-sidebar-item">
+          <a :href="`/blog/${blog.id}`" target="_blank" rel="noopener noreferrer" class="recent-sidebar-link">
+            <div class="recent-sidebar-image">
+              <img :src="blog.featured_image || blog.image || 'https://images.unsplash.com/photo-1540946485063-4d3a2a2f8b0d?auto=format&fit=crop&w=150&q=80'" :alt="blog.title">
+            </div>
+            <div class="recent-sidebar-content">
+              <p class="recent-sidebar-date">{{ formatDate(blog.publish_date || blog.date) }}</p>
+              <h4 class="recent-sidebar-title">{{ blog.title }}</h4>
+            </div>
+          </a>
         </article>
 
-        <article class="recent-sidebar-item">
-          <div class="recent-sidebar-image">
-            <img src="https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?auto=format&fit=crop&w=150&q=80" alt="Yacht">
-          </div>
-          <div class="recent-sidebar-content">
-            <p class="recent-sidebar-date">Mar 3, 2026</p>
-            <h4 class="recent-sidebar-title">Top 10 Luxury Marinas in Florida</h4>
-          </div>
-        </article>
-
-        <article class="recent-sidebar-item">
-          <div class="recent-sidebar-image">
-            <img src="https://images.unsplash.com/photo-1605281317010-fe5ffe798166?auto=format&fit=crop&w=150&q=80" alt="Yacht">
-          </div>
-          <div class="recent-sidebar-content">
-            <p class="recent-sidebar-date">Feb 28, 2026</p>
-            <h4 class="recent-sidebar-title">What to Expect on Your First Charter</h4>
-          </div>
-        </article>
-
-        <article class="recent-sidebar-item">
-          <div class="recent-sidebar-image">
-            <img src="https://images.unsplash.com/photo-1583422409510-0b5c8f6d2c4d?auto=format&fit=crop&w=150&q=80" alt="Yacht">
-          </div>
-          <div class="recent-sidebar-content">
-            <p class="recent-sidebar-date">Feb 25, 2026</p>
-            <h4 class="recent-sidebar-title">Yacht Buying vs Chartering: What's Best?</h4>
-          </div>
-        </article>
+        <div v-if="recentBlogs.length === 0">
+          <article class="recent-sidebar-item">
+            <a href="#" class="recent-sidebar-link">
+              <div class="recent-sidebar-image">
+                <img src="https://images.unsplash.com/photo-1540946485063-4d3a2a2f8b0d?auto=format&fit=crop&w=150&q=80" alt="Yacht">
+              </div>
+              <div class="recent-sidebar-content">
+                <p class="recent-sidebar-date">Mar 5, 2026</p>
+                <h4 class="recent-sidebar-title">The Ultimate Guide to Yacht Maintenance</h4>
+              </div>
+            </a>
+          </article>
+        </div>
       </div>
     </div>
     </aside>
@@ -149,13 +156,120 @@
 <script>
 import FooterSection from '../components/FooterSection.vue';
 import NavbarSection from '../components/NavbarSection.vue';
+import blogs from '../../blogs.json';
 
     export default {
         name: 'BlogPage',
         components: {
             NavbarSection,
             FooterSection
-        }
+        },
+        data() {
+            return {
+                blogs: [],
+                searchQuery: '',
+                currentPage: 1,
+                perPage: 5
+            }
+        },
+        computed: {
+            filteredBlogs() {
+                if (!this.searchQuery.trim()) {
+                    return this.blogs;
+                }
+                const query = this.searchQuery.toLowerCase();
+                return this.blogs.filter(blog => {
+                    const title = (blog.title || '').toLowerCase();
+                    const excerpt = (blog.excerpt || blog.description || '').toLowerCase();
+                    const category = (blog.category || '').toLowerCase();
+                    const author = (blog.author || '').toLowerCase();
+                    return title.includes(query) || excerpt.includes(query) || category.includes(query) || author.includes(query);
+                });
+            },
+            paginatedBlogs() {
+                const start = (this.currentPage - 1) * this.perPage;
+                const end = start + this.perPage;
+                return this.filteredBlogs.slice(start, end);
+            },
+            totalPages() {
+                return Math.ceil(this.filteredBlogs.length / this.perPage);
+            },
+            startIndex() {
+                return (this.currentPage - 1) * this.perPage;
+            },
+            endIndex() {
+                return this.startIndex + this.perPage;
+            },
+            visiblePages() {
+                const pages = [];
+                const total = this.totalPages;
+                const current = this.currentPage;
+                
+                if (total <= 7) {
+                    for (let i = 1; i <= total; i++) pages.push(i);
+                } else {
+                    if (current <= 3) {
+                        pages.push(1, 2, 3, 4, '...', total);
+                    } else if (current >= total - 2) {
+                        pages.push(1, '...', total - 3, total - 2, total - 1, total);
+                    } else {
+                        pages.push(1, '...', current - 1, current, current + 1, '...', total);
+                    }
+                }
+                return pages;
+            },
+            recentBlogs() {
+                return this.blogs.slice(0, 4);
+            },
+            categories() {
+                const cats = {};
+                this.blogs.forEach(blog => {
+                    const cat = blog.category || 'Luxury Lifestyle';
+                    cats[cat] = (cats[cat] || 0) + 1;
+                });
+                if (Object.keys(cats).length === 0) {
+                    return { 'Luxury Lifestyle': 0, 'Boating Guide': 0, 'Travel': 0, 'Yacht News': 0 };
+                }
+                return cats;
+            },
+            tags() {
+                const allTags = [];
+                this.blogs.forEach(blog => {
+                    if (blog.tags && Array.isArray(blog.tags)) {
+                        allTags.push(...blog.tags.map(t => t.toLowerCase()));
+                    }
+                });
+                const uniqueTags = [...new Set(allTags)];
+                if (uniqueTags.length === 0) {
+                    return ['Yachts', 'Yacht Buying', 'Yacht Travel', 'Charter', 'Destinations'];
+                }
+                return uniqueTags;
+            }
+        },
+        mounted() {
+            this.loadBlogs();
+        },
+        methods: {
+            loadBlogs() {
+                let allBlogs = [];
+                
+                if (Array.isArray(blogs) && blogs.length > 0) {
+                    const blogData = blogs.find(b => b.data_type === 'blog_posts' || b.records);
+                    if (blogData && blogData.records) {
+                        allBlogs = blogData.records;
+                    } else {
+                        allBlogs = blogs;
+                    }
+                }
+                
+                this.blogs = allBlogs;
+            },
+            formatDate(dateString) {
+                if (!dateString) return 'Mar 9, 2026';
+                const date = new Date(dateString);
+                return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            }
+        },
     }
 </script>
 
@@ -401,6 +515,13 @@ import NavbarSection from '../components/NavbarSection.vue';
       gap: 14px;
     }
 
+    .no-blogs {
+      text-align: center;
+      padding: 40px;
+      color: #6b7280;
+      font-size: 1.1rem;
+    }
+
     /* Sidebar */
     .sidebar {
       display: grid;
@@ -553,6 +674,18 @@ import NavbarSection from '../components/NavbarSection.vue';
     }
 
     .recent-sidebar-item:hover .recent-sidebar-title {
+      color: white;
+    }
+
+    .recent-sidebar-link {
+      display: flex;
+      gap: 14px;
+      text-decoration: none;
+      color: inherit;
+      width: 100%;
+    }
+
+    .recent-sidebar-link:hover {
       color: white;
     }
 
@@ -853,6 +986,134 @@ import NavbarSection from '../components/NavbarSection.vue';
 
       .recent-sidebar-title {
         font-size: 0.8rem;
+      }
+    }
+
+    /* Pagination */
+    .pagination-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      margin-top: 48px;
+      padding: 32px 0;
+    }
+
+    .pagination {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .page-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 48px;
+      height: 48px;
+      padding: 0 14px;
+      border: 2px solid #e8ebe7;
+      border-radius: 14px;
+      background: #ffffff;
+      color: #1a1f1a;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .page-btn:hover:not(:disabled) {
+      border-color: #1a3a2a;
+      background: #1a3a2a;
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(26, 58, 42, 0.2);
+    }
+
+    .page-btn.active {
+      background: linear-gradient(135deg, #1a3a2a, #2d5a45);
+      border-color: #1a3a2a;
+      color: white;
+      box-shadow: 0 4px 16px rgba(26, 58, 42, 0.3);
+    }
+
+    .page-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .page-btn:disabled:hover {
+      border-color: #e8ebe7;
+      background: #ffffff;
+      color: #1a1f1a;
+      box-shadow: none;
+    }
+
+    .page-ellipsis {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 48px;
+      height: 48px;
+      color: #6b7280;
+      font-weight: 600;
+    }
+
+    .pagination-info {
+      color: #6b7280;
+      font-size: 0.9rem;
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      .pagination-container {
+        margin-top: 32px;
+        padding: 24px 0;
+      }
+
+      .pagination {
+        gap: 6px;
+      }
+
+      .page-btn {
+        min-width: 42px;
+        height: 42px;
+        padding: 0 10px;
+        font-size: 0.85rem;
+        border-radius: 12px;
+      }
+
+      .page-ellipsis {
+        min-width: 36px;
+        height: 42px;
+      }
+
+      .pagination-info {
+        font-size: 0.8rem;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .pagination {
+        gap: 4px;
+      }
+
+      .page-btn {
+        min-width: 38px;
+        height: 38px;
+        padding: 0 8px;
+        font-size: 0.8rem;
+        border-radius: 10px;
+      }
+
+      .page-ellipsis {
+        min-width: 28px;
+        height: 38px;
+        font-size: 0.75rem;
       }
     }
 </style>

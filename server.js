@@ -7,6 +7,8 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const LISTINGS_PATH = path.join(process.cwd(), 'listings.json');
 const BROKERS_PATH = path.join(process.cwd(), 'broker.json');
+const BLOGS_PATH = path.join(process.cwd(), 'blogs.json');
+const EVENTS_PATH = path.join(process.cwd(), 'events.json');
 
 app.use(cors({
   origin: '*',
@@ -46,6 +48,38 @@ function loadBrokers() {
 
 function saveBrokers(brokers) {
   fs.writeFileSync(BROKERS_PATH, JSON.stringify(brokers, null, 2));
+}
+
+function loadBlogs() {
+  try {
+    if (fs.existsSync(BLOGS_PATH)) {
+      const data = fs.readFileSync(BLOGS_PATH, 'utf8');
+      return JSON.parse(data);
+    }
+  } catch (error) {
+    console.error('Error loading blogs:', error);
+  }
+  return [];
+}
+
+function saveBlogs(blogs) {
+  fs.writeFileSync(BLOGS_PATH, JSON.stringify(blogs, null, 2));
+}
+
+function loadEvents() {
+  try {
+    if (fs.existsSync(EVENTS_PATH)) {
+      const data = fs.readFileSync(EVENTS_PATH, 'utf8');
+      return JSON.parse(data);
+    }
+  } catch (error) {
+    console.error('Error loading events:', error);
+  }
+  return [];
+}
+
+function saveEvents(events) {
+  fs.writeFileSync(EVENTS_PATH, JSON.stringify(events, null, 2));
 }
 
 app.post('/api/listings', (req, res) => {
@@ -152,6 +186,110 @@ app.get('/api/brokers', (req, res) => {
   }
 });
 
+app.post('/api/blogs', (req, res) => {
+  try {
+    console.log('Received blogs data type:', typeof req.body);
+    console.log('Is array:', Array.isArray(req.body));
+    
+    let newBlogs = req.body;
+
+    if (typeof newBlogs === 'object' && !Array.isArray(newBlogs)) {
+      const possibleArrays = [newBlogs.data, newBlogs.blogs, newBlogs.items, newBlogs.results];
+      for (const arr of possibleArrays) {
+        if (Array.isArray(arr)) {
+          newBlogs = arr;
+          break;
+        }
+      }
+    }
+
+    if (!Array.isArray(newBlogs)) {
+      newBlogs = [newBlogs];
+    }
+
+    if (newBlogs.length > 0 && newBlogs[0] !== undefined && newBlogs[0] !== null) {
+      const existingBlogs = loadBlogs();
+      const combinedBlogs = [...existingBlogs, ...newBlogs];
+      saveBlogs(combinedBlogs);
+
+      console.log(`Saved ${newBlogs.length} blogs`);
+
+      res.json({ 
+        success: true, 
+        message: `Added ${newBlogs.length} blogs`,
+        total: combinedBlogs.length 
+      });
+    } else {
+      res.json({ success: true, message: 'No data to save' });
+    }
+  } catch (error) {
+    console.error('Error saving blogs:', error);
+    res.status(500).json({ error: 'Failed to save blogs' });
+  }
+});
+
+app.get('/api/blogs', (req, res) => {
+  try {
+    const blogs = loadBlogs();
+    res.json(blogs);
+  } catch (error) {
+    console.error('Error reading blogs:', error);
+    res.status(500).json({ error: 'Failed to read blogs' });
+  }
+});
+
+app.post('/api/events', (req, res) => {
+  try {
+    console.log('Received events data type:', typeof req.body);
+    console.log('Is array:', Array.isArray(req.body));
+    
+    let newEvents = req.body;
+
+    if (typeof newEvents === 'object' && !Array.isArray(newEvents)) {
+      const possibleArrays = [newEvents.data, newEvents.events, newEvents.items, newEvents.results];
+      for (const arr of possibleArrays) {
+        if (Array.isArray(arr)) {
+          newEvents = arr;
+          break;
+        }
+      }
+    }
+
+    if (!Array.isArray(newEvents)) {
+      newEvents = [newEvents];
+    }
+
+    if (newEvents.length > 0 && newEvents[0] !== undefined && newEvents[0] !== null) {
+      const existingEvents = loadEvents();
+      const combinedEvents = [...existingEvents, ...newEvents];
+      saveEvents(combinedEvents);
+
+      console.log(`Saved ${newEvents.length} events`);
+
+      res.json({ 
+        success: true, 
+        message: `Added ${newEvents.length} events`,
+        total: combinedEvents.length 
+      });
+    } else {
+      res.json({ success: true, message: 'No data to save' });
+    }
+  } catch (error) {
+    console.error('Error saving events:', error);
+    res.status(500).json({ error: 'Failed to save events' });
+  }
+});
+
+app.get('/api/events', (req, res) => {
+  try {
+    const events = loadEvents();
+    res.json(events);
+  } catch (error) {
+    console.error('Error reading events:', error);
+    res.status(500).json({ error: 'Failed to read events' });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
   console.log(`API endpoints:`);
@@ -159,4 +297,8 @@ app.listen(PORT, () => {
   console.log(`  GET  /api/listings - Get all listings`);
   console.log(`  POST /api/brokers - Add brokers`);
   console.log(`  GET  /api/brokers - Get all brokers`);
+  console.log(`  POST /api/blogs - Add blogs`);
+  console.log(`  GET  /api/blogs - Get all blogs`);
+  console.log(`  POST /api/events - Add events`);
+  console.log(`  GET  /api/events - Get all events`);
 });

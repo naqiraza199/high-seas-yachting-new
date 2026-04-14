@@ -1,0 +1,81 @@
+[
+  {
+    "data_type": "events",
+    "records": [
+      {
+        "id": "58ea8f2a-3be3-44fe-a55e-41c008c5cdc5",
+        "name": "MIBS SHOW",
+        "date": "2026-01-01T00:00:00+00:00",
+        "location": "Miami Beach Convention Center",
+        "description": "World Leading Boat Showing Event",
+        "image": "https://qumgjqbfreeskjgltfvu.supabase.co/storage/v1/object/public/event-images/0.5900958349021729.png",
+        "rsvp_enabled": false,
+        "created_at": "2025-12-18T04:30:27.236+00:00",
+        "updated_at": "2025-12-18T04:30:27.872606+00:00",
+        "metadata": {},
+        "end_date": null
+      },
+      {
+        "id": "8404c57a-b518-4c31-93c4-cb6ca272fcec",
+        "name": "PIBS",
+        "date": "2026-03-26T00:00:00+00:00",
+        "location": "Florida",
+        "description": "The Palma International Boat Show is the opening fair\nof the Mediterranean boating season.\nMore than 300 companies will participate, exhibiting a wide variety of boats\nand the latest innovations in equipment, water sports, and services.\n\nThe Shipyards & Equipment area of the Palma International Boat Show\nbrings together a wide range of commercial offerings, ranging\nfrom new boats up to 35 meters in length\nto shipyards, dry docks, equipment distributors,\nspecialized training, and much more.",
+        "image": "https://qumgjqbfreeskjgltfvu.supabase.co/storage/v1/object/public/event-media/events/1773754023813_2004-lazzara-ly106-power-10052524-20260109134720692-1.webp",
+        "rsvp_enabled": false,
+        "created_at": "2026-03-17T13:22:57.135279+00:00",
+        "updated_at": "2026-03-17T13:22:57.135279+00:00",
+        "metadata": {
+          "section1": {
+            "title": "Join High Seas Yachting on the Docks!",
+            "description": "The Miami International Boat Show returns this weekend, bringing the world’s top yachts, marine products, and on-water innovations to Miami. This year, the show spans multiple locations throughout the city, with the Yacht Collection in South Beach serving as the premier destination for large yachts and luxury experiences.\n\n \n\nHigh Seas Yachting will be attending the show and connecting with clients throughout the weekend. While we will not have a vessel on display, our team will be on site to guide clients through the Yacht Collection, coordinate private showings near the show, and assist with charter opportunities in Miami."
+          },
+          "section2": {
+            "title_1": " Visit the Yacht Collection – South Beach ",
+            "title_2": " Park Nearby and Get Dropped Off ",
+            "description_1": " The Yacht Collection is located along the waterfront in South Beach and showcases some of the largest yachts and luxury brands at the Miami International Boat Show. We recommend reviewing venue details in advance, as show locations are spread across multiple areas this year. This area is best accessed by rideshare or drop-off, especially during peak show hours. ",
+            "description_2": " If you plan to drive, parking nearby and using a drop-off or rideshare is one of the easiest ways to access the show. Due to updated locations and traffic patterns, we recommend coordinating your arrival in advance. If you are meeting with the High Seas Yachting team, we’re happy to assist with meeting points or help plan your visit around the Yacht Collection and nearby yachts. ",
+            "section_title": "How to Get to the Show"
+          },
+          "section3": {
+            "image_1": "",
+            "image_2": "",
+            "image_3": "",
+            "title_1": " Purchase tickets ",
+            "title_2": " Digital ticket ",
+            "title_3": " Meet with HSY ",
+            "button_link_1": "https://highseasyachting.com",
+            "button_text_1": "Purchase Now",
+            "description_1": "Purchase tickets in advance through the official MIBS website. ",
+            "description_2": "Show your digital ticket at the entrance for direct access to the main docks.",
+            "description_3": "Set a meeting point and meet your HSY rep for your Ultimate Access Badge.",
+            "section_title": "How to Enter the Show "
+          },
+          "section4": {
+            "listing_ids": [
+              "17221eff-9ce2-4b9a-91bf-a20da0e6cd9f",
+              "293cc13c-41ea-49ac-ad43-24e89eb5cbce",
+              "3305357b-9a72-42f8-971c-5a6d4b88c841"
+            ],
+            "section_title": "Boats on Event"
+          },
+          "section5": {
+            "image": "https://qumgjqbfreeskjgltfvu.supabase.co/storage/v1/object/public/event-media/events/1773754035795_597932509_824147477284457_8219716261321542390_n.jpg",
+            "title": "See You on the Docks!",
+            "description": "Whether you’re arriving by rideshare or car, plan ahead to make the most of your time at the Miami International Boat Show. With the show spread across multiple locations, we recommend coordinating your visit in advance — especially if you plan to explore the Yacht Collection in South Beach or schedule private showings nearby.\n\nWe look forward to connecting with you in Miami!"
+          },
+          "section6": {
+            "image": "https://qumgjqbfreeskjgltfvu.supabase.co/storage/v1/object/public/event-media/events/1773754049286_cropped-cropped-HSY-Icon-Large-e1672947511783-1.webp",
+            "form_id": "09726eda-00ae-4fd9-b54c-88f764f31458",
+            "form_url": "https://app.highseasyachting.com/pibs/register"
+          }
+        },
+        "end_date": "2026-04-03"
+      }
+    ],
+    "batch_index": 1,
+    "total_batches": 1,
+    "total_records": 2,
+    "synced_at": "2026-04-14T09:22:21.623Z"
+  }
+]

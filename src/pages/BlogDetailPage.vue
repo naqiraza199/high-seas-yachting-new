@@ -1,77 +1,42 @@
 <template>
     <NavbarSection />
- <header class="page-hero">
+  <header class="page-hero" :style="heroBackgroundStyle">
+    <div class="hero-overlay"></div>
     <div class="hero-content">
-      <h1 class="hero-title">The Ultimate Guide to Luxury Yachts</h1>
+      <span class="hero-label"><i class="fas fa-pen-nib"></i> Blog</span>
+      <h1 class="hero-title">{{ blog?.title || 'Blog Not Found' }}</h1>
     </div>
   </header>
 
   <main class="content-shell">
-    <div class="blog-detail-layout">
+    <div v-if="blog" class="blog-detail-layout">
       <article class="blog-main">
-        <img class="blog-image" src="https://www.zaha-hadid.com/wp-content/uploads/2019/12/zha_bv_twinview.jpg" alt="Luxury yacht on blue water">
+        <img class="blog-image" :src="blog.featured_image || blog.image || 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1200&q=80'" :alt="blog.title">
         
         <div class="blog-content">
           <div class="blog-header">
             <div class="blog-meta-detail">
-              <span><i class="fas fa-user"></i> By Admin</span>
-              <span><i class="fas fa-calendar-alt"></i> Mar 9, 2026</span>
-              <span><i class="fas fa-tag"></i> Boating Guide</span>
+              <span><i class="fas fa-user"></i> {{ blog.author || 'By Admin' }}</span>
+              <span><i class="fas fa-calendar-alt"></i> {{ formatDate(blog.publish_date || blog.date) }}</span>
+              <span><i class="fas fa-tag"></i> {{ blog.category || 'Luxury Lifestyle' }}</span>
             </div>
-            <h2 class="blog-title">The Ultimate Guide to Luxury Yachts</h2>
+            <h2 class="blog-title">{{ blog.title }}</h2>
           </div>
 
-          <div class="blog-body">
-            <p>Luxury yachts represent the perfect blend of engineering, design, and lifestyle. These magnificent vessels are designed not only for transportation but also for comfort, relaxation, and entertainment on the water.</p>
+          <div class="blog-body" v-html="renderedContent"></div>
 
-            <p>Modern yachts feature spacious decks, elegant interiors, private cabins, swimming platforms, and even onboard cinemas. Many luxury yachts also include jacuzzis, gyms, and fine dining areas, creating a five-star experience at sea.</p>
+          <div class="blog-footer">
+            <div class="blog-tags" v-if="blog.tags && blog.tags.length">
+              <span v-for="tag in blog.tags" :key="tag" class="tag-badge">{{ tag }}</span>
+            </div>
 
-            <h2>What Defines a Luxury Yacht?</h2>
-            <p>The size of luxury yachts can vary greatly. Some are designed for private family use, while others are massive superyachts that can host large gatherings and events. A yacht is typically considered luxury when it features:</p>
-
-            <ul>
-              <li>Advanced navigation technology and automation systems</li>
-              <li>Premium materials and high-end furnishings</li>
-              <li>Spacious and well-designed living quarters</li>
-              <li>State-of-the-art entertainment systems</li>
-              <li>Professional crew and concierge services</li>
-            </ul>
-
-            <h2>Benefits of Yacht Ownership</h2>
-            <p>Technology plays a major role in modern yacht design. Advanced navigation systems, stabilization technology, and powerful engines ensure smooth and safe travel across oceans.</p>
-
-            <p>For many yacht owners, the appeal lies in freedom. With a yacht, you can explore remote islands, beautiful coastlines, and hidden beaches that are inaccessible by land. Whether it's the Caribbean, Mediterranean, or beyond, yacht ownership opens up a world of possibilities.</p>
-
-            <h2>Choosing the Right Yacht</h2>
-            <p>Owning or chartering a yacht offers an unmatched sense of adventure, luxury, and privacy, making it one of the most exclusive travel experiences in the world.</p>
-
-            <p>When selecting a yacht, consider factors such as:</p>
-            <ul>
-              <li>Your cruising destinations and preferred season</li>
-              <li>Size and cabin requirements</li>
-              <li>Onboard amenities and entertainment options</li>
-              <li>Fuel efficiency and operating costs</li>
-              <li>Crew size and support services</li>
-            </ul>
-
-            <p>Whether you're a seasoned sailing enthusiast or new to the world of yachting, understanding the options available will help you make an informed decision that matches your lifestyle and travel goals.</p>
-
-            <div class="blog-footer">
-              <div class="blog-tags">
-                <span class="tag-badge">Yachts</span>
-                <span class="tag-badge">Luxury</span>
-                <span class="tag-badge">Boating Guide</span>
-                <span class="tag-badge">Travel</span>
-              </div>
-
-              <div class="blog-share">
-                <span class="blog-share-label">Share:</span>
-                <div class="share-buttons">
-                  <a class="share-btn" href="#" title="Share on Facebook"><i class="fab fa-facebook-f"></i></a>
-                  <a class="share-btn" href="#" title="Share on Twitter"><i class="fab fa-twitter"></i></a>
-                  <a class="share-btn" href="#" title="Share on LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                  <a class="share-btn" href="#" title="Share via WhatsApp"><i class="fab fa-whatsapp"></i></a>
-                </div>
+            <div class="blog-share">
+              <span class="blog-share-label">Share:</span>
+              <div class="share-buttons">
+                <a class="share-btn" href="#" title="Share on Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a class="share-btn" href="#" title="Share on Twitter"><i class="fab fa-twitter"></i></a>
+                <a class="share-btn" href="#" title="Share on LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                <a class="share-btn" href="#" title="Share via WhatsApp"><i class="fab fa-whatsapp"></i></a>
               </div>
             </div>
           </div>
@@ -82,17 +47,11 @@
         <div class="sidebar-panel">
           <h3 class="sidebar-title">Recent Posts</h3>
           <ul class="recent-list">
-            <li class="recent-item">
-              <div class="recent-item-title">Understanding Luxury Yachts and Key Facts</div>
-              <div class="recent-item-date"><i class="fas fa-calendar-alt"></i> Mar 5, 2026</div>
-            </li>
-            <li class="recent-item">
-              <div class="recent-item-title">Top 5 Destinations for Yacht Lovers</div>
-              <div class="recent-item-date"><i class="fas fa-calendar-alt"></i> Mar 8, 2026</div>
-            </li>
-            <li class="recent-item">
-              <div class="recent-item-title">How To Choose The Perfect Yacht For Your Needs</div>
-              <div class="recent-item-date"><i class="fas fa-calendar-alt"></i> Mar 10, 2026</div>
+            <li v-for="recentBlog in recentBlogs" :key="recentBlog.id" class="recent-item">
+              <a :href="`/blog/${recentBlog.id}`" target="_blank" rel="noopener noreferrer" class="recent-item-link">
+                <div class="recent-item-title">{{ recentBlog.title }}</div>
+                <div class="recent-item-date"><i class="fas fa-calendar-alt"></i> {{ formatDate(recentBlog.publish_date || recentBlog.date) }}</div>
+              </a>
             </li>
           </ul>
         </div>
@@ -100,21 +59,29 @@
         <div class="sidebar-panel">
           <h3 class="sidebar-title">Categories</h3>
           <ul class="category-list">
-            <li class="category-item"><span>Luxury Lifestyle</span><span>1</span></li>
-            <li class="category-item"><span>Boating Guide</span><span>1</span></li>
-            <li class="category-item"><span>Travel</span><span>1</span></li>
+            <li v-for="(count, category) in categories" :key="category" class="category-item">
+              <a :href="`/blog?category=${encodeURIComponent(category)}`" target="_blank" rel="noopener noreferrer" class="category-link">
+                <span>{{ category }}</span><span>{{ count }}</span>
+              </a>
+            </li>
           </ul>
         </div>
 
         <div class="sidebar-panel">
           <h3 class="sidebar-title">Popular Tags</h3>
           <div class="tag-list">
-            <span class="tag-item">Yachts</span>
-            <span class="tag-item">Yacht Buying</span>
-            <span class="tag-item">Yacht Travel</span>
+            <a v-for="tag in tags" :key="tag" :href="`/blog?tag=${encodeURIComponent(tag)}`" target="_blank" rel="noopener noreferrer" class="tag-item">{{ tag }}</a>
           </div>
         </div>
       </aside>
+    </div>
+
+    <div v-else class="not-found">
+      <div class="not-found-content">
+        <h2>Blog Not Found</h2>
+        <p>The blog article you're looking for doesn't exist or has been removed.</p>
+        <router-link to="/blog" class="back-link">Back to Blog <i class="fas fa-arrow-right"></i></router-link>
+      </div>
     </div>
   </main>
     <FooterSection />
@@ -123,12 +90,103 @@
 <script>
 import FooterSection from '../components/FooterSection.vue';
 import NavbarSection from '../components/NavbarSection.vue';
+import blogs from '../../blogs.json';
 
     export default {
         name: 'BlogDetailPage',
         components: {
             NavbarSection,
             FooterSection
+        },
+        data() {
+            return {
+                blog: null,
+                allBlogs: []
+            }
+        },
+        computed: {
+            renderedContent() {
+                if (!this.blog?.content) return '';
+                return this.blog.content
+                    .split('\n\n')
+                    .map(para => {
+                        if (para.startsWith('## ')) {
+                            return `<h2>${para.substring(3)}</h2>`;
+                        }
+                        if (para.startsWith('# ')) {
+                            return `<h2>${para.substring(2)}</h2>`;
+                        }
+                        if (para.startsWith('- ')) {
+                            const items = para.split('\n').map(item => `<li>${item.substring(2)}</li>`).join('');
+                            return `<ul>${items}</ul>`;
+                        }
+                        return `<p>${para}</p>`;
+                    })
+                    .join('');
+            },
+            recentBlogs() {
+                return this.allBlogs.slice(0, 3);
+            },
+            categories() {
+                const cats = {};
+                this.allBlogs.forEach(blog => {
+                    const cat = blog.category || 'Luxury Lifestyle';
+                    cats[cat] = (cats[cat] || 0) + 1;
+                });
+                if (Object.keys(cats).length === 0) {
+                    return { 'Luxury Lifestyle': 0, 'Boating Guide': 0, 'Travel': 0 };
+                }
+                return cats;
+            },
+            tags() {
+                const allTags = [];
+                this.allBlogs.forEach(blog => {
+                    if (blog.tags && Array.isArray(blog.tags)) {
+                        allTags.push(...blog.tags.map(t => t.toLowerCase()));
+                    }
+                });
+                const uniqueTags = [...new Set(allTags)];
+                if (uniqueTags.length === 0) {
+                    return ['Yachts', 'Yacht Buying', 'Yacht Travel'];
+                }
+                return uniqueTags;
+            },
+            heroBackgroundStyle() {
+                const imageUrl = this.blog?.featured_image || this.blog?.image || 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1920&q=80';
+                return {
+                    backgroundImage: `linear-gradient(180deg, rgba(15, 40, 24, 0.85) 0%, rgba(15, 40, 24, 0.25) 60%), url('${imageUrl}')`
+                };
+            }
+        },
+        mounted() {
+            this.loadBlog();
+        },
+        methods: {
+            loadBlog() {
+                let allBlogs = [];
+                
+                if (Array.isArray(blogs) && blogs.length > 0) {
+                    const blogData = blogs.find(b => b.data_type === 'blog_posts' || b.records);
+                    if (blogData && blogData.records) {
+                        allBlogs = blogData.records;
+                    } else {
+                        allBlogs = blogs;
+                    }
+                }
+                
+                this.allBlogs = allBlogs;
+                
+                const blogId = this.$route.params.id;
+                this.blog = allBlogs.find(b => b.id === blogId);
+                
+                if (this.blog) {
+                    document.title = `${this.blog.title} - High Seas Yachting`;
+                }
+            },
+            formatDate(dateString) {
+                const date = new Date(dateString);
+                return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            }
         }
     }
 </script>
@@ -173,6 +231,21 @@ import NavbarSection from '../components/NavbarSection.vue';
 
     .hero-content {
       max-width: 900px;
+    }
+
+    .hero-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 24px;
+      border-radius: 50px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.15);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      margin-bottom: 24px;
     }
 
     .hero-title {
@@ -392,6 +465,16 @@ import NavbarSection from '../components/NavbarSection.vue';
       background: rgba(53,90,50,0.08);
     }
 
+    .recent-item-link {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .recent-item-link:hover .recent-item-title {
+      color: #d4a853;
+    }
+
     .recent-item-title {
       font-size: 0.95rem;
       font-weight: 600;
@@ -426,6 +509,20 @@ import NavbarSection from '../components/NavbarSection.vue';
 
     .category-item:hover {
       background: rgba(53,90,50,0.08);
+    }
+
+    .category-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      width: 100%;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .category-link:hover {
+      color: #1a3a2a;
     }
 
     .tag-list {
@@ -497,5 +594,69 @@ import NavbarSection from '../components/NavbarSection.vue';
         flex-direction: column;
         align-items: flex-start;
       }
+    }
+
+    .not-found {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 400px;
+      text-align: center;
+    }
+
+    .not-found-content {
+      padding: 40px;
+    }
+
+    .not-found-content h2 {
+      font-size: 2rem;
+      color: #1a3a2a;
+      margin-bottom: 16px;
+    }
+
+    .not-found-content p {
+      color: #6b7280;
+      margin-bottom: 24px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      background: linear-gradient(135deg, #1a3a2a, #2d5a45);
+      color: white;
+      border-radius: 50px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .back-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(26, 58, 42, 0.3);
+    }
+
+    .recent-item {
+      cursor: pointer;
+    }
+
+    .blog-body :deep(h2) {
+      font-size: 1.8rem;
+      color: #1a3a2a;
+      margin: 36px 0 18px;
+      font-weight: 700;
+    }
+
+    .blog-body :deep(p) {
+      margin-bottom: 24px;
+    }
+
+    .blog-body :deep(ul) {
+      margin: 20px 0 20px 24px;
+    }
+
+    .blog-body :deep(li) {
+      margin-bottom: 10px;
+      line-height: 1.85;
     }
 </style>

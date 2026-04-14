@@ -13,6 +13,7 @@ import ContactUsPage from '../pages/ContactUsPage.vue'
 import BrokerDetailPage from '../pages/BrokerDetailPage.vue'
 import EventDetailPage from '../pages/EventDetailPage.vue'
 import ListingDetailPage from '../pages/LIstingDetailPage.vue'
+import DestinationListingsPage from '../pages/DestinationListingsPage.vue'
 
 const routes = [
   {
@@ -52,7 +53,7 @@ const routes = [
     meta: { title: 'Blog - Luxury Yacht Brokers Fort Lauderdale & Miami' }
   },
   {
-    path: '/blog-detail',
+    path: '/blog/:id',
     name: 'BlogDetail',
     component: BlogDetailPage,
     meta: { title: 'Blog Detail - Luxury Yacht Brokers Fort Lauderdale & Miami' }
@@ -88,7 +89,7 @@ const routes = [
     meta: { title: 'Broker Detail - Luxury Yacht Brokers Fort Lauderdale & Miami' }
   },
   {
-    path: '/event-detail',
+    path: '/event/:id',
     name: 'EventDetail',
     component: EventDetailPage,
     meta: { title: 'Event Detail - Luxury Yacht Brokers Fort Lauderdale & Miami' }
@@ -98,6 +99,12 @@ const routes = [
     name: 'ListingDetail',
     component: ListingDetailPage,
     meta: { title: 'Listing Detail - Luxury Yacht Brokers Fort Lauderdale & Miami' }
+  },
+  {
+    path: '/destination-listings/:id',
+    name: 'DestinationListings',
+    component: DestinationListingsPage,
+    meta: { title: 'Destination Listings - Luxury Yacht Brokers Fort Lauderdale & Miami' }
   }
 ]
 

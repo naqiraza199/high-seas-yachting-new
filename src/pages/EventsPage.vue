@@ -15,46 +15,19 @@
     </section>
 
     <section class="event-highlight">
-      <article class="event-card">
-        <img src="https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1200&q=80" alt="Yacht show event">
-        <div class="event-card-body">
-          <span class="event-pill">Yacht Show</span>
-          <h2 class="event-title">Miami International Boat Show</h2>
-          <div class="event-location"><i class="fas fa-map-marker-alt"></i> Miami Beach Convention Center</div>
-          <p class="event-description">Experience the best in luxury yachting as High Seas Yachting brings top vessels, expert advisors, and VIP access.</p>
-          <div class="event-meta">
-            <div class="event-date"><i class="fas fa-calendar-day"></i> Feb 14 - Feb 18</div>
-            <div class="status-badge">Featured</div>
+      <article class="event-card" v-for="event in events" :key="event.id">
+        <router-link :to="'/event/' + event.id" class="event-card-link">
+          <img :src="event.image" :alt="event.name">
+          <div class="event-card-body">
+            <span class="event-pill">Yacht Show</span>
+            <h2 class="event-title">{{ event.name }}</h2>
+            <div class="event-location"><i class="fas fa-map-marker-alt"></i> {{ event.location }}</div>
+            <div class="event-meta">
+              <div class="event-date"><i class="fas fa-calendar-day"></i> {{ formatDate(event.date) }}</div>
+              <div class="status-badge">Upcoming</div>
+            </div>
           </div>
-        </div>
-      </article>
-
-      <article class="event-card">
-        <img src="https://www.pershing-yacht.com/Upload/NewsEvents/N-2541/img-N-2541-20260213132052.jpg" alt="Fort Lauderdale">
-        <div class="event-card-body">
-          <span class="event-pill">Yacht Show</span>
-          <h2 class="event-title">Fort Lauderdale Boat Show</h2>
-          <div class="event-location"><i class="fas fa-map-marker-alt"></i> Broward Convention Center</div>
-          <p class="event-description">Join us at the world's largest in-water boat show featuring thousands of yachts and marine products.</p>
-          <div class="event-meta">
-            <div class="event-date"><i class="fas fa-calendar-day"></i> Oct 29 - Nov 2</div>
-            <div class="status-badge">Upcoming</div>
-          </div>
-        </div>
-      </article>
-
-      <article class="event-card">
-        <img src="https://images.unsplash.com/photo-1548574505-5e239809ee19?auto=format&fit=crop&w=1200&q=80" alt="Annapolis">
-        <div class="event-card-body">
-          <span class="event-pill">Yacht Show</span>
-          <h2 class="event-title">Annapolis Boat Show</h2>
-          <div class="event-location"><i class="fas fa-map-marker-alt"></i> Annapolis Waterfront</div>
-          <p class="event-description">The premier mid-Atlantic boat show showcasing the finest sailing and power vessels.</p>
-          <div class="event-meta">
-            <div class="event-date"><i class="fas fa-calendar-day"></i> Sep 18 - 22</div>
-            <div class="status-badge">Upcoming</div>
-          </div>
-        </div>
+        </router-link>
       </article>
     </section>
   </main>
@@ -64,6 +37,7 @@
 <script>
 import FooterSection from '../components/FooterSection.vue';
 import NavbarSection from '../components/NavbarSection.vue';
+import eventsData from '../../events.json';
 
     export default {
         name: 'EventsPage',
@@ -71,6 +45,17 @@ import NavbarSection from '../components/NavbarSection.vue';
             NavbarSection,
             FooterSection,
         },
+        data() {
+            return {
+                events: eventsData[0].records
+            }
+        },
+        methods: {
+            formatDate(dateString) {
+                const date = new Date(dateString);
+                return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            }
+        }
     }
 </script>
 
@@ -184,7 +169,7 @@ import NavbarSection from '../components/NavbarSection.vue';
 
     .event-highlight {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       gap: 28px;
       align-items: stretch;
       margin-top: 60px;
@@ -210,6 +195,13 @@ import NavbarSection from '../components/NavbarSection.vue';
       right: 0;
       height: 4px;
       background: linear-gradient(90deg, #1a3a2a, #355a32);
+    }
+
+    .event-card-link {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      height: 100%;
     }
 
     .event-card img {
@@ -288,7 +280,6 @@ import NavbarSection from '../components/NavbarSection.vue';
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-top: 24px;
       padding-top: 24px;
       border-top: 1px solid rgba(15, 40, 24, 0.1);
     }

@@ -1,39 +1,39 @@
 <template>
     <NavbarSection />
-<header class="page-hero">
+<header class="page-hero" v-if="event" :style="heroBackground">
     <div class="hero-content">
       <span class="hero-label"><i class="fas fa-calendar-alt"></i> Event Details</span>
-      <h1 class="hero-title">Miami International Boat Show 2026</h1>
-      <p class="hero-copy">Join us at the world's largest in-water boat show featuring thousands of luxury yachts and marine products.</p>
+      <h1 class="hero-title">{{ event.name }}</h1>
+      <p class="hero-copy">{{ event.description }}</p>
+    </div>
+  </header>
+  <header class="page-hero" v-else>
+    <div class="hero-content">
+      <span class="hero-label"><i class="fas fa-calendar-alt"></i> Event Details</span>
+      <h1 class="hero-title">Event Not Found</h1>
+      <p class="hero-copy">The event you're looking for doesn't exist.</p>
     </div>
   </header>
 
-  <!-- ====================== MIAMI BOAT SHOW SECTION ====================== -->
-<section class="hs-boatshow-section">
+  <!-- ====================== section 1====================== -->
+<section class="hs-boatshow-section" v-if="event && event.metadata && event.metadata.section1">
      <div class="hs-section-header">
         <span class="hs-small-tag">High Seas Yachting</span>
-        <h2 class="hs-main-heading">Join High Seas Yachting on the Docks!</h2>
+        <h2 class="hs-main-heading">{{ event.metadata.section1.title }}</h2>
       </div>
   <div class="hs-container">
     
     <!-- Announcement -->
     <div class="hs-announcement">
           
-      <p>
-        The Miami International Boat Show returns this weekend, bringing the world's top yachts, marine products, 
-        and on-water innovations to Miami. This year, the show spans multiple locations throughout the city, 
-        with the Yacht Collection in South Beach serving as the premier destination for large yachts and luxury experiences. 
-        High Seas Yachting will be attending the show and connecting with clients throughout the weekend. 
-        While we will not have a vessel on display, our team will be on site to guide clients through the Yacht Collection, 
-        coordinate private showings near the show, and assist with charter opportunities in Miami.
-      </p>
+      <p>{{ event.metadata.section1.description }}</p>
     </div>
 
-    <!-- Getting There -->
-    <div class="hs-getting-there">
+    <!-- section 2 -->
+    <div class="hs-getting-there" v-if="event && event.metadata && event.metadata.section2">
       <div class="hs-section-header">
         <span class="hs-small-tag">GETTING THERE</span>
-        <h2 class="hs-main-heading">How to Get to the Show</h2>
+        <h2 class="hs-main-heading">{{ event.metadata.section2.section_title }}</h2>
       </div>
 
       <div class="hs-getting-grid">
@@ -41,34 +41,24 @@
         <!-- Left Column -->
         <div class="hs-getting-card">
           <div class="hs-getting-icon"><i class="fas fa-anchor"></i></div>
-          <h3>Visit the Yacht Collection – South Beach</h3>
-          <p>
-            The Yacht Collection is located along the waterfront in South Beach and showcases some of the largest yachts 
-            and luxury brands at the Miami International Boat Show. We recommend reviewing venue details in advance, 
-            as show locations are spread across multiple areas this year. This area is best accessed by rideshare or drop-off, 
-            especially during peak show hours.
-          </p>
+          <h3>{{ event.metadata.section2.title_1 }}</h3>
+          <p>{{ event.metadata.section2.description_1 }}</p>
         </div>
 
         <!-- Right Column -->
         <div class="hs-getting-card">
           <div class="hs-getting-icon"><i class="fas fa-car"></i></div>
-          <h3>Park Nearby and Get Dropped Off</h3>
-          <p>
-            If you plan to drive, parking nearby and using a drop-off or rideshare is one of the easiest ways to access the show. 
-            Due to updated locations and traffic patterns, we recommend coordinating your arrival in advance. 
-            If you are meeting with the High Seas Yachting team, we're happy to assist with meeting points or help plan your visit 
-            around the Yacht Collection and nearby yachts.
-          </p>
+          <h3>{{ event.metadata.section2.title_2 }}</h3>
+          <p>{{ event.metadata.section2.description_2 }}</p>
         </div>
       </div>
     </div>
 
-    <!-- Entry Guide -->
-    <div class="hs-entry-guide">
+    <!-- section 3 -->
+    <div class="hs-entry-guide" v-if="event && event.metadata && event.metadata.section3">
       <div class="hs-section-header">
         <span class="hs-small-tag">ENTRY GUIDE</span>
-        <h2 class="hs-main-heading">How to Enter the Show</h2>
+        <h2 class="hs-main-heading">{{ event.metadata.section3.section_title }}</h2>
       </div>
 
       <div class="hs-steps-grid">
@@ -76,120 +66,72 @@
         <!-- Step 1 -->
         <div class="hs-step-card">
           <div class="hs-step-number">01</div>
-          <h3>Purchase tickets</h3>
-          <p>Purchase tickets in advance through the official MIBS website.</p>
-          <a href="#" class="hs-step-link">Purchase Now <i class="fas fa-arrow-right"></i></a>
+          <h3>{{ event.metadata.section3.title_1 }}</h3>
+          <p>{{ event.metadata.section3.description_1 }}</p>
+          <a :href="event.metadata.section3.button_link_1" class="hs-step-link" target="_blank">{{ event.metadata.section3.button_text_1 }} <i class="fas fa-arrow-right"></i></a>
         </div>
 
         <!-- Step 2 -->
         <div class="hs-step-card">
           <div class="hs-step-number">02</div>
-          <h3>Digital ticket</h3>
-          <p>Show your digital ticket at the entrance for direct access to the main docks.</p>
+          <h3>{{ event.metadata.section3.title_2 }}</h3>
+          <p>{{ event.metadata.section3.description_2 }}</p>
         </div>
 
         <!-- Step 3 -->
         <div class="hs-step-card">
           <div class="hs-step-number">03</div>
-          <h3>Meet with HSY</h3>
-          <p>Set a meeting point and meet your HSY rep for your Ultimate Access Badge.</p>
+          <h3>{{ event.metadata.section3.title_3 }}</h3>
+          <p>{{ event.metadata.section3.description_3 }}</p>
         </div>
       </div>
     </div>
   </div>
 </section>
-<!-- ====================== BOATS ON EVENT SECTION ====================== -->
-<section class="hs-boats-event-section">
+<!-- ====================== section 4 ====================== -->
+<section class="hs-boats-event-section" v-if="event && event.metadata && event.metadata.section4">
   <div class="hs-container">
     
     <div class="hs-section-header">
       <span class="hs-small-tag">FEATURED YACHTS</span>
-      <h1 class="hs-event-title">Boats on Event</h1>
+      <h1 class="hs-event-title">{{ event.metadata.section4.section_title }}</h1>
     </div>
 
     <!-- Yacht Cards -->
     <div class="hs-event-grid">
 
-      <!-- Yacht 1 -->
-      <div class="hs-event-card">
+      <div class="hs-event-card" v-for="listing in eventListings" :key="listing.id">
         <div class="hs-event-image">
-          <img src="https://e5m5sskeexb.exactdn.com/wp-content/uploads/2025/02/EDIT_Majesty-175-Profile-3-1300x867.jpg?strip=all" alt="2024 Ferretti 5 Palms">
-          <span class="hs-location-badge">Bahamas</span>
+          <img :src="getImageUrl(listing.photos[0])" :alt="listing.yachtName" @error="($event.target.src = 'https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=600&q=80')">
+          <span class="hs-location-badge">{{ listing.city ? listing.city.charAt(0).toUpperCase() + listing.city.slice(1) : 'N/A' }}</span>
         </div>
         <div class="hs-event-info">
-          <h3>2024 Ferretti 5 Palms</h3>
+          <h3>{{ listing.year }} {{ listing.manufacturer }} {{ listing.yachtName }}</h3>
           <div class="hs-yacht-specs">
-            <div><strong>Year</strong>2024</div>
-            <div><strong>Length</strong>88.5 ft</div>
-            <div><strong>Make</strong> Ferretti</div>
-            <div><strong>Model</strong> 5 Palms</div>
+            <div><strong>Year</strong>{{ listing.year }}</div>
+            <div><strong>Length</strong>{{ formatLength(listing.length) }}</div>
+            <div><strong>Make</strong> {{ listing.manufacturer }}</div>
+            <div><strong>Model</strong> {{ listing.yachtName }}</div>
           </div>                     
           <div class="hs-event-buttons">
             <button class="hs-call-btn"><i class="fas fa-phone"></i> Call Broker</button>
-            <button class="hs-details-btn">View Details</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Yacht 2 -->
-      <div class="hs-event-card">
-        <div class="hs-event-image">
-          <img src="https://image.yachtcharterfleet.com/w1277/h618/qh/ca/m2/ke1409cfd/vessel/resource/3305411/charter-vesper-yacht.jpg" alt="2013 Horizon">
-          <span class="hs-location-badge">Delray Beach</span>
-        </div>
-        <div class="hs-event-info">
-          <h3>2013 Horizon</h3>
-          <div class="hs-yacht-specs">
-            <div><strong>Year</strong>2013</div>
-            <div><strong>Length</strong>60 ft</div>
-            <div><strong>Make</strong> Horizon</div>
-            <div><strong>Model</strong> 60</div>
-          </div>
-          <div class="hs-event-buttons">
-            <button class="hs-call-btn"><i class="fas fa-phone"></i> Call Broker</button>
-            <button class="hs-details-btn">View Details</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Yacht 3 -->
-      <div class="hs-event-card">
-        <div class="hs-event-image">
-          <img src="https://vripack.com/wp-content/uploads/2026/01/1-header-1400x772.jpg" alt="2023 Benetti Alluria">
-          <span class="hs-location-badge">Monaco</span>
-        </div>
-        <div class="hs-event-info">
-          <h3>2023 Benetti Alluria</h3>
-          <div class="hs-yacht-specs">
-            <div><strong>Year</strong>2023</div>
-            <div><strong>Length</strong>121 ft</div>
-            <div><strong>Make</strong> Benetti</div>
-            <div><strong>Model</strong> Alluria</div>
-          </div>
-          <div class="hs-event-buttons">
-            <button class="hs-call-btn"><i class="fas fa-phone"></i> Call Broker</button>
-            <button class="hs-details-btn">View Details</button>
+            <router-link :to="'/listing-detail/' + listing.slug" class="hs-details-btn">View Details</router-link>
           </div>
         </div>
       </div>
 
     </div>
 
-    <!-- See You on the Docks -->
-    <div class="hs-docks-section">
+    <!-- section 5 -->
+    <div class="hs-docks-section" v-if="event && event.metadata && event.metadata.section5">
       <div class="hs-docks-content">
         <span class="hs-small-tag">SEE YOU THERE</span>
-        <h2 class="hs-docks-title">See You on the Docks!</h2>
-        <p class="hs-docks-text">
-          Whether you're arriving by rideshare or car, plan ahead to make the most of your time at the 
-          Miami International Boat Show. With the show spread across multiple locations, we recommend 
-          coordinating your visit in advance — especially if you plan to explore the Yacht Collection 
-          in South Beach or schedule private showings nearby. We look forward to connecting with you in Miami!
-        </p>
+        <h2 class="hs-docks-title">{{ event.metadata.section5.title }}</h2>
+        <p class="hs-docks-text">{{ event.metadata.section5.description }}</p>
       </div>
 
       <div class="hs-docks-image">
-        <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=800" 
+        <img :src="event.metadata.section5.image" 
              alt="Team at Boat Show">
         <div class="hs-overlay-text">
           <h3>Start it</h3>
@@ -200,8 +142,8 @@
     </div>
   </div>
 </section>
-<!-- ====================== EVENT REGISTRATION SECTION ====================== -->
-<section class="hs-event-registration">
+<!-- ====================== section 6 ====================== -->
+<section class="hs-event-registration" v-if="event && event.metadata && event.metadata.section6">
   <div class="hs-container">
     
     <h1 class="hs-registration-title">Event Registration</h1>
@@ -210,16 +152,16 @@
       
       <!-- LEFT SIDE - IMAGE -->
       <div class="hs-registration-image">
-        <img src="https://highseasyachting.com/wp-content/uploads/2026/03/1-768x1024.png" alt="Yacht Registration">
+        <img :src="event.metadata.section6.image" alt="Yacht Registration">
         <div class="hs-image-overlay">
-          <h2 class="hs-pibs-title">PIBS</h2>
+          <h2 class="hs-pibs-title">{{ event.name }}</h2>
           <p class="hs-pibs-subtitle">Join us for an exclusive experience</p>
         </div>
       </div>
 
       <!-- RIGHT SIDE - IFRAME -->
       <div class="hs-registration-iframe">
-        <iframe data-v-41825cf6="" src="https://app.highseasyachting.com/pibs/register" width="100%" height="600" frameborder="0" class="reg-iframe"></iframe>
+        <iframe data-v-41825cf6="" :src="event.metadata.section6.form_url" width="100%" height="600" frameborder="0" class="reg-iframe"></iframe>
       </div>
     </div>
   </div>
@@ -230,12 +172,95 @@
 <script>
 import FooterSection from '../components/FooterSection.vue';
 import NavbarSection from '../components/NavbarSection.vue';
+import eventsData from '../../events.json';
+import listingsData from '../../listings.json';
+import { useRoute } from 'vue-router';
+
+const SUPABASE_URL = 'https://qumgjqbfreeskjgltfvu.supabase.co/storage/v1/object/public/listings/';
 
     export default {
         name: 'EventDetailPage',
         components: {
             NavbarSection,
             FooterSection
+        },
+        data() {
+            return {
+                event: null,
+                eventListings: []
+            }
+        },
+        computed: {
+            heroBackground() {
+                if (this.event && this.event.image) {
+                    return {
+                        background: `linear-gradient(180deg, rgba(15, 40, 24, 0.92) 0%, rgba(15, 40, 24, 0.55) 100%), url('${this.event.image}') center/cover no-repeat`
+                    };
+                }
+                return {};
+            }
+        },
+        methods: {
+            getImageUrl(photoPath) {
+                if (!photoPath) return '';
+                const filename = photoPath.split('/').pop();
+                return SUPABASE_URL + encodeURIComponent(filename);
+            },
+            formatPrice(price) {
+                if (!price) return 'Price on request';
+                return new Intl.NumberFormat('en-US', {
+                    style: 'currency',
+                    currency: 'USD',
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0
+                }).format(price);
+            },
+            formatLength(length) {
+                return length ? `${length} ft` : 'N/A';
+            },
+            loadEventListings() {
+                if (this.event && this.event.metadata && this.event.metadata.section4 && this.event.metadata.section4.listing_ids) {
+                    const listingIds = this.event.metadata.section4.listing_ids;
+                    let allListings = [];
+                    
+                    if (listingsData) {
+                        if (Array.isArray(listingsData) && listingsData.length > 0) {
+                            const firstItem = listingsData[0];
+                            if (firstItem && firstItem.records && Array.isArray(firstItem.records)) {
+                                allListings = firstItem.records;
+                            } else if (Array.isArray(listingsData)) {
+                                allListings = listingsData;
+                            }
+                        } else if (listingsData.records && Array.isArray(listingsData.records)) {
+                            allListings = listingsData.records;
+                        }
+                    }
+                    
+                    const filteredListings = allListings.filter(listing => listingIds.includes(listing.id));
+                    
+                    this.eventListings = filteredListings.map(listing => ({
+                        id: listing.id,
+                        yachtName: listing.yacht_name,
+                        year: listing.year,
+                        manufacturer: listing.manufacturer,
+                        length: listing.length,
+                        beam: listing.beam,
+                        draft: listing.draft,
+                        description: listing.description,
+                        city: listing.metadata?.city || '',
+                        price: listing.metadata?.price || 0,
+                        photos: listing.metadata?.photos || [],
+                        slug: listing.slug || ''
+                    }));
+                }
+            }
+        },
+        mounted() {
+            const route = useRoute();
+            const eventId = route.params.id;
+            const allEvents = eventsData[0].records;
+            this.event = allEvents.find(e => e.id === eventId);
+            this.loadEventListings();
         }
     }
 </script>
@@ -264,6 +289,7 @@ import NavbarSection from '../components/NavbarSection.vue';
       position: relative;
       background: linear-gradient(180deg, rgba(15, 40, 24, 0.82) 0%, rgba(15, 40, 24, 0.2) 60%),
         url('https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1800&q=80') center/cover no-repeat;
+      background-color: #1a3a2a;
       min-height: 420px;
       display: flex;
       align-items: center;
@@ -1118,4 +1144,8 @@ import NavbarSection from '../components/NavbarSection.vue';
        padding: 30px 24px;
      }
    }
+   .hs-details-btn {
+  text-decoration: none;
+  text-align: center;
+}
 </style>
